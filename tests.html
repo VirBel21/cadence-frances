@@ -20,7 +20,7 @@ async function run(){
   await sleep(800);
   var d=f.contentDocument;
   log(/Cadence/.test(d.title),'El título de la página contiene «Cadence»');
-  log(qa('[data-a="tab"]').length===6,'El menú tiene 6 secciones');
+  log(qa('[data-a="tab"]').length===7,'El menú tiene 7 secciones');
   log(/Bonjour/.test((q('#v-home h1')||{}).textContent||''),'Empezar: muestra «Bonjour.»');
   log(qa('#v-home .stage').length===3,'Empezar: principio, desarrollo y final');
   log(qa('#v-home .how li').length===4,'Empezar: el día tiene 4 pasos');
@@ -58,6 +58,10 @@ async function run(){
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
   await click('[data-a="tab"][data-t="review"]');
   log(!!q('#v-review .boxes'),'Repaso: muestra las cajas de memoria');
+  await click('[data-a="tab"][data-t="verbs"]');
+  log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6,'Verbos: mapa y matriz con 6 formas');
+  await click('#v-verbs [data-a="verb"][data-id="habiter"]');
+  log(/j’habite/.test(q('#v-verbs').textContent),'Verbos: habiter usa j’');
   await click('[data-a="tab"][data-t="method"]');
   log(qa('#v-method .ev li').length===7,'Método: 7 evidencias');
   try{if(backup===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,backup)}catch(e){}

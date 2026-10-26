@@ -335,6 +335,27 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .checks input{width:20px;height:20px;margin-top:3px;accent-color:var(--blue)}
 .qopt.right{border-color:var(--ok);background:transparent}
 .qopt.wrong{border-color:var(--rose)}
+.rcard .art{max-width:190px;margin:14px 0 4px}
+@keyframes flipin{from{transform:perspective(900px) rotateY(80deg);opacity:.2}to{transform:perspective(900px) rotateY(0);opacity:1}}
+.rcard.flip{animation:flipin .38s ease-out}
+@media (prefers-reduced-motion:reduce){.rcard.flip{animation:none}}
+.vmap{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:16px 0}
+.vmap svg{width:100%;height:auto;display:block}
+.vmap .ln{stroke:var(--line);stroke-width:1.5;fill:none}
+.vmap .nd{fill:var(--paper);stroke:var(--line);stroke-width:1.2;cursor:pointer}
+.vmap g:hover .nd{stroke:var(--blue)}
+.vmap .hub{fill:var(--blue)}
+.vmap .pr{font:500 11px var(--f-mono);fill:var(--ink2);letter-spacing:.06em}
+.vmap .fm{font:var(--wd) 22px var(--f-display);fill:var(--ink)}
+.vmap .hubt{font:var(--wd) 24px var(--f-display);fill:var(--on-blue)}
+.vmap .lbl{font:500 11px var(--f-mono);fill:var(--ink2);letter-spacing:.1em}
+.rt{fill:var(--ink)}.en{fill:var(--blue)}.en.mu{opacity:.5}
+.vm{display:grid;gap:0;border-top:1px solid var(--line);margin-top:10px}
+.vm .r{display:grid;grid-template-columns:78px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.vm .pr{font:500 12px var(--f-mono);color:var(--ink2)}
+.vm .fo{font:var(--wd) 28px/1.1 var(--f-display)}
+.vm .fo .e{color:var(--blue)}.vm .fo .e.mu{opacity:.5}
+@media (max-width:520px){.vm .r{grid-template-columns:64px 1fr auto auto;gap:8px}.vm .fo{font-size:24px}}
 .vsel[hidden],.note[hidden]{display:none!important}
 .lead+.lead{margin-top:10px}
 </style>
@@ -357,6 +378,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
       <button role="tab" data-a="tab" data-t="today" type="button">Hoy</button>
       <button role="tab" data-a="tab" data-t="review" type="button">Repaso</button>
       <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
+      <button role="tab" data-a="tab" data-t="verbs" type="button">Verbos</button>
       <button role="tab" data-a="tab" data-t="method" type="button">Método</button>
     </nav>
         <p class="note" id="vnote" hidden>Este dispositivo no tiene una voz francesa instalada. Añádela en los ajustes de voz del sistema para oír las frases. Las notas del ritmo funcionan igual.</p>
@@ -368,6 +390,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-today" hidden></section>
     <section class="view" id="v-review" hidden></section>
     <section class="view" id="v-sounds" hidden></section>
+    <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
     <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia.</p>
   </main>
@@ -890,7 +913,7 @@ function rReview(){
   if(rv.mode==='card'){
     var id=rv.q[0],p=PH[id],sc=SCENES.filter(function(s){return s.id===p.scene})[0];
     h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(rv.done/rv.total*100)+'%"></i></div>'+
-       '<div class="rcard" data-unit="1"><span class="tag">'+sc.title+'</span><div class="cue-big">'+p.cue+'</div>';
+       '<div class="rcard'+(rv.shown?' flip':'')+'" data-unit="1"><span class="tag">'+sc.title+'</span>'+(rv.shown?'':'<div class="art" aria-hidden="true">'+ICON[sc.art]+'</div>')+'<div class="cue-big">'+p.cue+'</div>';
     if(!rv.shown){
       h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button></div>';
     }else{
@@ -919,6 +942,44 @@ function rReview(){
   el.innerHTML=h;
 }
 
+
+/* ---------- Verbos ---------- */
+var VERBS=[
+ {id:'parler',r:'parl',es:'hablar'},
+ {id:'chercher',r:'cherch',es:'buscar'},
+ {id:'regarder',r:'regard',es:'mirar'},
+ {id:'travailler',r:'travaill',es:'trabajar'},
+ {id:'habiter',r:'habit',es:'vivir (en un lugar)',el:1}
+];
+var VPRON=[['je','e',0],['tu','es',0],['il / elle','e',0],['nous','ons',1],['vous','ez',1],['ils / elles','ent',0]];
+var vb='parler';
+function vForm(v,i){var pr=VPRON[i][0];if(i===0&&v.el)pr='j’';var full=(i===0&&v.el)?'j’':'';return {pr:pr,full:(i===0&&v.el?'j’':pr.split(' / ')[0]+' ')+v.r+VPRON[i][1]}}
+function rVerbs(){
+  var v=VERBS.filter(function(x){return x.id===vb})[0];
+  var pos=[[110,56],[110,200],[110,344],[530,56],[530,200],[530,344]];
+  var svg='<svg viewBox="0 0 640 400" role="img" aria-label="Mapa de conjugación de '+v.id+'. Pulsa cada forma para oírla."><text class="lbl" x="110" y="14" text-anchor="middle">UNA PERSONA</text><text class="lbl" x="530" y="14" text-anchor="middle">VARIAS</text>';
+  pos.forEach(function(q){svg+='<path class="ln" d="M320 200 L'+q[0]+' '+q[1]+'"/>'});
+  svg+='<circle class="hub" cx="320" cy="200" r="58"/><text class="hubt" x="320" y="207" text-anchor="middle">'+v.r+'-er</text>';
+  VPRON.forEach(function(f,i){
+    var q=pos[i],fm=vForm(v,i),mu=!f[2];
+    var txt=(i===0&&v.el?'j’':'');
+    svg+='<g data-a="say" data-say="'+esc(fm.full)+'" tabindex="0" role="button" aria-label="Escuchar '+esc(fm.full)+'"><rect class="nd" x="'+(q[0]-82)+'" y="'+(q[1]-28)+'" width="164" height="56" rx="14"/><text class="pr" x="'+q[0]+'" y="'+(q[1]-9)+'" text-anchor="middle">'+fm.pr.toUpperCase()+'</text><text class="fm" x="'+q[0]+'" y="'+(q[1]+19)+'" text-anchor="middle"><tspan class="rt">'+v.r+'</tspan><tspan class="en'+(mu?' mu':'')+'">'+f[1]+'</tspan></text></g>';
+  });
+  svg+='</svg>';
+  $('#v-verbs').innerHTML=
+   '<span class="eyebrow">Verbos</span><h2 class="h2">Un patrón, muchos verbos</h2>'+
+   '<p class="lead">Casi todos los verbos que terminan en <b>-er</b> se conjugan igual: la parte de delante no cambia y solo cambia la terminación. Aprendes el patrón una vez y lo aplicas a cientos de verbos.</p>'+
+   '<div class="chips" role="group" aria-label="Verbo">'+VERBS.map(function(x){return '<button type="button" class="chip" data-a="verb" data-id="'+x.id+'" aria-pressed="'+(x.id===vb)+'">'+x.id+' · '+x.es+'</button>'}).join('')+'</div>'+
+   '<div class="vmap" data-unit="1">'+svg+'</div>'+
+   '<p class="legend"><b>Cómo leerlo.</b> En negro, la raíz, que no cambia. En color, la terminación. Las terminaciones apagadas (-e, -es, -ent) <b>no se pronuncian</b>.</p>'+
+   '<div class="sec"><span class="eyebrow">La regla del oído</span><p class="lead">Seis formas escritas, pero solo <b>tres sonidos</b>: <i>je</i>, <i>tu</i>, <i>il</i> e <i>ils</i> suenan igual. Solo <i>nous</i> (-ons) y <i>vous</i> (-ez) suenan distinto. Por eso en francés el contexto y el pronombre importan al escuchar.</p>'+
+   '<div class="vm">'+VPRON.map(function(f,i){
+     var fm=vForm(v,i);
+     return '<div class="r"><span class="pr">'+fm.pr+'</span><span class="fo">'+v.r+'<span class="e'+(f[2]?'':' mu')+'">'+f[1]+'</span></span><span class="tag'+(f[2]?' now':'')+'">'+(f[2]?'suena -'+(i===3?'õ':'é'):'igual')+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(fm.full)+'" aria-label="Escuchar '+esc(fm.full)+'">'+ICON.play+'</button></div>';
+   }).join('')+'</div></div>'+
+   '<p class="legend">Con verbos que empiezan por vocal o h muda, <i>je</i> pasa a <i>j’</i> (j’habite). Próximamente: verbos modales del inglés y laboratorio de enlaces.</p>';
+}
+
 /* ---------- Método ---------- */
 function rMethod(){
   $('#v-method').innerHTML=
@@ -943,7 +1004,7 @@ function rMethod(){
 function render(){
   [].forEach.call(document.querySelectorAll('.nav button'),function(b){b.setAttribute('aria-selected',String(b.dataset.t===tab))});
   [].forEach.call(document.querySelectorAll('.view'),function(v){v.hidden=v.id!=='v-'+tab});
-  ({home:rHome,route:rRoute,today:rToday,review:rReview,sounds:rSounds,method:rMethod})[tab]();
+  ({home:rHome,route:rRoute,today:rToday,review:rReview,sounds:rSounds,verbs:rVerbs,method:rMethod})[tab]();
   [].forEach.call(document.querySelectorAll('[data-a="speed"]'),function(b){b.setAttribute('aria-pressed',String(b.dataset.v===S.speed))});
   document.body.setAttribute('data-look','b');
 }
@@ -986,6 +1047,7 @@ document.addEventListener('click',function(e){
   }
   else if(a==='goal'){S.goals[el.dataset.i]=el.checked?1:0;save()}
   else if(a==='restdone'){S.rest=true;touch();rToday()}
+  else if(a==='verb'){vb=el.dataset.id;rVerbs()}
   else if(a==='rhy'){rhy=el.dataset.id;$('#rhy').innerHTML=rhyHTML()}
   else if(a==='scene'){curScene=el.dataset.id;pl=null;rToday()}
   else if(a==='start'){startScene()}

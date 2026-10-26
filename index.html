@@ -392,7 +392,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · micrófono 3</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · micrófono 4</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -947,16 +947,25 @@ function rReview(){
   var h='<span class="eyebrow">Repaso</span><h2 class="h2">Lo que toca hoy</h2>';
   if(rv.mode==='card'){
     var id=rv.q[0],p=PH[id],sc=SCENES.filter(function(s){return s.id===p.scene})[0];
+    var isNew=!S.cards[id],sh=rv.shown||isNew;
+    var micBtn=SR?'<button class="btn ghost" type="button" data-a="mic"'+(rv.listening?' disabled':'')+'>'+(rv.listening?'Escuchando… habla ahora':'🎙 Repetirla con el micrófono')+'</button>':'';
     h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(rv.done/rv.total*100)+'%"></i></div>'+
-       '<div class="rcard'+(rv.shown?' flip':'')+'" data-unit="1"><span class="tag">'+sc.title+'</span>'+(rv.shown?'':'<div class="art" aria-hidden="true">'+ICON[sc.art]+'</div>')+'<div class="cue-big">'+p.cue+'</div>';
-    if(!rv.shown){
-      h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button>'+(SR?'<button class="btn ghost" type="button" data-a="mic"'+(rv.listening?' disabled':'')+'>'+(rv.listening?'Escuchando…':'Decirlo con el micrófono')+'</button>':'')+'</div>'+(SR?'<p class="legend">Micrófono experimental. En Chrome, el audio se envía a Google para transcribirlo. Compara palabras, no valora tu acento.</p>':'<p class="legend">Para decirlo con el micrófono, abre Cadence en Chrome.</p>');
+       '<div class="rcard'+(rv.shown&&!isNew?' flip':'')+'" data-unit="1"><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="tag">'+sc.title+'</span><span class="tag '+(isNew?'now':'')+'">'+(isNew?'Tarjeta nueva':'Repaso')+'</span><span class="tag">'+Math.min(rv.done+1,rv.total)+' de '+rv.total+'</span></div>'+
+       (sh?'':'<div class="art" aria-hidden="true">'+ICON[sc.art]+'</div>')+
+       '<p class="eyebrow" style="margin-top:16px">La situación</p><div class="cue-big" style="margin-top:4px">'+p.cue+'</div>';
+    if(!sh){
+      h+='<p class="lead"><b>Tu turno:</b> ¿qué dirías en francés en esta situación? Piénsalo y dilo en voz alta. Después pulsa «Mostrar la frase» para comprobarlo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar la frase</button>'+micBtn+'</div>';
     }else{
+      h+=(isNew&&!rv.heard?'<ol class="plain" style="margin:14px 0"><li><b>1.</b> Pulsa ▶ y escucha la frase.</li><li><b>2.</b> Dila en voz alta, igual que la oyes.</li><li><b>3.</b> Valora cómo te ha salido (abajo).</li></ol>':'')+
+         '<p class="eyebrow" style="margin-top:16px">La frase en francés</p>';
       if(rv.heard){var hd=rv.heard,pc=hd.c.hit/hd.c.total;
-        h+='<div class="line me" style="margin:14px 0"><div class="who">He entendido</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coincidencia: '+hd.c.hit+' de '+hd.c.total+' palabras. '+(pc>=0.8?'Sugerencia: «Bien» o «Fácil».':'Sugerencia: «Otra vez». Escucha la frase y prueba de nuevo.')+' El reconocedor puede equivocarse: valora tú.</div><div class="sense" style="font:400 12px var(--f-mono)">'+hd.c.dbg.replace(/</g,'&lt;')+'</div></div><div class="rfr">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
-      }else h+='<div class="rfr">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
-      h+='<div class="row2"><button class="btn ghost" type="button" data-a="say" data-say="'+esc(p.fr)+'">Escuchar</button></div>'+
-         '<div class="rate"><button type="button" data-a="rate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="rate" data-r="1">Bien<small>'+lab(nextBox(id,1))+'</small></button><button type="button" data-a="rate" data-r="2">Fácil<small>'+lab(nextBox(id,2))+'</small></button></div>';
+        h+='<div class="rfr" style="margin-top:6px">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>'+
+           '<div class="line me" style="margin:16px 0"><div class="who">Lo que el micrófono ha oído</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coinciden '+hd.c.hit+' de '+hd.c.total+' palabras'+(hd.c.hit<hd.c.total?'; las que faltan están marcadas en amarillo':'')+'. '+(pc>=0.8?'Buen resultado: puedes marcar «Bien».':'Escucha la frase otra vez y vuelve a intentarlo, o marca «Otra vez».')+' El micrófono puede equivocarse: la valoración la decides tú.</div></div>';
+      }else h+='<div class="rfr" style="margin-top:6px">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
+      h+='<div class="row2"><button class="btn" type="button" data-a="say" data-say="'+esc(p.fr)+'">▶ Escuchar la frase</button>'+micBtn+'</div>'+
+         (SR?'<p class="legend">Micrófono experimental (solo Chrome): el audio se envía a Google. Compara palabras, no valora tu acento.</p>':'')+
+         '<p class="eyebrow" style="margin-top:22px">¿Cómo te ha salido?</p>'+
+         '<div class="rate" style="margin-top:8px"><button type="button" data-a="rate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="rate" data-r="1">Bien<small>'+lab(nextBox(id,1))+'</small></button><button type="button" data-a="rate" data-r="2">Fácil<small>'+lab(nextBox(id,2))+'</small></button></div>';
     }
     h+='</div>';
   }else if(rv.mode==='done'){

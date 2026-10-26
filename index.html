@@ -909,13 +909,17 @@ function startScene(){
 /* ---------- Reconocimiento de voz (experimental) ---------- */
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null;
 function ntok(s){return raw(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean)}
+var NUMS={'0':'zero','1':'un','2':'deux','3':'trois','4':'quatre','5':'cinq','6':'six','7':'sept','8':'huit','9':'neuf','10':'dix','11':'onze','12':'douze'};
 function cmpSpeech(target,heard){
-  var bag=ntok(heard),toks=target.split(' '),hit=0,out=toks.map(function(t){
-    var nt=ntok(t),ok=nt.length>0&&nt.every(function(w){var i=bag.indexOf(w);return i>=0});
+  var bag=ntok(heard).map(function(w){return NUMS[w]||w}),hit=0,total=0,out=target.split(' ').map(function(t){
+    var nt=ntok(t);
+    if(!nt.length)return t;
+    total++;
+    var ok=nt.every(function(w){var i=bag.indexOf(w);return i>=0});
     if(ok)hit++;
     return ok?t:'{'+t+'}';
   });
-  return{hit:hit,total:toks.length,html:mk(out.join(' '))};
+  return{hit:hit,total:total,html:mk(out.join(' '))};
 }
 function startMic(){
   if(!SR){toast('Este navegador no ofrece reconocimiento de voz. Prueba con Chrome.');return}

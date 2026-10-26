@@ -911,15 +911,16 @@ var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null;
 function ntok(s){return raw(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean)}
 var NUMS={'0':'zero','1':'un','2':'deux','3':'trois','4':'quatre','5':'cinq','6':'six','7':'sept','8':'huit','9':'neuf','10':'dix','11':'onze','12':'douze'};
 function cmpSpeech(target,heard){
-  var bag=ntok(heard).map(function(w){return NUMS[w]||w}),hit=0,total=0,out=target.split(' ').map(function(t){
+  var hw=ntok(heard).map(function(w){return NUMS[w]||w}),hj=hw.join(''),hit=0,total=0,exp=[];
+  var out=target.split(' ').map(function(t){
     var nt=ntok(t);
     if(!nt.length)return t;
-    total++;
-    var ok=nt.every(function(w){var i=bag.indexOf(w);return i>=0});
+    total++;exp.push(nt.join(' '));
+    var ok=nt.every(function(w){return hw.indexOf(w)>=0})||(nt.join('').length>=3&&hj.indexOf(nt.join(''))>=0);
     if(ok)hit++;
     return ok?t:'{'+t+'}';
   });
-  return{hit:hit,total:total,html:mk(out.join(' '))};
+  return{hit:hit,total:total,html:mk(out.join(' ')),dbg:'Esperaba: '+exp.join(' · ')+'  |  Oído: '+hw.join(' ')};
 }
 function startMic(){
   if(!SR){toast('Este navegador no ofrece reconocimiento de voz. Prueba con Chrome.');return}
@@ -952,7 +953,7 @@ function rReview(){
       h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button>'+(SR?'<button class="btn ghost" type="button" data-a="mic"'+(rv.listening?' disabled':'')+'>'+(rv.listening?'Escuchando…':'Decirlo con el micrófono')+'</button>':'')+'</div>'+(SR?'<p class="legend">Micrófono experimental. En Chrome, el audio se envía a Google para transcribirlo. Compara palabras, no valora tu acento.</p>':'<p class="legend">Para decirlo con el micrófono, abre Cadence en Chrome.</p>');
     }else{
       if(rv.heard){var hd=rv.heard,pc=hd.c.hit/hd.c.total;
-        h+='<div class="line me" style="margin:14px 0"><div class="who">He entendido</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coincidencia: '+hd.c.hit+' de '+hd.c.total+' palabras. '+(pc>=0.8?'Sugerencia: «Bien» o «Fácil».':'Sugerencia: «Otra vez». Escucha la frase y prueba de nuevo.')+' El reconocedor puede equivocarse: valora tú.</div></div><div class="rfr">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
+        h+='<div class="line me" style="margin:14px 0"><div class="who">He entendido</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coincidencia: '+hd.c.hit+' de '+hd.c.total+' palabras. '+(pc>=0.8?'Sugerencia: «Bien» o «Fácil».':'Sugerencia: «Otra vez». Escucha la frase y prueba de nuevo.')+' El reconocedor puede equivocarse: valora tú.</div><div class="sense" style="font:400 12px var(--f-mono)">'+hd.c.dbg.replace(/</g,'&lt;')+'</div></div><div class="rfr">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
       }else h+='<div class="rfr">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
       h+='<div class="row2"><button class="btn ghost" type="button" data-a="say" data-say="'+esc(p.fr)+'">Escuchar</button></div>'+
          '<div class="rate"><button type="button" data-a="rate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="rate" data-r="1">Bien<small>'+lab(nextBox(id,1))+'</small></button><button type="button" data-a="rate" data-r="2">Fácil<small>'+lab(nextBox(id,2))+'</small></button></div>';

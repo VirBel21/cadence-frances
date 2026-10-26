@@ -304,6 +304,39 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .vsel select{appearance:auto;width:100%;max-width:260px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:500 13px var(--f-body);min-height:40px}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom, 0px));max-width:min(92vw,460px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:14px;z-index:20}
+
+.path{display:grid;gap:0;border-top:1px solid var(--line);margin-top:6px}
+.stage{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.stage .k{font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue);padding-top:6px}
+.stage .tt{font:var(--wd) 26px/1.15 var(--f-display)}
+.stage .d{color:var(--ink2);font-size:15px;margin-top:4px;max-width:58ch}
+@media (max-width:520px){.stage{grid-template-columns:1fr;gap:4px}}
+.days{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.days li{border-bottom:1px solid var(--line)}
+.days button{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:16px 0;cursor:pointer}
+.days button:hover .tt{color:var(--blue)}
+.days .n{font:var(--it) var(--wd) 34px/1 var(--f-display);color:var(--blue)}
+.days .tt{font:var(--wd) 23px/1.15 var(--f-display)}
+.days .d{color:var(--ink2);font-size:14px;margin-top:2px}
+.days li.plan .n,.days li.plan .tt{color:var(--ink2)}
+.days li.plan .row{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:12px 0;align-items:center}
+.stp{list-style:none;margin:20px 0 6px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stp button{width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:64px;display:grid;gap:2px}
+.stp button b{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.stp button span{font:600 14px/1.2 var(--f-body)}
+.stp button[aria-current="step"]{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.stp button.ok b{color:var(--ok)}
+@media (max-width:520px){.stp{grid-template-columns:repeat(2,1fr)}}
+.story .sl{border-left:2px solid var(--line);padding:6px 0 6px 16px;margin:12px 0;transition:border-color .15s}
+.story .sl.on{border-left-color:var(--blue);background:var(--blue-soft)}
+.checks{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.checks li{border-bottom:1px solid var(--line)}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:14px 0;cursor:pointer}
+.checks input{width:20px;height:20px;margin-top:3px;accent-color:var(--blue)}
+.qopt.right{border-color:var(--ok);background:transparent}
+.qopt.wrong{border-color:var(--rose)}
+.vsel[hidden],.note[hidden]{display:none!important}
+.lead+.lead{margin-top:10px}
 </style>
 
 <div class="shell">
@@ -319,10 +352,11 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     </div>
     <label class="vsel" id="vsel" hidden><span>Voz</span><select id="voice" aria-label="Elegir voz francesa"></select></label>
     <nav class="nav" role="tablist" aria-label="Secciones">
-      <button role="tab" data-a="tab" data-t="home" type="button">Hoy</button>
-      <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
-      <button role="tab" data-a="tab" data-t="scenes" type="button">Escenas</button>
+      <button role="tab" data-a="tab" data-t="home" type="button">Empezar</button>
+      <button role="tab" data-a="tab" data-t="route" type="button">Ruta</button>
+      <button role="tab" data-a="tab" data-t="today" type="button">Hoy</button>
       <button role="tab" data-a="tab" data-t="review" type="button">Repaso</button>
+      <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
       <button role="tab" data-a="tab" data-t="method" type="button">Método</button>
     </nav>
         <p class="note" id="vnote" hidden>Este dispositivo no tiene una voz francesa instalada. Añádela en los ajustes de voz del sistema para oír las frases. Las notas del ritmo funcionan igual.</p>
@@ -330,9 +364,10 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 
   <main>
     <section class="view" id="v-home"></section>
-    <section class="view" id="v-sounds" hidden></section>
-    <section class="view" id="v-scenes" hidden></section>
+    <section class="view" id="v-route" hidden></section>
+    <section class="view" id="v-today" hidden></section>
     <section class="view" id="v-review" hidden></section>
+    <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-method" hidden></section>
     <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia.</p>
   </main>
@@ -345,6 +380,30 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 
 /* ---------- Contenido ---------- */
 var SCENES=[
+ {id:'salut',title:'Les présentations',art:'wave',
+  setting:'Es tu primera mañana en el edificio. Un vecino sonriente te cruza en el rellano y te saluda.',
+  who:'Julien',
+  phrases:[
+   {id:'g1',fr:'Bonjour, ça va ?',syl:[['bõ','zhur'],['sa','va']],cue:'Saludas a alguien y le preguntas cómo está.'},
+   {id:'g2',fr:'Ça va bien, merci.',syl:[['sa','va','biẽ'],['mer','si']],cue:'Te preguntan cómo estás y contestas que bien.'},
+   {id:'g3',fr:'Je m’appelle Clara.',syl:[['zhe','ma','pel'],['kla','ra']],cue:'Dices tu nombre. Aquí es Clara; luego pondrás el tuyo.'},
+   {id:'g4',fr:'Enchantée.',syl:[['ã','shã','té']],cue:'Te presentan a alguien y le dices que te alegra conocerle.'},
+   {id:'g5',fr:'Au revoir, à demain !',syl:[['o','re','vuar'],['a','de','mẽ']],cue:'Te despides de alguien a quien verás mañana.'}
+  ],
+  turns:[
+   {fr:'Bonjour ! Ça va ?',sense:'Te saluda y pregunta cómo estás.',opts:[
+     {fr:'Bonjour ! Ça va bien, merci.',q:2,reply:'Très bien, merci.'},
+     {fr:'Ça va.',q:1,reply:'{Ça va bien}, très bien. Moi aussi.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? Moi, je dis {bonjour}. Et vous ?'}]},
+   {fr:'Je m’appelle Julien. Et vous ?',sense:'Dice su nombre y te pregunta el tuyo.',opts:[
+     {fr:'Je m’appelle Clara. Enchantée.',q:2,reply:'Enchanté, Clara.'},
+     {fr:'Moi Clara.',q:1,reply:'Vous {vous appelez} Clara. Enchanté !'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Euh… {vous vous appelez} comment ?'}]},
+   {fr:'Bon, à bientôt, Clara !',sense:'Se despide: hasta pronto.',opts:[
+     {fr:'Au revoir, à demain !',q:2,reply:'À demain !'},
+     {fr:'Au revoir.',q:1,reply:'Au revoir, Clara. {À bientôt} !'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ? C’est le matin ! {Au revoir}, Clara.'}]}
+  ]},
  {id:'cafe',title:'Au café',art:'cup',
   setting:'Son las ocho de la mañana. Entras en un café pequeño que huele a pan caliente y el camarero te mira desde la barra.',
   who:'Le serveur',
@@ -428,6 +487,61 @@ var SOUNDS=[
  {id:'s6',g:'j<br>ch',sm:1,rs:'zh  sh',t:'J y ch',tip:'La j suena como la «y» de «yo» o «calle» en el habla rioplatense. La ch suena como el «sh» con el que se pide silencio.',words:['je','jour','chat','chocolat']},
  {id:'s7',g:'t s d',sm:1,rs:'(mudas)',t:'Consonantes finales mudas',tip:'La consonante final casi nunca suena: petit, vous, Paris. Delante de una vocal se despierta y se une: «vous avez» suena vu-za-vé.',words:['petit','vous avez','les amis','Paris']}
 ];
+var DAYS=[
+ {n:1,t:'Saludar y presentarte',sc:'salut',m:20,goal:'Saludar, preguntar cómo está alguien, decir tu nombre y despedirte.'},
+ {n:2,t:'En el café',sc:'cafe',m:20,goal:'Pedir una bebida y algo de comer con cortesía, y pedir la cuenta.'},
+ {n:3,t:'Pedir ayuda en la calle',sc:'rue',m:20,goal:'Preguntar dónde está un lugar y decir que no entiendes sin quedarte callada.'},
+ {n:4,t:'En el hotel',sc:'hotel',m:20,goal:'Anunciar una reserva, decir cuántas noches y preguntar por el ascensor.'},
+ {n:5,t:'Una jornada completa',sc:null,m:20,goal:'Unir las cuatro situaciones de la semana en una sola historia.'},
+ {n:6,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado: ocho frases que escuchas y reconoces.'},
+ {n:7,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
+];
+var STORY={
+ 1:[{w:'Julien',fr:'Bonjour, madame !',es:'¡Buenos días, señora!'},
+    {w:'Clara',fr:'Bonjour ! Ça va ?',es:'¡Buenos días! ¿Qué tal?'},
+    {w:'Julien',fr:'Ça va bien, merci. Je m’appelle Julien.',es:'Bien, gracias. Me llamo Julien.'},
+    {w:'Clara',fr:'Enchantée. Je m’appelle Clara.',es:'Encantada. Me llamo Clara.'},
+    {w:'Julien',fr:'Enchanté, Clara. À demain !',es:'Encantado, Clara. ¡Hasta mañana!'},
+    {w:'Clara',fr:'Au revoir, à demain !',es:'¡Adiós, hasta mañana!'}],
+ 2:[{w:'Le serveur',fr:'Bonjour ! Qu’est-ce que je vous sers ?',es:'¡Buenos días! ¿Qué le sirvo?'},
+    {w:'Clara',fr:'Bonjour. Un café, s’il vous plaît.',es:'Buenos días. Un café, por favor.'},
+    {w:'Le serveur',fr:'Très bien. Et avec ça ?',es:'Muy bien. ¿Y con eso?'},
+    {w:'Clara',fr:'Je voudrais un croissant.',es:'Querría un croissant.'},
+    {w:'Le serveur',fr:'Voilà. Ça fait six euros.',es:'Aquí tiene. Son seis euros.'},
+    {w:'Clara',fr:'Merci beaucoup !',es:'¡Muchas gracias!'},
+    {w:'Le serveur',fr:'Je vous en prie. Bonne journée !',es:'De nada. ¡Que tenga buen día!'}],
+ 3:[{w:'Clara',fr:'Excusez-moi ! Où est la gare, s’il vous plaît ?',es:'¡Perdone! ¿Dónde está la estación, por favor?'},
+    {w:'Un passant',fr:'C’est tout droit, puis à gauche.',es:'Todo recto y luego a la izquierda.'},
+    {w:'Clara',fr:'Pardon, je ne comprends pas. Plus lentement, s’il vous plaît.',es:'Perdón, no entiendo. Más despacio, por favor.'},
+    {w:'Un passant',fr:'Tout droit… puis à gauche. Voilà.',es:'Todo recto… y luego a la izquierda. Ya está.'},
+    {w:'Clara',fr:'Merci beaucoup, bonne journée !',es:'¡Muchas gracias, que tenga buen día!'},
+    {w:'Un passant',fr:'Je vous en prie. Au revoir !',es:'De nada. ¡Adiós!'}],
+ 4:[{w:'Clara',fr:'Bonsoir. J’ai une réservation.',es:'Buenas noches. Tengo una reserva.'},
+    {w:'La réceptionniste',fr:'Parfait, madame. C’est pour combien de nuits ?',es:'Perfecto, señora. ¿Para cuántas noches?'},
+    {w:'Clara',fr:'Pour deux nuits.',es:'Para dos noches.'},
+    {w:'La réceptionniste',fr:'Voici votre clé. Chambre douze, au deuxième étage.',es:'Aquí tiene su llave. Habitación doce, segundo piso.'},
+    {w:'Clara',fr:'Où est l’ascenseur, s’il vous plaît ?',es:'¿Dónde está el ascensor, por favor?'},
+    {w:'La réceptionniste',fr:'Là, à droite. Bonne soirée !',es:'Allí, a la derecha. ¡Buenas noches!'},
+    {w:'Clara',fr:'Merci, bonne soirée !',es:'¡Gracias, buenas noches!'}],
+ 5:[{w:'Clara',fr:'Bonjour ! Un café, s’il vous plaît.',es:'¡Buenos días! Un café, por favor.'},
+    {w:'Le serveur',fr:'Voilà. Ça fait trois euros.',es:'Aquí tiene. Son tres euros.'},
+    {w:'Clara',fr:'Excusez-moi, où est la gare ?',es:'Perdone, ¿dónde está la estación?'},
+    {w:'Un passant',fr:'C’est tout droit, puis à gauche.',es:'Todo recto y luego a la izquierda.'},
+    {w:'Clara',fr:'Plus lentement, s’il vous plaît.',es:'Más despacio, por favor.'},
+    {w:'Un passant',fr:'Tout droit… puis à gauche. Voilà.',es:'Todo recto… y luego a la izquierda. Ya está.'},
+    {w:'Clara',fr:'Bonsoir. J’ai une réservation.',es:'Buenas noches. Tengo una reserva.'},
+    {w:'La réceptionniste',fr:'Bonsoir, madame. Bienvenue !',es:'Buenas noches, señora. ¡Bienvenida!'}]
+};
+var PLAN=[
+ {w:'S2',t:'Moverse',days:['Los números del 0 al 20','La hora','Comprar un billete','Metro y taxi','Precios y pagar','Repaso y mini-prueba','Descanso y balance']},
+ {w:'S3',t:'Mesa y mercado',days:['Pedir en un restaurante','Platos y bebidas','El mercado','Cantidades','Decir lo que no comes','Repaso y mini-prueba','Descanso y balance']},
+ {w:'S4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Prueba final del mes','Descanso y balance']}
+];
+var STAGES=[
+ {k:'Principio',t:'Semana 1 · Sobrevivir',d:'Oyes tus primeras frases y las usas en cuatro situaciones: saludar, un café, pedir ayuda y un hotel. Termina con una mini-prueba.',s:'Disponible'},
+ {k:'Desarrollo',t:'Semanas 2 y 3 · Moverte y comer',d:'Números, horas, billetes, restaurante y mercado. Cada semana sigue el mismo ritmo de siete días.',s:'En preparación'},
+ {k:'Final',t:'Semana 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. El último día es la prueba final del mes.',s:'En preparación'}
+];
 var RHY=['c1','c2','c3','h5'];
 var WEEKS=[
  {w:'S1',t:'Sobrevivir',d:'Café, recepción de hotel y calle.',o:'Pedir, saludar y recuperar la conversación cuando no entiendes.'},
@@ -469,12 +583,13 @@ var ICON={
  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
  cup:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 42H104V58C104 76 92 86 77 86C62 86 50 76 50 58Z"/><path d="M104 48H112C121 48 121 66 108 66H103"/><path d="M38 92H116"/><path d="M66 32C60 26 72 21 66 12"/><path d="M82 32C76 26 88 21 82 12"/></svg>',
  key:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="52" cy="50" r="22"/><circle cx="52" cy="50" r="7"/><path d="M74 50H138"/><path d="M122 50V66"/><path d="M132 50V61"/></svg>',
+ wave:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 18H88V56H50L36 70V56H24Z"/><path d="M72 44H136V80H124V94L108 80H72Z"/><path d="M40 32H72M40 42H62"/></svg>',
  sign:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 10V94"/><path d="M80 22H124L134 31L124 40H80Z"/><path d="M80 52H36L26 61L36 70H80Z"/><path d="M62 94H98"/></svg>'
 };
 
 /* ---------- Estado ---------- */
 var KEY='cadence.fr.v1';
-var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null};
+var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null,prog:{},goals:{},test1:null,rest:false};
 try{var rawS=localStorage.getItem(KEY);if(rawS){S=Object.assign(S,JSON.parse(rawS))}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function T(){var t=dstr();if(!S.t||S.t.d!==t)S.t={d:t,sounds:[],scenes:0,rev:0};return S.t}
@@ -550,40 +665,73 @@ function beatsHTML(p,lg){
   }).join('')+'</div>';
 }
 
-/* ---------- Hoy ---------- */
+/* ---------- Ayudas de curso ---------- */
+function pd(n){return S.prog[n]||(S.prog[n]={})}
+function dayDone(n){var d=DAYS[n-1];if(d.kind==='test')return S.test1!=null;if(d.kind==='rest')return !!S.rest;var p=S.prog[n]||{};return !!(p[0]&&p[1]&&p[2]&&p[3])}
+function curDayNo(){for(var i=1;i<=7;i++){if(!dayDone(i))return i}return 7}
+function sceneById(id){return SCENES.filter(function(s){return s.id===id})[0]}
+function dayPhr(n){var d=DAYS[n-1];return d.sc?sceneById(d.sc).phrases.map(function(p){return p.id}):Object.keys(PH)}
+function daysDone(){var c=0;for(var i=1;i<=7;i++)if(dayDone(i))c++;return c}
+
+/* ---------- Empezar ---------- */
 function rHome(){
-  var t=T(),jour=dayNo();
+  var n=curDayNo(),dn=daysDone();
   var mastered=Object.keys(S.cards).filter(function(k){return S.cards[k].box>=3}).length;
   var total=Object.keys(PH).length;
-  var done=[t.sounds.length>=3,t.scenes>=1,t.rev>=1];
-  var steps=[
-   {n:'1',t:'Escuchar',d:'Tres sonidos y una frase con su ritmo.',m:'6 min',go:'sounds'},
-   {n:'2',t:'Entrar en una escena',d:'Un café, un hotel o la calle. Tú eliges qué decir y la otra persona te contesta.',m:'8 min',go:'scenes'},
-   {n:'3',t:'Repasar',d:'Las frases que te tocan hoy.',m:'4 min',go:'review'}
+  var started=dn>0||Object.keys(S.prog).length>0;
+  var stp=[
+   ['Escucha','5 min','Una mini-historia de unas siete líneas. Primero la oyes en francés, sin mirar el español, y después compruebas qué decía.'],
+   ['Frases','4 min','Las frases clave del día, una a una, con las notas del ritmo para seguirlas con la vista.'],
+   ['Escena','5 min','Un diálogo en el que tú eliges qué decir. La otra persona te responde con la forma natural.'],
+   ['Dilo tú','4 min','Tarjetas: ves la situación, dices la frase en voz alta y compruebas. Tu respuesta decide cuándo vuelve a salir.']
   ];
-  var date=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
   $('#v-home').innerHTML=
-   '<div class="hero"><span class="eyebrow">Día '+jour+' · '+date+'</span>'+
+   '<div class="hero"><span class="eyebrow">Curso de francés · desde cero · 4 semanas</span>'+
    '<h1>Bonjour.</h1>'+
    '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
-   '<p class="lead">Curso de autoestudio de francés desde cero para hispanohablantes: cuatro semanas, unos veinte minutos al día. La primera semana ya está abierta.</p>'+'<p class="lead">Hoy vas a oír francés, seguir su ritmo y usarlo en tres situaciones reales.</p>'+
-   '<div class="hero-actions"><button class="btn" type="button" data-a="go" data-t="sounds">Empezar</button><button class="btn ghost" type="button" data-a="go" data-t="scenes">Ir a una escena</button></div>'+
-   '<div class="statline"><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span><span>Escenas jugadas <b>'+Object.keys(S.scenes).length+'/'+SCENES.length+'</b></span></div></div>'+
-   '<div class="sec"><span class="eyebrow">Cómo empezar · tu primera vez</span><ol class="how">'+
-   '<li><span class="n">1</span><div><div class="t">Prepara el sonido<span class="min">1 min</span></div><div class="d">Usa auriculares o un altavoz. Deja la velocidad en <b>Lento</b> (el selector Lento / Natural está junto al menú) y pulsa ▶ en la portada para comprobar que oyes la voz. Si no se oye, mira el aviso de voz de esta página.</div></div></li>'+
-   '<li><span class="n">2</span><div><div class="t">Escucha tres sonidos<span class="min">6 min</span></div><div class="d">En <b>Sonidos</b>, pulsa ▶ en una frase y sigue las notas con la vista. Después repite en voz alta, aunque suene raro. Es lo que más cuenta esta primera semana.</div><button class="go" type="button" data-a="go" data-t="sounds">Ir a Sonidos</button></div></li>'+
-   '<li><span class="n">3</span><div><div class="t">Entra en la escena del café<span class="min">8 min</span></div><div class="d">En <b>Escenas</b>, escucha las frases clave y pulsa <b>Jouer la scène</b>. Te hablan, eliges qué dirías y ves cómo responde la otra persona. Nadie te corrige: aprendes de su respuesta.</div><button class="go" type="button" data-a="go" data-t="scenes">Ir a Escenas</button></div></li>'+
-   '<li><span class="n">4</span><div><div class="t">Haz tu primer repaso<span class="min">4 min</span></div><div class="d">En <b>Repaso</b> ves una situación y dices la frase en voz alta antes de verla. Pulsa <b>Mostrar</b> y valora: <b>Otra vez</b>, <b>Bien</b> o <b>Fácil</b>. El curso usa tu respuesta para decidir cuándo volver a enseñártela.</div><button class="go" type="button" data-a="go" data-t="review">Ir a Repaso</button></div></li>'+
-   '<li><span class="n">5</span><div><div class="t">Vuelve mañana<span class="min">20 min al día</span></div><div class="d">Veinte minutos cada día funcionan mejor que dos horas un solo día. Cada vez que abras Cadence, empieza por esta portada: te dice qué toca hoy.</div></div></li>'+
-   '</ol></div>'+
-   '<div class="sec"><span class="eyebrow">Tu sesión de hoy</span><ol class="steps">'+steps.map(function(s,i){
-     return '<li><button type="button" data-a="go" data-t="'+s.go+'"><span class="n">'+s.n+'</span><span><div class="t">'+s.t+'<span class="min">'+s.m+'</span></div><div class="d">'+s.d+'</div></span>'+
-     (done[i]?'<span class="tag ok">Hecho</span>':'<span class="tag">Pendiente</span>')+'</button></li>';
+   '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada semana tiene siete días y cada día unos veinte minutos, siempre en el mismo orden: escuchar, practicar, usar y repasar.</p>'+
+   '<p class="lead">Ahora está abierta la semana 1. Las semanas 2, 3 y 4 están planificadas y en preparación.</p>'+
+   '<div class="hero-actions"><button class="btn" type="button" data-a="day" data-n="'+n+'">'+(started?'Seguir: día '+n:'Empezar el día 1')+'</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div>'+
+   '<div class="statline"><span>Días completados <b>'+dn+'/7</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo está organizado el curso</span><div class="path">'+STAGES.map(function(s){
+     return '<div class="stage"><span class="k">'+s.k+'</span><div><div class="tt">'+s.t+'</div><div class="d">'+s.d+'</div><div style="margin-top:8px"><span class="tag'+(s.s==='Disponible'?' now':'')+'">'+s.s+'</span></div></div></div>';
+   }).join('')+'</div></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo es un día de estudio · unos 20 minutos</span><ol class="how">'+stp.map(function(s,i){
+     return '<li><span class="n">'+(i+1)+'</span><div><div class="t">'+s[0]+'<span class="min">'+s[1]+'</span></div><div class="d">'+s[2]+'</div></div></li>';
    }).join('')+'</ol></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo es una semana</span><ul class="plain">'+
+   '<li><b>Días 1 a 5.</b> Una situación nueva cada día, con su historia, sus frases y su escena. El día 5 une las cuatro en una sola jornada.</li>'+
+   '<li><b>Día 6.</b> Repaso y mini-prueba de reconocimiento.</li>'+
+   '<li><b>Día 7.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
+   '<div class="sec"><span class="eyebrow">Antes del primer día · 1 minuto</span><ul class="plain">'+
+   '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
+   '<li><b>Deja la velocidad en Lento</b> las primeras semanas. Puedes cambiarla en el menú.</li>'+
+   '<li><b>Habla en voz alta.</b> Aunque suene raro. Es la parte que más cuenta.</li></ul></div>'+
    '<div class="sec"><span class="eyebrow">Al terminar la semana 1</span><ol class="obj">'+GOALS.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>'+
-   '<div class="sec"><span class="eyebrow">El primer mes</span><div class="prog" role="img" aria-label="Semana 1 de 4 abierta"><i class="on"></i><i></i><i></i><i></i></div><p class="progl">Semana 1 de 4 abierta · las otras tres están en preparación</p><ul class="weeks">'+WEEKS.map(function(w,i){
+   '<div class="sec"><span class="eyebrow">La meta de cada semana</span><ul class="weeks">'+WEEKS.map(function(w,i){
      return '<li class="'+(i?'dim':'')+'"><span class="w">'+w.w+'</span><div><div class="tt">'+w.t+'</div><div class="out">'+w.d+' <b>Meta:</b> '+w.o+'</div></div>'+(i?'<span class="tag">En preparación</span>':'<span class="tag now">Disponible</span>')+'</li>';
    }).join('')+'</ul></div>';
+}
+
+/* ---------- Ruta ---------- */
+function rRoute(){
+  var n=curDayNo(),dn=daysDone();
+  var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
+   '<p class="lead">Cuatro semanas, siete días cada una. Puedes abrir cualquier día de la semana 1, pero el orden está pensado: cada día usa lo del anterior.</p>'+
+   '<div class="sec"><span class="eyebrow">Semana 1 · Sobrevivir · disponible</span>'+
+   '<div class="prog" style="grid-template-columns:repeat(7,1fr)" role="img" aria-label="'+dn+' de 7 días completados">'+DAYS.map(function(d,i){return '<i class="'+(dayDone(i+1)?'on':'')+'"></i>'}).join('')+'</div>'+
+   '<p class="progl">'+dn+' de 7 días completados</p>'+
+   '<ul class="days">'+DAYS.map(function(d){
+     var st=dayDone(d.n)?'<span class="tag ok">Hecho</span>':d.n===n?'<span class="tag now">Hoy</span>':'<span class="tag">Abierto</span>';
+     return '<li><button type="button" data-a="day" data-n="'+d.n+'"><span class="n">'+d.n+'</span><span><div class="tt">'+d.t+'</div><div class="d">'+d.goal+' · '+d.m+' min</div></span>'+st+'</button></li>';
+   }).join('')+'</ul></div>';
+  PLAN.forEach(function(w){
+    h+='<div class="sec"><span class="eyebrow">Semana '+w.w.slice(1)+' · '+w.t+' · en preparación</span><ul class="days">'+w.days.map(function(t,i){
+      return '<li class="plan"><div class="row"><span class="n">'+(i+1)+'</span><span class="tt">'+t+'</span></div></li>';
+    }).join('')+'</ul></div>';
+  });
+  h+='<p class="legend">Los temas de las semanas 2 a 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
+  $('#v-route').innerHTML=h;
 }
 
 /* ---------- Sonidos ---------- */
@@ -606,20 +754,102 @@ function rSounds(){
    }).join('')+'</div>';
 }
 
-/* ---------- Escenas ---------- */
-function curS(){return SCENES.filter(function(s){return s.id===curScene})[0]}
-function rScenes(){
-  var sc=curS();
-  if(!S.unlocked[sc.id]){S.unlocked[sc.id]=true;save()}
-  $('#v-scenes').innerHTML=
-   '<span class="eyebrow">Escenas</span><h2 class="h2">Entra y responde</h2>'+
-   '<div class="chips" role="group" aria-label="Escena">'+SCENES.map(function(s){return '<button type="button" class="chip" data-a="scene" data-id="'+s.id+'" aria-pressed="'+(s.id===curScene)+'">'+s.title+(S.scenes[s.id]!==undefined?' · '+S.scenes[s.id]+'/6':'')+'</button>'}).join('')+'</div>'+
-   '<div class="scene-head"><div class="art">'+ICON[sc.art]+'</div><p class="setting">'+sc.setting+'</p></div>'+
-   '<div class="sec"><span class="eyebrow">Frases clave</span><div>'+sc.phrases.map(function(p){
-     return '<div class="ph" data-unit="1"><button class="play" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar: '+esc(p.fr)+'">'+ICON.play+'</button><div><div class="fr">'+p.fr+'</div><div class="cue">'+p.cue+'</div>'+beatsHTML(p)+'<div class="resp">'+p.resp+'</div></div></div>';
-   }).join('')+'</div></div>'+
-   '<div class="sec" id="player"><span class="eyebrow">La escena</span>'+playerHTML(sc)+'</div>';
+/* ---------- Hoy ---------- */
+var visT=false,curDay=1,st=0,showEs=false,qz=null;
+function storyHTML(n){
+  return '<div class="story" data-unit="1">'+STORY[n].map(function(l,i){
+    return '<div class="sl" id="sl'+i+'"><div class="who">'+l.w+'</div><div class="fl"><span>'+l.fr+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(l.fr)+'" aria-label="Escuchar la línea '+(i+1)+'">'+ICON.play+'</button></div>'+(showEs?'<div class="sense">'+l.es+'</div>':'')+'</div>';
+  }).join('')+'</div>';
 }
+function hl(i){[].forEach.call(document.querySelectorAll('.story .sl'),function(e,j){e.classList.toggle('on',j===i)})}
+function sayAll(n){
+  if(!('speechSynthesis' in window)){toast('Este navegador no incluye voz.');return}
+  try{speechSynthesis.cancel()}catch(e){}
+  var L=STORY[n];
+  L.forEach(function(l,i){
+    var u=new SpeechSynthesisUtterance(raw(l.fr));u.lang='fr-FR';if(frVoice)u.voice=frVoice;
+    u.rate=S.speed==='slow'?0.6:0.88;
+    u.onstart=function(){hl(i)};
+    if(i===L.length-1)u.onend=function(){hl(-1)};
+    u.onerror=function(e){if(e.error==='canceled'||e.error==='interrupted')return;toast('No se pudo reproducir la voz ('+e.error+').')};
+    speechSynthesis.speak(u);
+  });
+}
+function phrasesHTML(list){
+  return list.map(function(p){
+    return '<div class="ph" data-unit="1"><button class="play" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar: '+esc(p.fr)+'">'+ICON.play+'</button><div><div class="fr">'+p.fr+'</div><div class="cue">'+p.cue+'</div>'+beatsHTML(p)+'<div class="resp">'+p.resp+'</div></div></div>';
+  }).join('');
+}
+function rToday(){
+  var el=$('#v-today'),d=DAYS[curDay-1];
+  if(d.kind==='test')return rTest(el,d);
+  if(d.kind==='rest')return rRest(el,d);
+  var sc=d.sc?sceneById(d.sc):null,p=pd(curDay);
+  if(sc){curScene=sc.id;if(!S.unlocked[sc.id]){S.unlocked[sc.id]=true;save()}}
+  else if(!sceneById(curScene))curScene='cafe';
+  var names=[['Escucha','5 min'],['Frases','4 min'],['Escena','5 min'],['Dilo tú','4 min']];
+  var h='<span class="eyebrow">Semana 1 · Día '+curDay+' de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+'</p>'+
+   '<ol class="stp" aria-label="Pasos del día">'+names.map(function(x,i){
+     return '<li><button type="button" data-a="step" data-i="'+i+'" class="'+(p[i]?'ok':'')+'"'+(i===st?' aria-current="step"':'')+'><b>'+(i+1)+' · '+(p[i]?'Hecho':x[1])+'</b><span>'+x[0]+'</span></button></li>';
+   }).join('')+'</ol>';
+  if(st===0){
+    h+=(sc?'<div class="scene-head"><div class="art">'+ICON[sc.art]+'</div><p class="setting">'+sc.setting+'</p></div>':'')+
+     '<div class="sec"><span class="eyebrow">Paso 1 · Escucha la historia</span><p class="lead">Escucha primero sin mirar el español. Fíjate en quién habla y en qué pasa. Después comprueba el sentido.</p>'+
+     '<div class="row2"><button class="btn" type="button" data-a="storyall">Escuchar toda la historia</button><button class="btn ghost" type="button" data-a="es">'+(showEs?'Ocultar el sentido':'Ver el sentido en español')+'</button></div>'+
+     storyHTML(curDay)+
+     '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="0">Continuar: frases clave</button></div></div>';
+  }else if(st===1){
+    var list=sc?sc.phrases:Object.keys(PH).map(function(k){return PH[k]});
+    h+='<div class="sec"><span class="eyebrow">Paso 2 · Frases clave</span><p class="lead">'+(sc?'Son las frases de la historia que vas a usar hoy.':'Las frases de toda la semana, para oírlas otra vez.')+' Pulsa ▶, sigue las notas con la vista y repite en voz alta.</p><div>'+phrasesHTML(list)+'</div>'+
+     '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="1">Continuar: la escena</button></div></div>';
+  }else if(st===2){
+    h+='<div class="sec" id="player"><span class="eyebrow">Paso 3 · La escena</span>'+
+     (sc?'':'<div class="chips" role="group" aria-label="Escena">'+SCENES.map(function(s){return '<button type="button" class="chip" data-a="scene" data-id="'+s.id+'" aria-pressed="'+(s.id===curScene)+'">'+s.title+'</button>'}).join('')+'</div>')+
+     playerHTML(curS())+'</div>';
+  }else{
+    var all=dayPhr(curDay);
+    h+='<div class="sec"><span class="eyebrow">Paso 4 · Dilo tú</span><p class="lead">Verás '+all.length+' situaciones. Dices la frase en voz alta antes de verla, pulsas Mostrar y valoras cómo te ha ido. Lo que marques como «Otra vez» volverá antes.</p>'+
+     '<div class="row2"><button class="btn" type="button" data-a="dayrv">'+(p[3]?'Repetir las tarjetas':'Empezar las tarjetas')+'</button></div></div>';
+  }
+  if(dayDone(curDay)){
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Día '+curDay+' completo</div><p style="margin-top:8px">Bien hecho. Mañana el repaso te devolverá las frases que más lo necesiten.</p><div class="row2"><button class="btn" type="button" data-a="day" data-n="'+Math.min(7,curDay+1)+'">Siguiente día</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta</button></div></div>';
+  }
+  el.innerHTML=h;
+}
+function rTest(el,d){
+  var h='<span class="eyebrow">Semana 1 · Día 6 de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+' Esta prueba mide si reconoces lo que oyes, no si sabes hablar. Para eso están las escenas y las tarjetas.</p>';
+  if(!qz){
+    h+=(S.test1!=null?'<p class="progl">Última puntuación: '+S.test1+' de 8</p>':'')+'<div class="row2"><button class="btn" type="button" data-a="qstart">'+(S.test1!=null?'Repetir la mini-prueba':'Empezar la mini-prueba')+'</button><button class="btn ghost" type="button" data-a="go" data-t="review">Hacer el repaso antes</button></div>';
+  }else if(!qz.done){
+    var q=qz.q[qz.i],p=PH[q.id];
+    h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(qz.i/qz.q.length*100)+'%"></i></div><div class="rcard"><span class="tag">Pregunta '+(qz.i+1)+' de '+qz.q.length+'</span><p class="lead" style="margin-top:12px">Escucha y elige la situación en la que se dice.</p>'+
+     '<div class="row2"><button class="play lg" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar la frase">'+ICON.play+'</button></div><div class="opts">'+
+     q.opts.map(function(id){
+       var c='opt qopt';if(qz.sel){if(id===q.id)c+=' right';else if(id===qz.sel)c+=' wrong'}
+       return '<button class="'+c+'" type="button" data-a="qans" data-id="'+id+'"'+(qz.sel?' disabled':'')+'>'+PH[id].cue+'</button>';
+     }).join('')+'</div>';
+    if(qz.sel){h+='<div class="line me" style="margin-top:18px"><div class="who">'+(qz.sel===q.id?'Correcto':'La respuesta era')+'</div><div class="fl"><span>'+p.fr+'</span></div></div><div class="row2"><button class="btn" type="button" data-a="qnext">'+(qz.i>=qz.q.length-1?'Ver resultado':'Siguiente')+'</button></div>'}
+    h+='</div>';
+  }else{
+    h+='<div class="endbox"><div class="score">'+qz.score+'<span> / '+qz.q.length+'</span></div><p style="margin-top:8px">'+
+     (qz.score>=7?'Reconoces casi todo lo que has oído esta semana.':qz.score>=5?'Vas bien. Repasa las tarjetas antes de seguir.':'Todavía te cuesta reconocerlas. No pasa nada: repite las historias y las tarjetas esta semana.')+
+     '</p>'+(qz.miss.length?'<p class="legend">Para repasar: '+qz.miss.map(function(id){return PH[id].fr}).join(' · ')+'</p>':'')+
+     '<div class="row2"><button class="btn" type="button" data-a="go" data-t="review">Ir al repaso</button><button class="btn ghost" type="button" data-a="day" data-n="7">Siguiente: descanso y balance</button></div></div>';
+  }
+  el.innerHTML=h;
+}
+function rRest(el,d){
+  var h='<span class="eyebrow">Semana 1 · Día 7 de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
+   '<ul class="checks">'+GOALS.map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+i+'"'+(S.goals[i]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
+   '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="5">Escuchar la jornada completa</button></div>';
+  if(S.rest){
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Semana 1 completa</div><p style="margin-top:8px">Has recorrido el primer tramo. Las semanas 2, 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.</p></div>';
+  }else{
+    h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la semana 1</button></div>';
+  }
+  el.innerHTML=h;
+}
+function curS(){return sceneById(curScene)}
 function playerHTML(sc){
   if(!pl||pl.scene!==sc.id){
     return '<h3 class="h3">Tres turnos</h3><p class="lead">Escucha lo que te dicen, elige lo que dirías y mira cómo responde la otra persona. Nadie te corrige: te contestan con la forma natural.</p><div class="row2"><button class="btn" type="button" data-a="start">Jouer la scène</button></div>';
@@ -641,15 +871,15 @@ function playerHTML(sc){
   }else{
     var tot=sc.turns.length*2;
     h+='<div class="endbox"><div class="score">'+pl.score+'<span> / '+tot+'</span></div><p style="margin-top:8px">'+
-       (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo marcado en rosa es la forma natural que usó la otra persona. Esas frases ya están en tu repaso.')+
-       '</p><div class="row2"><button class="btn" type="button" data-a="go" data-t="review">Repasar frases</button><button class="btn ghost" type="button" data-a="start">Jouer de nouveau</button></div></div>';
+       (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo marcado en rosa es la forma natural que usó la otra persona. Esas frases salen en las tarjetas.')+
+       '</p><div class="row2"><button class="btn" type="button" data-a="step" data-i="3">Seguir: Dilo tú</button><button class="btn ghost" type="button" data-a="start">Jouer de nouveau</button></div></div>';
   }
   return h+'</div><span id="pend"></span>';
 }
 function startScene(){
   var sc=curS();
   pl={scene:sc.id,turn:0,phase:'ask',score:0,log:[],sense:false,orders:sc.turns.map(function(t){return shuffle(t.opts.map(function(o,i){return i}))})};
-  rScenes();
+  rToday();
   say(sc.turns[0].fr);
 }
 
@@ -670,7 +900,8 @@ function rReview(){
     }
     h+='</div>';
   }else if(rv.mode==='done'){
-    h+='<div class="endbox"><div class="score">'+rv.total+'<span> tarjetas</span></div><p style="margin-top:8px">Repaso terminado. Las frases que dijiste con soltura se alejan en el tiempo y las demás vuelven antes.</p><div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="scenes">Otra escena</button></div></div>';
+    if(rv.back){pd(rv.back)[3]=1;save()}
+    h+='<div class="endbox"><div class="score">'+rv.total+'<span> tarjetas</span></div><p style="margin-top:8px">Repaso terminado. Las frases que dijiste con soltura se alejan en el tiempo y las demás vuelven antes.</p><div class="row2">'+(rv.back?'<button class="btn" type="button" data-a="backday">Volver al día '+rv.back+'</button>':'<button class="btn ghost" type="button" data-a="go" data-t="today">Ir a Hoy</button>')+'</div></div>';
   }else{
     var n=d.nw.length,o=d.old.length;
     if(n+o===0){
@@ -704,7 +935,7 @@ function rMethod(){
    '<div class="sec"><span class="eyebrow">Límites de esta versión</span><ul class="plain">'+
    '<li>Usa una sola voz del dispositivo. Si no hay voz francesa instalada, no se oye nada.</li>'+
    '<li>No reconoce tu voz.</li>'+
-   '<li>Solo la semana 1 está construida.</li>'+
+   '<li>Solo la semana 1 está construida. Las semanas 2 a 4 son un plan.</li><li>La mini-prueba del día 6 mide reconocimiento de lo que oyes. No mide si hablas bien.</li>'+
    '</ul></div>';
 }
 
@@ -712,7 +943,7 @@ function rMethod(){
 function render(){
   [].forEach.call(document.querySelectorAll('.nav button'),function(b){b.setAttribute('aria-selected',String(b.dataset.t===tab))});
   [].forEach.call(document.querySelectorAll('.view'),function(v){v.hidden=v.id!=='v-'+tab});
-  ({home:rHome,sounds:rSounds,scenes:rScenes,review:rReview,method:rMethod})[tab]();
+  ({home:rHome,route:rRoute,today:rToday,review:rReview,sounds:rSounds,method:rMethod})[tab]();
   [].forEach.call(document.querySelectorAll('[data-a="speed"]'),function(b){b.setAttribute('aria-pressed',String(b.dataset.v===S.speed))});
   document.body.setAttribute('data-look','b');
 }
@@ -721,21 +952,48 @@ function render(){
 document.addEventListener('click',function(e){
   var el=e.target.closest('[data-a]');if(!el)return;
   var a=el.dataset.a;
-  if(a==='tab'||a==='go'){tab=el.dataset.t;if(tab==='review'&&rv.mode!=='card')rv={mode:'intro',q:[],total:0,done:0,shown:false};render();window.scrollTo(0,0)}
+  if(a==='tab'||a==='go'){tab=el.dataset.t;if(tab==='today'&&!visT){visT=true;curDay=curDayNo()}if(tab==='review'&&rv.mode!=='card')rv={mode:'intro',q:[],total:0,done:0,shown:false};render();window.scrollTo(0,0)}
   else if(a==='speed'){S.speed=el.dataset.v;save();render()}
   else if(a==='say'){
     var unit=el.closest('[data-unit]');
     say(el.dataset.say,unit?unit.querySelector('.beats'):null);
     if(el.dataset.snd){var t=T();if(t.sounds.indexOf(el.dataset.snd)<0){t.sounds.push(el.dataset.snd);touch()}}
   }
+  else if(a==='day'){curDay=+el.dataset.n;st=0;pl=null;qz=null;tab='today';render();window.scrollTo(0,0)}
+  else if(a==='step'){st=+el.dataset.i;render();if(el.closest('.stp'))window.scrollTo(0,0)}
+  else if(a==='stepdone'){var i0=+el.dataset.i;pd(curDay)[i0]=1;touch();st=Math.min(i0+1,3);render();window.scrollTo(0,0)}
+  else if(a==='es'){showEs=!showEs;rToday()}
+  else if(a==='storyall'){sayAll(curDay)}
+  else if(a==='dayrv'){
+    var ids=dayPhr(curDay);ids.forEach(function(id){S.unlocked[PH[id].scene]=true});save();
+    rv={mode:'card',q:shuffle(ids),total:ids.length,done:0,shown:false,back:curDay};tab='review';render();window.scrollTo(0,0);
+  }
+  else if(a==='backday'){tab='today';st=3;render();window.scrollTo(0,0)}
+  else if(a==='qstart'){
+    var all=Object.keys(PH),pick=shuffle(all).slice(0,8);
+    qz={q:pick.map(function(id){return{id:id,opts:shuffle([id].concat(shuffle(all.filter(function(x){return x!==id})).slice(0,2)))}}),i:0,score:0,sel:null,done:false,miss:[]};
+    rToday();say(PH[qz.q[0].id].fr);
+  }
+  else if(a==='qans'){
+    if(qz.sel)return;var q0=qz.q[qz.i];qz.sel=el.dataset.id;
+    if(qz.sel===q0.id)qz.score++;else qz.miss.push(q0.id);
+    rToday();
+  }
+  else if(a==='qnext'){
+    qz.i++;qz.sel=null;
+    if(qz.i>=qz.q.length){qz.done=true;S.test1=qz.score;touch();rToday()}
+    else{rToday();say(PH[qz.q[qz.i].id].fr)}
+  }
+  else if(a==='goal'){S.goals[el.dataset.i]=el.checked?1:0;save()}
+  else if(a==='restdone'){S.rest=true;touch();rToday()}
   else if(a==='rhy'){rhy=el.dataset.id;$('#rhy').innerHTML=rhyHTML()}
-  else if(a==='scene'){curScene=el.dataset.id;pl=null;rScenes()}
+  else if(a==='scene'){curScene=el.dataset.id;pl=null;rToday()}
   else if(a==='start'){startScene()}
-  else if(a==='sense'){pl.sense=true;rScenes()}
+  else if(a==='sense'){pl.sense=true;rToday()}
   else if(a==='pick'){
     var sc=curS(),tr=sc.turns[pl.turn],o=tr.opts[+el.dataset.i];
     pl.log.push({partner:tr.fr,pick:o.fr,reply:o.reply,q:o.q});pl.score+=o.q;pl.phase='reply';
-    rScenes();say(o.reply);
+    rToday();say(o.reply);
     var pe=$('#pend');if(pe)pe.scrollIntoView({block:'nearest'});
   }
   else if(a==='next'){
@@ -743,8 +1001,8 @@ document.addEventListener('click',function(e){
     if(pl.turn>=sc2.turns.length){
       pl.phase='end';
       S.scenes[sc2.id]=Math.max(S.scenes[sc2.id]||0,pl.score);
-      T().scenes++;touch();rScenes();
-    }else{pl.phase='ask';rScenes();say(sc2.turns[pl.turn].fr)}
+      T().scenes++;if(DAYS[curDay-1].sc||true)pd(curDay)[2]=1;touch();rToday();
+    }else{pl.phase='ask';rToday();say(sc2.turns[pl.turn].fr)}
     var pe2=$('#pend');if(pe2)pe2.scrollIntoView({block:'nearest'});
   }
   else if(a==='rvstart'){

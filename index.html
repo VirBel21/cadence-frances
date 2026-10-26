@@ -906,6 +906,36 @@ function startScene(){
   say(sc.turns[0].fr);
 }
 
+/* ---------- Reconocimiento de voz (experimental) ---------- */
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null;
+function ntok(s){return raw(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean)}
+function cmpSpeech(target,heard){
+  var bag=ntok(heard),toks=target.split(' '),hit=0,out=toks.map(function(t){
+    var nt=ntok(t),ok=nt.length>0&&nt.every(function(w){var i=bag.indexOf(w);return i>=0});
+    if(ok)hit++;
+    return ok?t:'{'+t+'}';
+  });
+  return{hit:hit,total:toks.length,html:mk(out.join(' '))};
+}
+function startMic(){
+  if(!SR){toast('Este navegador no ofrece reconocimiento de voz. Prueba con Chrome.');return}
+  var id=rv.q[0],p=PH[id];
+  try{if(rec)rec.abort()}catch(e){}
+  rec=new SR();rec.lang='fr-FR';rec.interimResults=false;rec.maxAlternatives=3;rec.continuous=false;
+  rv.listening=true;rv.heard=null;
+  rec.onresult=function(ev){
+    var r=ev.results[0],best=null;
+    for(var i=0;i<r.length;i++){var c=cmpSpeech(p.fr,r[i].transcript);if(!best||c.hit>best.c.hit)best={t:r[i].transcript,c:c}}
+    rv.heard=best;rv.shown=true;
+  };
+  rec.onerror=function(e){
+    var m={'not-allowed':'El micrófono está bloqueado. Permítelo en el candado de la barra de direcciones y vuelve a probar.','service-not-allowed':'El navegador no permite el reconocimiento de voz aquí.','no-speech':'No te he oído. Acércate al micrófono y vuelve a pulsar.','audio-capture':'No encuentro ningún micrófono.','network':'Sin conexión: este reconocimiento necesita internet.','language-not-supported':'Tu navegador no reconoce francés.'};
+    if(e.error!=='aborted')toast(m[e.error]||('No se pudo escuchar ('+e.error+').'));
+  };
+  rec.onend=function(){rv.listening=false;if(tab==='review'&&rv.mode==='card')rReview()};
+  try{rec.start();rReview()}catch(e){rv.listening=false;toast('No se pudo iniciar el micrófono.')}
+}
+
 /* ---------- Repaso ---------- */
 function rReview(){
   var el=$('#v-review'),d=dueList();
@@ -915,10 +945,12 @@ function rReview(){
     h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(rv.done/rv.total*100)+'%"></i></div>'+
        '<div class="rcard'+(rv.shown?' flip':'')+'" data-unit="1"><span class="tag">'+sc.title+'</span>'+(rv.shown?'':'<div class="art" aria-hidden="true">'+ICON[sc.art]+'</div>')+'<div class="cue-big">'+p.cue+'</div>';
     if(!rv.shown){
-      h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button></div>';
+      h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button>'+(SR?'<button class="btn ghost" type="button" data-a="mic"'+(rv.listening?' disabled':'')+'>'+(rv.listening?'Escuchando…':'Decirlo con el micrófono')+'</button>':'')+'</div>'+(SR?'<p class="legend">Micrófono experimental. En Chrome, el audio se envía a Google para transcribirlo. Compara palabras, no valora tu acento.</p>':'<p class="legend">Para decirlo con el micrófono, abre Cadence en Chrome.</p>');
     }else{
-      h+='<div class="rfr">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>'+
-         '<div class="row2"><button class="btn ghost" type="button" data-a="say" data-say="'+esc(p.fr)+'">Escuchar</button></div>'+
+      if(rv.heard){var hd=rv.heard,pc=hd.c.hit/hd.c.total;
+        h+='<div class="line me" style="margin:14px 0"><div class="who">He entendido</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coincidencia: '+hd.c.hit+' de '+hd.c.total+' palabras. '+(pc>=0.8?'Sugerencia: «Bien» o «Fácil».':'Sugerencia: «Otra vez». Escucha la frase y prueba de nuevo.')+' El reconocedor puede equivocarse: valora tú.</div></div><div class="rfr">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
+      }else h+='<div class="rfr">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
+      h+='<div class="row2"><button class="btn ghost" type="button" data-a="say" data-say="'+esc(p.fr)+'">Escuchar</button></div>'+
          '<div class="rate"><button type="button" data-a="rate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="rate" data-r="1">Bien<small>'+lab(nextBox(id,1))+'</small></button><button type="button" data-a="rate" data-r="2">Fácil<small>'+lab(nextBox(id,2))+'</small></button></div>';
     }
     h+='</div>';
@@ -995,7 +1027,7 @@ function rMethod(){
    '</ul></div>'+
    '<div class="sec"><span class="eyebrow">Límites de esta versión</span><ul class="plain">'+
    '<li>Usa una sola voz del dispositivo. Si no hay voz francesa instalada, no se oye nada.</li>'+
-   '<li>No reconoce tu voz.</li>'+
+   '<li>El micrófono es experimental y solo en Chrome: transcribe lo que dices y lo compara palabra a palabra con la frase. No valora tu pronunciación ni tu acento. El audio se envía a Google para transcribirlo.</li>'+
    '<li>Solo la semana 1 está construida. Las semanas 2 a 4 son un plan.</li><li>La mini-prueba del día 6 mide reconocimiento de lo que oyes. No mide si hablas bien.</li>'+
    '</ul></div>';
 }
@@ -1070,13 +1102,14 @@ document.addEventListener('click',function(e){
   else if(a==='rvstart'){
     var d=dueList();rv.q=d.old.concat(d.nw.slice(0,8));rv.total=rv.q.length;rv.done=0;rv.mode='card';rv.shown=false;rReview();
   }
-  else if(a==='show'){rv.shown=true;rReview();var p=PH[rv.q[0]];say(p.fr,$('#v-review .beats'))}
+  else if(a==='mic'){startMic()}
+  else if(a==='show'){rv.shown=true;rv.heard=null;rReview();var p=PH[rv.q[0]];say(p.fr,$('#v-review .beats'))}
   else if(a==='rate'){
     var id=rv.q.shift(),r=+el.dataset.r,b=nextBox(id,r);
     S.cards[id]={box:b,due:addDays(dstr(),INT[b])};
     T().rev++;touch();
     if(r===0)rv.q.push(id);else rv.done++;
-    rv.shown=false;
+    rv.shown=false;rv.heard=null;
     if(!rv.q.length)rv.mode='done';
     rReview();
   }

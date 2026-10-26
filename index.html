@@ -505,9 +505,10 @@ function runBeats(el){
 function say(text,beatsEl){
   var t=raw(text);
   if(!('speechSynthesis' in window)){toast('Este navegador no incluye voz. Sigue las notas del ritmo y prueba desde otro dispositivo para oír.');if(beatsEl)runBeats(beatsEl);return}
-  try{speechSynthesis.cancel()}catch(e){}
+  try{if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel()}catch(e){}
   var u=new SpeechSynthesisUtterance(t);
   u.lang='fr-FR';if(frVoice)u.voice=frVoice;
+  u.onerror=function(e){if(e.error==='canceled'||e.error==='interrupted')return;toast('No se pudo reproducir la voz ('+e.error+'). Vuelve a pulsar el botón y revisa el volumen del dispositivo.')};
   u.rate=S.speed==='slow'?0.6:0.88;
   var started=false;
   function go(){if(started)return;started=true;if(beatsEl)runBeats(beatsEl)}

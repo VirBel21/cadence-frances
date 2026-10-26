@@ -496,7 +496,9 @@ function vrank(v){for(var i=0;i<VPREF.length;i++){if(v.name.indexOf(VPREF[i])===
 function pickVoice(){
   if(!('speechSynthesis' in window))return;
   var all=speechSynthesis.getVoices();
-  var vs=all.filter(function(v){return v.lang&&/^fr/i.test(v.lang.replace('_','-'))});
+  var fr=all.filter(function(v){return v.lang&&/^fr/i.test(v.lang.replace('_','-'))});
+  var vs=fr.filter(function(v){return /^fr-FR$/i.test(v.lang.replace('_','-'))&&!/^Daniel/.test(v.name)});
+  if(!vs.length)vs=fr;
   vs.sort(function(a,b){
     var fa=/^fr-FR$/i.test(a.lang.replace('_','-'))?0:1,fb=/^fr-FR$/i.test(b.lang.replace('_','-'))?0:1;
     return vrank(a)-vrank(b)||fa-fb||(a.name<b.name?-1:1);
@@ -506,7 +508,7 @@ function pickVoice(){
   if(sel){
     var key=vs.map(function(v){return v.name}).join('|');
     if(sel.getAttribute('data-k')!==key){
-      sel.innerHTML=vs.map(function(v){return '<option value="'+esc(v.name)+'">'+esc(v.name.replace(/\s*\(.*\)/,'')+(v.localService?'':' (en línea)')+(/^fr-CA$/i.test(v.lang.replace('_','-'))?' · Canadá':''))+'</option>'}).join('');
+      sel.innerHTML=vs.map(function(v){return '<option value="'+esc(v.name)+'">'+esc(v.name.replace(/\s*\(.*\)/,'')+(v.localService?'':' (en línea)'))+'</option>'}).join('');
       sel.setAttribute('data-k',key);
     }
     if(frVoice)sel.value=frVoice.name;

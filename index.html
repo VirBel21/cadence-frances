@@ -298,7 +298,10 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .looks .sw i:first-child{margin-left:0}
 .looks b{display:block;font:600 14px var(--f-body)}
 .looks small{display:block;font:400 12px var(--f-body);color:var(--ink2)}
-@media (min-width:860px){.side .looks{order:4}.side .note{order:5}}
+@media (min-width:860px){.side .vsel{order:4}.side .note{order:5}}
+.side .vsel{grid-column:1 / -1;display:grid;gap:6px;width:100%}
+.vsel span{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.vsel select{appearance:auto;width:100%;max-width:260px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:500 13px var(--f-body);min-height:40px}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom, 0px));max-width:min(92vw,460px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:14px;z-index:20}
 </style>
@@ -314,6 +317,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
       <button type="button" data-a="speed" data-v="slow" aria-pressed="true">Lento</button>
       <button type="button" data-a="speed" data-v="fast" aria-pressed="false">Natural</button>
     </div>
+    <label class="vsel" id="vsel" hidden><span>Voz</span><select id="voice" aria-label="Elegir voz francesa"></select></label>
     <nav class="nav" role="tablist" aria-label="Secciones">
       <button role="tab" data-a="tab" data-t="home" type="button">Hoy</button>
       <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
@@ -470,7 +474,7 @@ var ICON={
 
 /* ---------- Estado ---------- */
 var KEY='cadence.fr.v1';
-var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',start:null,t:null};
+var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null};
 try{var rawS=localStorage.getItem(KEY);if(rawS){S=Object.assign(S,JSON.parse(rawS))}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function T(){var t=dstr();if(!S.t||S.t.d!==t)S.t={d:t,sounds:[],scenes:0,rev:0};return S.t}
@@ -487,11 +491,28 @@ function nextBox(id,r){var c=S.cards[id];var b=c?c.box:0;return r===0?0:Math.min
 
 /* ---------- Audio ---------- */
 var frVoice=null,beatT=[];
+var VPREF=['Thomas','Amélie','Audrey','Aurélie','Marie','Hortense','Julie','Denise','Google français'];
+function vrank(v){for(var i=0;i<VPREF.length;i++){if(v.name.indexOf(VPREF[i])===0)return i}return 99}
 function pickVoice(){
   if(!('speechSynthesis' in window))return;
-  var vs=speechSynthesis.getVoices();
-  frVoice=vs.filter(function(v){return v.lang==='fr-FR'})[0]||vs.filter(function(v){return v.lang&&v.lang.toLowerCase().indexOf('fr')===0})[0]||null;
-  $('#vnote').hidden=!(vs.length>0&&!frVoice);
+  var all=speechSynthesis.getVoices();
+  var vs=all.filter(function(v){return v.lang&&/^fr/i.test(v.lang.replace('_','-'))});
+  vs.sort(function(a,b){
+    var fa=/^fr-FR$/i.test(a.lang.replace('_','-'))?0:1,fb=/^fr-FR$/i.test(b.lang.replace('_','-'))?0:1;
+    return vrank(a)-vrank(b)||fa-fb||(a.name<b.name?-1:1);
+  });
+  frVoice=vs.filter(function(v){return v.name===S.voice})[0]||vs[0]||null;
+  var sel=document.getElementById('voice');
+  if(sel){
+    var key=vs.map(function(v){return v.name}).join('|');
+    if(sel.getAttribute('data-k')!==key){
+      sel.innerHTML=vs.map(function(v){return '<option value="'+esc(v.name)+'">'+esc(v.name.replace(/\s*\(.*\)/,'')+(v.localService?'':' (en línea)')+(/^fr-CA$/i.test(v.lang.replace('_','-'))?' · Canadá':''))+'</option>'}).join('');
+      sel.setAttribute('data-k',key);
+    }
+    if(frVoice)sel.value=frVoice.name;
+    document.getElementById('vsel').hidden=vs.length<2;
+  }
+  $('#vnote').hidden=!(all.length>0&&!frVoice);
 }
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;setTimeout(pickVoice,1500)}
 function runBeats(el){
@@ -738,6 +759,8 @@ document.addEventListener('click',function(e){
     rReview();
   }
 });
+
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='voice'){S.voice=e.target.value;save();pickVoice();say('Bonjour.')}});
 
 render();
 })();

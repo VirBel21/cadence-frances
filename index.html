@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Cadence: curso de autoestudio de francés desde cero para hispanohablantes. Versión de prueba.">
+<meta name="theme-color" content="#F8EFE4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cadence: francés desde cero">
+<meta property="og:description" content="Curso de autoestudio de francés para hispanohablantes, con ritmo, escenas y repaso espaciado.">
+<link rel="canonical" href="https://virbel21.github.io/cadence-frances/">
+<title>Cadence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&family=Gloock&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: índice lateral tipo libro y columna de lectura. Motivo propio: cada sílaba es una nota
+   sobre un pentagrama; la nota larga es el acento del grupo. Crema cálida para el fondo, terracota solo en lo que suena o se pulsa,
+   miel únicamente para señalar la forma natural en las correcciones. */
+:root{
+  /* Opción A: Terracota y crema, Fraunces */
+  --paper:#F5ECDF; --card:#FCF7EE; --sunk:#EBDFCB;
+  --ink:#2C1A13; --ink2:#6B564A; --line:#DCCCB3;
+  --blue:#B03F26; --blue-soft:#F4D9CA; --on-blue:#FFFFFF;
+  --rose:#6E4300; --rose-soft:#F5DC9B;
+  --ok:#4A6A2A;
+  --staff:rgba(44,26,19,.26); --staff2:rgba(44,26,19,.52);
+  --honey:#E2A83B; --glow:rgba(222,128,82,.30); --glow2:rgba(236,190,96,.28);
+  --f-display:'Fraunces','Iowan Old Style',Georgia,serif;
+  --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
+  --wd:400; --it:italic; --hs:clamp(72px,16vw,160px); --h2s:clamp(36px,5.6vw,54px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1F1511; --card:#291D17; --sunk:#34261E;
+    --ink:#F6EADB; --ink2:#BEA893; --line:#473529;
+    --blue:#EE8A63; --blue-soft:#4C2B1D; --on-blue:#2A0F06;
+    --rose:#F2CC70; --rose-soft:#4A3912;
+    --ok:#A6C97A;
+    --staff:rgba(246,234,219,.26); --staff2:rgba(246,234,219,.52);
+    --honey:#F2CC70; --glow:rgba(222,110,66,.22); --glow2:rgba(214,160,70,.14);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1F1511; --card:#291D17; --sunk:#34261E;
+  --ink:#F6EADB; --ink2:#BEA893; --line:#473529;
+  --blue:#EE8A63; --blue-soft:#4C2B1D; --on-blue:#2A0F06;
+  --rose:#F2CC70; --rose-soft:#4A3912;
+  --ok:#A6C97A;
+  --staff:rgba(246,234,219,.26); --staff2:rgba(246,234,219,.52);
+  --honey:#F2CC70; --glow:rgba(222,110,66,.22); --glow2:rgba(214,160,70,.14);
+  color-scheme:dark;
+}
+/* Opción B: Vino y miel, Gloock */
+body[data-look="b"]{
+  --paper:#F8EFE4; --card:#FFFAF2; --sunk:#EEE0CF;
+  --ink:#27151A; --ink2:#695358; --line:#E0CDBA;
+  --blue:#8A2140; --blue-soft:#F2D6DB; --on-blue:#FFFFFF;
+  --rose:#6A4600; --rose-soft:#F6DD92;
+  --ok:#47693A;
+  --staff:rgba(39,21,26,.26); --staff2:rgba(39,21,26,.52);
+  --honey:#EDB63F; --glow:rgba(196,84,104,.22); --glow2:rgba(240,190,90,.34);
+  --f-display:'Gloock','Iowan Old Style',Georgia,serif;
+  --f-body:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --wd:400; --it:normal; --hs:clamp(68px,15vw,150px); --h2s:clamp(34px,5.2vw,50px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body[data-look="b"]{
+    --paper:#1F1215; --card:#2A1A1E; --sunk:#352227;
+    --ink:#F8EBE4; --ink2:#C2A5A8; --line:#4B3338;
+    --blue:#F28CA3; --blue-soft:#51232F; --on-blue:#2C0A15;
+    --rose:#F3D17C; --rose-soft:#4A3A14;
+    --ok:#A9CE96;
+    --staff:rgba(248,235,228,.26); --staff2:rgba(248,235,228,.52);
+    --honey:#F3D17C; --glow:rgba(200,70,100,.22); --glow2:rgba(220,170,70,.14);
+  }
+}
+:root[data-theme="dark"] body[data-look="b"]{
+  --paper:#1F1215; --card:#2A1A1E; --sunk:#352227;
+  --ink:#F8EBE4; --ink2:#C2A5A8; --line:#4B3338;
+  --blue:#F28CA3; --blue-soft:#51232F; --on-blue:#2C0A15;
+  --rose:#F3D17C; --rose-soft:#4A3A14;
+  --ok:#A9CE96;
+  --staff:rgba(248,235,228,.26); --staff2:rgba(248,235,228,.52);
+  --honey:#F3D17C; --glow:rgba(200,70,100,.22); --glow2:rgba(220,170,70,.14);
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:radial-gradient(900px 520px at 88% -8%,var(--glow),transparent 70%),radial-gradient(760px 520px at -6% 108%,var(--glow2),transparent 70%);
+  background-repeat:no-repeat; background-attachment:fixed;
+  color:var(--ink);
+  font:400 16px/1.6 var(--f-body);
+  padding-block:24px 80px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
+p{margin:0}
+a{color:var(--blue);text-underline-offset:3px}
+
+.shell{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+.side{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px 12px}
+.side .nav,.side .note{grid-column:1 / -1}
+.brand{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
+.brand .mk{width:40px;height:40px;flex:none;filter:drop-shadow(0 6px 10px rgba(138,33,64,.22))}
+.wm{font:var(--wd) 32px/1 var(--f-display);letter-spacing:-.015em;color:var(--ink);white-space:nowrap}
+.wm em{font-style:normal;color:var(--blue)}
+.wm .dt{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--honey);margin-left:3px}
+.sub{display:none}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;padding:7px 14px;font:500 13px var(--f-body);color:var(--ink2);cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.nav{display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--line);padding-bottom:2px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;display:flex;align-items:center;gap:8px;background:none;border:0;padding:10px 10px;font:var(--wd) 22px/1 var(--f-display);color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-3px}
+.nav button::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid var(--ink2);flex:none}
+.nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--blue)}
+.nav button[aria-selected="true"]::before{background:var(--blue);border-color:var(--blue)}
+.note{padding:10px 14px;background:var(--sunk);border-radius:8px;font-size:14px;color:var(--ink2)}
+@media (min-width:860px){
+  .shell{grid-template-columns:210px minmax(0,1fr);gap:64px}
+  .side{display:flex;flex-direction:column;align-items:flex-start;gap:20px;position:sticky;top:calc(24px + env(safe-area-inset-top, 0px));align-self:start}
+  .side .seg{order:3}
+  .side .nav{order:2;flex-direction:column;border-bottom:0;border-left:1px solid var(--line);padding:0 0 0 18px;gap:2px;overflow:visible;width:100%}
+  .nav button{font-size:26px;padding:8px 0;border-bottom:0;margin:0}
+  .nav button[aria-selected="true"]{border-bottom:0}
+  .sub{display:block;font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin-top:-8px;order:1}
+}
+
+main{min-width:0;max-width:760px}
+.view{padding-top:6px}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.h2{font:var(--wd) var(--h2s)/1 var(--f-display);letter-spacing:-.015em;margin:8px 0 14px}
+.lead{color:var(--ink2);max-width:58ch;font-size:17px}
+.sec{margin-top:52px}
+.sec > .eyebrow{display:block;margin-bottom:12px}
+.h3{font:var(--wd) 26px/1.15 var(--f-display);margin-bottom:6px}
+
+.hero{margin-bottom:8px}
+.hero h1{font:var(--wd) var(--hs)/.88 var(--f-display);letter-spacing:-.035em;margin:10px 0 18px}
+.hero-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.statline{display:flex;flex-wrap:wrap;gap:6px 30px;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font:400 13px var(--f-mono);color:var(--ink2)}
+.statline b{font-weight:500;color:var(--ink)}
+
+.btn{appearance:none;border:1px solid var(--blue);background:var(--blue);color:var(--on-blue);padding:12px 22px;border-radius:99px;font:500 15px var(--f-body);cursor:pointer;min-height:46px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink2)}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost:hover{border-color:var(--blue);color:var(--blue);filter:none}
+
+.tag{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border:1px solid var(--line);border-radius:99px;color:var(--ink2);white-space:nowrap}
+.tag.now{background:var(--blue-soft);color:var(--blue);border-color:transparent}
+.tag.ok,.tag.s{color:var(--ok);border-color:var(--ok)}
+.tag.m{color:var(--blue);border-color:var(--blue)}
+.tag.l{color:var(--rose);border-color:var(--rose)}
+
+.steps,.weeks,.obj{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.steps li,.weeks li,.obj li{border-bottom:1px solid var(--line)}
+.steps button{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:20px 0;cursor:pointer}
+.steps button:hover .t{color:var(--blue)}
+.steps .n{font:var(--it) var(--wd) 40px/1 var(--f-display);color:var(--blue)}
+.steps .t{font:var(--wd) 25px/1.15 var(--f-display)}
+.steps .d{color:var(--ink2);font-size:15px;margin-top:2px}
+.steps .min{font:400 12px var(--f-mono);color:var(--ink2);margin-left:8px}
+
+.how{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.how li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid var(--line)}
+.how .n{font:var(--it) var(--wd) 40px/1 var(--f-display);color:var(--blue)}
+.how .t{font:var(--wd) 25px/1.15 var(--f-display)}
+.how .t .min{font:400 12px var(--f-mono);color:var(--ink2);margin-left:8px}
+.how .d{color:var(--ink2);font-size:16px;margin-top:4px;max-width:60ch}
+.how .d b{color:var(--ink);font-weight:600}
+.how .go{margin-top:12px;appearance:none;background:transparent;border:1px solid var(--ink2);color:var(--ink);border-radius:99px;padding:8px 16px;font:500 14px var(--f-body);cursor:pointer;min-height:40px}
+.how .go:hover{border-color:var(--blue);color:var(--blue)}
+.prog{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px}
+.prog i{display:block;height:8px;border-radius:99px;background:var(--sunk)}
+.prog i.on{background:var(--blue)}
+.progl{font:400 13px var(--f-mono);color:var(--ink2);margin:0 0 16px}
+.obj{counter-reset:o}
+.obj li{counter-increment:o;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 0}
+.obj li::before{content:counter(o);font:var(--it) var(--wd) 30px/1.1 var(--f-display);color:var(--blue)}
+
+.weeks li{display:grid;grid-template-columns:44px 1fr auto;gap:14px;padding:18px 0;align-items:start}
+.weeks .w{font:500 13px var(--f-mono);color:var(--ink2);padding-top:7px}
+.weeks .tt{font:var(--wd) 26px/1.15 var(--f-display)}
+.weeks .out{margin-top:4px;color:var(--ink2);font-size:15px}
+.weeks .out b{font-weight:600;color:var(--ink)}
+.weeks li.dim .tt{color:var(--ink2)}
+
+.legend{font-size:14px;color:var(--ink2);margin-top:20px;max-width:62ch}
+.legend code{font:500 13px var(--f-mono);color:var(--blue)}
+.resp{font:500 13.5px var(--f-mono);color:var(--blue)}
+
+/* Pentagrama: cada grupo rítmico es un compás */
+.beats{--s:10px;display:flex;flex-wrap:wrap;gap:14px 12px;align-items:flex-start;margin:12px 0}
+.beats.lg{--s:13px}
+.grp{position:relative;display:flex;gap:8px;align-items:flex-start;padding:0 14px 0 10px}
+.grp::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(var(--s)*4 + 1px);background:repeating-linear-gradient(to bottom,var(--staff) 0 1px,transparent 1px var(--s))}
+.grp::after{content:"";position:absolute;right:0;top:0;height:calc(var(--s)*4 + 1px);border-right:2px solid var(--staff2)}
+.b{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:calc(var(--s)*.9);min-width:calc(var(--s)*2.4)}
+.b i{display:block;width:calc(var(--s)*1.7);height:calc(var(--s)*1.7);margin-top:calc(var(--s)*1.15);border-radius:50%;background:var(--ink2);transition:background .12s,transform .12s}
+.b.end i{width:calc(var(--s)*4.4);border-radius:99px;background:var(--ink)}
+.b span{font:500 12px/1 var(--f-mono);color:var(--ink2);padding-bottom:2px}
+.beats.lg .b span{font-size:14px}
+.b.on i{background:var(--blue);transform:scale(1.14)}
+.b.on span{color:var(--blue)}
+@media (prefers-reduced-motion: reduce){.b i{transition:none}}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font:500 14px var(--f-body);cursor:pointer;min-height:40px}
+.chip:hover{border-color:var(--blue)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rhy{padding:24px;border:1px solid var(--line);background:var(--card);border-radius:14px}
+.rhy .frx{font:var(--wd) 34px/1.1 var(--f-display)}
+.rhy .row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+.play{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--blue);background:var(--card);color:var(--blue);display:inline-grid;place-items:center;cursor:pointer}
+.play:hover{background:var(--blue);color:var(--on-blue)}
+.play.sm{width:34px;height:34px}
+.play.lg{width:64px;height:64px;background:var(--blue);color:var(--on-blue)}
+.play.lg:hover{filter:brightness(1.12)}
+
+.snd{display:grid;grid-template-columns:minmax(90px,120px) 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--line)}
+.snd .g{font:var(--it) var(--wd) 58px/.95 var(--f-display)}
+.snd .g.sm{font-size:38px;line-height:1}
+.snd .rs{margin-top:8px}
+.snd h3{font:600 16px var(--f-body);margin-bottom:4px}
+.snd p{color:var(--ink2);font-size:15px;max-width:56ch}
+.words{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.word{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:99px;font:500 15px var(--f-body);cursor:pointer;min-height:40px}
+.word:hover{border-color:var(--blue)}
+.word svg{color:var(--blue)}
+
+.scene-head{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:26px;align-items:center;margin-top:28px}
+.art{color:var(--ink);background:var(--sunk);border-radius:14px;padding:18px}
+.art svg{width:100%;height:auto;display:block}
+.setting{font:var(--wd) 24px/1.3 var(--f-display);max-width:34ch}
+@media (max-width:520px){.scene-head{grid-template-columns:1fr}.art{max-width:190px}}
+
+.ph{display:grid;grid-template-columns:46px 1fr;gap:16px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.ph .fr{font:var(--wd) 30px/1.15 var(--f-display)}
+.ph .cue{color:var(--ink2);font-size:14.5px;margin-top:2px}
+
+.dlg{margin-top:14px}
+.line{border-left:2px solid var(--line);padding:4px 0 4px 16px;margin:16px 0}
+.line.me{border-left-color:var(--blue)}
+.who{font:500 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin-bottom:3px}
+.fl{font:var(--wd) 25px/1.25 var(--f-display);display:flex;gap:12px;align-items:flex-start}
+.fl > span{flex:1;min-width:0}
+mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
+.sense{font-size:14.5px;color:var(--ink2);margin-top:6px}
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--blue);font:500 14px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opt{display:block;width:100%;text-align:left;padding:15px 18px;border:1px solid var(--line);background:var(--card);border-radius:12px;font:500 16px var(--f-body);cursor:pointer;min-height:50px}
+.opt:hover{border-color:var(--blue);background:var(--blue-soft)}
+.endbox{margin-top:22px;padding:24px;border:1px solid var(--line);background:var(--card);border-radius:14px}
+.score{font:var(--wd) 56px/1 var(--f-display)}
+.score span{font-size:24px;color:var(--ink2)}
+.row2{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+.bar{height:3px;background:var(--line);margin-bottom:22px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue)}
+.rcard{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:30px 24px}
+.cue-big{font:var(--it) var(--wd) clamp(28px,5vw,40px)/1.2 var(--f-display);margin:12px 0 8px}
+.rfr{font:var(--wd) clamp(34px,6.5vw,50px)/1.1 var(--f-display);margin-top:8px}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.rate button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 6px;border:1px solid var(--line);background:var(--paper);border-radius:12px;cursor:pointer;font:600 15px var(--f-body);min-height:58px}
+.rate button small{font:400 12px var(--f-mono);color:var(--ink2)}
+.rate button:hover{border-color:var(--blue);background:var(--blue-soft)}
+.boxes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:124px;margin-top:8px}
+.boxes div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;gap:6px;font:400 12px var(--f-mono);color:var(--ink2);text-align:center}
+.boxes i{display:block;width:100%;background:var(--blue);min-height:3px;border-radius:4px 4px 0 0}
+.boxes .z i{background:var(--line)}
+.boxes b{font-weight:500;color:var(--ink)}
+
+.ev{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ev li{padding:22px 0;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.ev .evh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ev h3{font:var(--wd) 27px/1.15 var(--f-display)}
+.ev p{font-size:15px;color:var(--ink2);max-width:62ch}
+.plain{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.plain li{padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink2);max-width:64ch}
+.plain li b{color:var(--ink);font-weight:600}
+.foot{margin-top:56px;font-size:13px;color:var(--ink2);max-width:64ch}
+
+.looks{grid-column:1 / -1;display:grid;gap:8px;width:100%}
+.looks > span{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.looks button{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer}
+.looks button[aria-pressed="true"]{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.looks .sw{display:flex;flex:none}
+.looks .sw i{display:block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.18);margin-left:-5px}
+.looks .sw i:first-child{margin-left:0}
+.looks b{display:block;font:600 14px var(--f-body)}
+.looks small{display:block;font:400 12px var(--f-body);color:var(--ink2)}
+@media (min-width:860px){.side .looks{order:4}.side .note{order:5}}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom, 0px));max-width:min(92vw,460px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:14px;z-index:20}
+</style>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand" role="img" aria-label="Cadence">
+      <svg class="mk" viewBox="0 0 46 46" fill="none" aria-hidden="true"><rect width="46" height="46" rx="13" fill="var(--blue)"/><g stroke="var(--on-blue)" stroke-width="1" opacity=".38"><path d="M7 13H39M7 18.5H39M7 24H39M7 29.5H39M7 35H39"/></g><circle cx="14.5" cy="24" r="4.2" fill="var(--honey)"/><rect x="23" y="19.8" width="16" height="8.4" rx="4.2" fill="var(--on-blue)"/></svg>
+      <span class="wm" aria-hidden="true">Cad<em>ence</em><span class="dt"></span></span>
+    </div>
+    <p class="sub">Curso de francés · Nivel A1</p>
+    <div class="seg" role="group" aria-label="Velocidad de la voz">
+      <button type="button" data-a="speed" data-v="slow" aria-pressed="true">Lento</button>
+      <button type="button" data-a="speed" data-v="fast" aria-pressed="false">Natural</button>
+    </div>
+    <nav class="nav" role="tablist" aria-label="Secciones">
+      <button role="tab" data-a="tab" data-t="home" type="button">Hoy</button>
+      <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
+      <button role="tab" data-a="tab" data-t="scenes" type="button">Escenas</button>
+      <button role="tab" data-a="tab" data-t="review" type="button">Repaso</button>
+      <button role="tab" data-a="tab" data-t="method" type="button">Método</button>
+    </nav>
+        <p class="note" id="vnote" hidden>Este dispositivo no tiene una voz francesa instalada. Añádela en los ajustes de voz del sistema para oír las frases. Las notas del ritmo funcionan igual.</p>
+  </aside>
+
+  <main>
+    <section class="view" id="v-home"></section>
+    <section class="view" id="v-sounds" hidden></section>
+    <section class="view" id="v-scenes" hidden></section>
+    <section class="view" id="v-review" hidden></section>
+    <section class="view" id="v-method" hidden></section>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia.</p>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- Contenido ---------- */
+var SCENES=[
+ {id:'cafe',title:'Au café',art:'cup',
+  setting:'Son las ocho de la mañana. Entras en un café pequeño que huele a pan caliente y el camarero te mira desde la barra.',
+  who:'Le serveur',
+  phrases:[
+   {id:'c1',fr:'Bonjour.',syl:[['bõ','zhur']],cue:'Entras al café por la mañana y saludas.'},
+   {id:'c2',fr:'Un café, s’il vous plaît.',syl:[['ẽ','ca','fé'],['sil','vu','plé']],cue:'Pides un café con educación.'},
+   {id:'c3',fr:'Je voudrais un croissant.',syl:[['zhe','vu','dré'],['ẽ','krua','sã']],cue:'Quieres añadir un croissant a tu pedido.'},
+   {id:'c4',fr:'L’addition, s’il vous plaît.',syl:[['la','di','siõ'],['sil','vu','plé']],cue:'Ya terminaste y pides la cuenta.'},
+   {id:'c5',fr:'Merci beaucoup.',syl:[['mer','si'],['bo','ku']],cue:'Te traen el pedido y lo agradeces.'}
+  ],
+  turns:[
+   {fr:'Bonjour ! Qu’est-ce que je vous sers ?',sense:'Te saluda y pregunta qué vas a tomar.',opts:[
+     {fr:'Bonjour. Un café, s’il vous plaît.',q:2,reply:'Très bien. Un café, tout de suite.'},
+     {fr:'Un café.',q:1,reply:'{Bonjour}, madame ! Un café, tout de suite.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Pardon ? {Un café}, peut-être ?'}]},
+   {fr:'Et avec ça ?',sense:'Pregunta si quieres algo más para acompañar.',opts:[
+     {fr:'Je voudrais un croissant, s’il vous plaît.',q:2,reply:'Un croissant, très bien.'},
+     {fr:'Je veux un croissant.',q:1,reply:'Vous {voudriez} un croissant, très bien.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! Oui… {un croissant} avec le café ?'}]},
+   {fr:'Vous désirez autre chose ?',sense:'Pregunta si quieres algo más.',opts:[
+     {fr:'Non, merci. L’addition, s’il vous plaît.',q:2,reply:'Bien sûr. Ça fait six euros.'},
+     {fr:'Addition.',q:1,reply:'{L’addition, s’il vous plaît}, oui. Ça fait six euros.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour… oui ? {L’addition}, peut-être ?'}]}
+  ]},
+ {id:'hotel',title:'À l’hôtel',art:'key',
+  setting:'Llegas de noche a un hotel pequeño. La recepción está iluminada y alguien te espera con una sonrisa cansada.',
+  who:'La réceptionniste',
+  phrases:[
+   {id:'h1',fr:'Bonsoir.',syl:[['bõ','suar']],cue:'Llegas a la recepción al caer la tarde.'},
+   {id:'h2',fr:'J’ai une réservation.',syl:[['zhé','ün','ré','zer','va','siõ']],cue:'Dices que ya tienes la habitación reservada.'},
+   {id:'h3',fr:'Pour deux nuits.',syl:[['pur','dö','nüi']],cue:'Te preguntan cuántas noches y respondes dos.'},
+   {id:'h4',fr:'Où est l’ascenseur ?',syl:[['u','é','la','sã','sör']],cue:'Buscas el ascensor con la maleta en la mano.'},
+   {id:'h5',fr:'Merci, bonne soirée !',syl:[['mer','si'],['bon','suá','ré']],cue:'Te despides al terminar, ya de noche.'}
+  ],
+  turns:[
+   {fr:'Bonsoir madame. Je peux vous aider ?',sense:'Te saluda y ofrece su ayuda.',opts:[
+     {fr:'Bonsoir. J’ai une réservation.',q:2,reply:'Parfait, madame.'},
+     {fr:'J’ai réservation.',q:1,reply:'Vous avez {une réservation}, très bien.'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Ah, pas de café ici ! Vous avez {une réservation} ?'}]},
+   {fr:'C’est pour combien de nuits ?',sense:'Pregunta por cuántas noches.',opts:[
+     {fr:'Pour deux nuits.',q:2,reply:'Parfait. Deux nuits.'},
+     {fr:'Deux nuit.',q:1,reply:'Deux {nuits}, parfait.'},
+     {fr:'Merci beaucoup.',q:0,reply:'De rien ! Mais… {pour combien de nuits} ?'}]},
+   {fr:'Voici votre clé. Chambre douze, au deuxième étage.',sense:'Te da la llave: habitación doce, segundo piso.',opts:[
+     {fr:'Où est l’ascenseur, s’il vous plaît ?',q:2,reply:'Là, à droite. Bonne soirée !'},
+     {fr:'Ascenseur ?',q:1,reply:'{L’ascenseur} ? Là, à droite. Bonne soirée !'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? L’ascenseur est là, à droite. {Bonne soirée} !'}]}
+  ]},
+ {id:'rue',title:'Dans la rue',art:'sign',
+  setting:'Estás en una esquina buscando la estación. Un desconocido camina hacia ti y es tu mejor oportunidad de preguntar.',
+  who:'Un passant',
+  phrases:[
+   {id:'r1',fr:'Excusez-moi.',syl:[['ek','skü','zé','muá']],cue:'Quieres llamar la atención de alguien en la calle.'},
+   {id:'r2',fr:'Où est la gare ?',syl:[['u','é','la','gar']],cue:'Preguntas dónde está la estación.'},
+   {id:'r3',fr:'Je ne comprends pas.',syl:[['zhe','ne','kõ','prã','pa']],cue:'No entendiste y quieres decirlo.'},
+   {id:'r4',fr:'Plus lentement, s’il vous plaît.',syl:[['plü','lãt','mã'],['sil','vu','plé']],cue:'Hablan demasiado rápido y pides ir más despacio.'},
+   {id:'r5',fr:'Pouvez-vous répéter ?',syl:[['pu','vé','vu'],['ré','pé','té']],cue:'No oíste bien y pides que lo repitan.'}
+  ],
+  turns:[
+   {fr:'Oui ? Je peux vous aider ?',sense:'Te mira y pregunta si necesitas ayuda.',opts:[
+     {fr:'Excusez-moi. Où est la gare, s’il vous plaît ?',q:2,reply:'La gare ? Oui, bien sûr.'},
+     {fr:'Gare ?',q:1,reply:'{Où est la gare ?} Oui, bien sûr.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Euh… de rien. Vous cherchez quelque chose ?'}]},
+   {fr:'C’est tout droit, puis à gauche, après la pharmacie, à dix minutes à pied.',sense:'Te indica el camino muy rápido: recto, luego a la izquierda, tras la farmacia, a diez minutos andando.',opts:[
+     {fr:'Pardon, je ne comprends pas. Plus lentement, s’il vous plaît.',q:2,reply:'Bien sûr. Tout droit… puis à gauche. Voilà.'},
+     {fr:'Je comprends pas.',q:1,reply:'Vous {ne comprenez pas}. Pardon ! Tout droit… puis à gauche.'},
+     {fr:'Oui, oui.',q:0,reply:'Vous êtes sûre ? Je répète : tout droit, puis à gauche.'}]},
+   {fr:'Voilà, c’est simple. Bonne journée, madame !',sense:'Se despide deseándote buen día.',opts:[
+     {fr:'Merci beaucoup, bonne journée !',q:2,reply:'Je vous en prie. Au revoir !'},
+     {fr:'Merci.',q:1,reply:'Je vous en prie, madame. {Bonne journée} !'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? Non ? Eh bien… {bonne journée} !'}]}
+  ]}
+];
+
+var SOUNDS=[
+ {id:'s1',g:'u',rs:'ü',t:'La u francesa',tip:'Coloca la lengua para decir «i» y, sin moverla, redondea los labios como para silbar. Es la u de tu, rue y salut.',words:['tu','rue','salut','sûr']},
+ {id:'s2',g:'ou',rs:'u',t:'La u de siempre',tip:'Se escribe «ou» y suena como la u española de «tú». Esta no cuesta.',words:['vous','tout','jour','pour']},
+ {id:'s3',g:'eu',rs:'ö',t:'Entre e y o',tip:'Di «e» con los labios en posición de «o». Aparece en deux, peu y heure.',words:['peu','deux','heure','sœur']},
+ {id:'s4',g:'on<br>an<br>in',sm:1,rs:'õ  ã  ẽ',t:'Las vocales nasales',tip:'El aire sale por la nariz y la n final no se pronuncia. Comprueba que «bon» no termina con la lengua pegada al paladar.',words:['bon','blanc','vin','pain']},
+ {id:'s5',g:'r',rs:'r de garganta',t:'La r francesa',tip:'Se hace al fondo de la garganta, como la j de «caja» pero con una ligera vibración. Empieza diciendo «ga» y relaja.',words:['rue','merci','rouge','très']},
+ {id:'s6',g:'j<br>ch',sm:1,rs:'zh  sh',t:'J y ch',tip:'La j suena como la «y» de «yo» o «calle» en el habla rioplatense. La ch suena como el «sh» con el que se pide silencio.',words:['je','jour','chat','chocolat']},
+ {id:'s7',g:'t s d',sm:1,rs:'(mudas)',t:'Consonantes finales mudas',tip:'La consonante final casi nunca suena: petit, vous, Paris. Delante de una vocal se despierta y se une: «vous avez» suena vu-za-vé.',words:['petit','vous avez','les amis','Paris']}
+];
+var RHY=['c1','c2','c3','h5'];
+var WEEKS=[
+ {w:'S1',t:'Sobrevivir',d:'Café, recepción de hotel y calle.',o:'Pedir, saludar y recuperar la conversación cuando no entiendes.'},
+ {w:'S2',t:'Moverse',d:'Taquilla, taxi y horarios.',o:'Comprar un billete y entender una hora dicha en voz alta.'},
+ {w:'S3',t:'Mesa y mercado',d:'Restaurante, mercado y pago.',o:'Pedir una comida completa y preguntar un precio.'},
+ {w:'S4',t:'Primeras conversaciones',d:'Presentarte y hablar de tu trabajo.',o:'Mantener tres minutos de conversación con alguien.'}
+];
+var GOALS=[
+ 'Saludar y despedirte según la hora del día.',
+ 'Pedir algo con cortesía usando «je voudrais».',
+ 'Preguntar dónde está un lugar y entender lo esencial de la respuesta.',
+ 'Pedir que repitan o que hablen más despacio cuando no entiendes.'
+];
+var EVID=[
+ {t:'Repaso espaciado',lv:'s',lt:'Evidencia sólida',p:'Una revisión de 317 experimentos de recuerdo verbal mostró que el mejor intervalo entre repasos depende de cuánto tiempo quieres recordar. Los intervalos de Cadence (1, 3, 7, 16 y 35 días) son un calendario práctico mío, no un valor validado.',u:'https://pubmed.ncbi.nlm.nih.gov/16719566/',ul:'Cepeda y cols., 2006, Psychological Bulletin'},
+ {t:'Decir la frase antes de verla',lv:'s',lt:'Evidencia sólida',p:'Un metaanálisis concluye que practicar con pruebas produce más aprendizaje que releer y que otras formas de estudiar. No es específico de idiomas.',u:'https://journals.sagepub.com/doi/10.3102/0034654316689306',ul:'Adesope y cols., 2017, Review of Educational Research'},
+ {t:'Entrenar el oído con sonidos',lv:'m',lt:'Evidencia moderada',p:'Un metaanálisis de 79 estudios halló efectos de medianos a grandes en la percepción de sonidos del segundo idioma, y las mejoras se mantienen. Con voces o palabras nuevas el efecto es pequeño, y al pronunciar mejora menos que al percibir. Esa técnica usa muchas voces distintas. Cadence usa una sola voz de tu dispositivo, así que solo la aplica en parte.',u:'https://resolve.cambridge.org/core/journals/studies-in-second-language-acquisition/article/high-variability-phonetic-training-hvpt-a-metaanalysis-of-l2-perceptual-training-studies/6ABB8C1F32D88D53EA8D05A4565E76F6/core-reader',ul:'Uchihara, Karas y Thomson, 2025, Studies in Second Language Acquisition'},
+ {t:'Corrección natural (recasting)',lv:'l',lt:'Evidencia limitada',p:'En un metaanálisis de 15 estudios de aula, la corrección oral tuvo efectos duraderos, pero las pistas que invitan a corregirte superaron a las reformulaciones. Además, en Cadence eliges una opción en pantalla y no hablas, así que esa evidencia no se traslada directamente.',u:'https://www.cambridge.org/core/product/4999EE1C8379B2BF026B148EAF373CA1',ul:'Lyster y Saito, 2010, Studies in Second Language Acquisition'},
+ {t:'Ritmo y canciones',lv:'l',lt:'Evidencia limitada',p:'Una revisión sistemática de 60 estudios sobre canciones en la enseñanza de idiomas describió el panorama como poco claro: solo 3 estudios eran muy fiables y todos trabajaban con alumnado de 2 a 18 años. No se halló daño, pero tampoco una prueba firme en personas adultas. Las notas de ritmo de Cadence no se han probado por separado.',u:'https://www.education.ox.ac.uk/oxford-education-deanery/digest/can-children-in-classrooms-learn-new-languages-through-songs-a-look-at-what-research-on-this-topic-can-tell-us/',ul:'Resumen de Hamilton y cols., 2024, Universidad de Oxford'},
+ {t:'Input comprensible',lv:'',lt:'Debatida',p:'Es una teoría influyente y discutida. No pude verificar una fuente, así que no incluyo datos. Cadence aplica solo lo mínimo razonable: frases que se entienden por el contexto, con práctica de producción.'},
+ {t:'El sistema completo',lv:'',lt:'Sin probar',p:'Ningún estudio ha probado Cadence como conjunto. Combina técnicas con evidencia desigual, y hablar con personas reales sigue siendo necesario.'}
+];
+
+/* ---------- Utilidades ---------- */
+function respell(g){return g.map(function(a){return a.map(function(s,i){return i===a.length-1?s.toUpperCase():s}).join('-')}).join(', ')}
+var PH={};
+SCENES.forEach(function(s){s.phrases.forEach(function(p){p.scene=s.id;p.resp=respell(p.syl);PH[p.id]=p;});});
+function $(s){return document.querySelector(s)}
+function z(n){return String(n).padStart(2,'0')}
+function dstr(d){d=d||new Date();return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+function addDays(s,n){var a=s.split('-').map(Number);return dstr(new Date(a[0],a[1]-1,a[2]+n))}
+function diffDays(a,b){var x=a.split('-').map(Number),y=b.split('-').map(Number);return Math.round((new Date(y[0],y[1]-1,y[2])-new Date(x[0],x[1]-1,x[2]))/86400000)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function mk(s){return s.replace(/\{(.+?)\}/g,'<mark>$1</mark>')}
+function raw(s){return s.replace(/[{}]/g,'')}
+function esc(s){return s.replace(/"/g,'&quot;')}
+
+var ICON={
+ play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+ cup:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 42H104V58C104 76 92 86 77 86C62 86 50 76 50 58Z"/><path d="M104 48H112C121 48 121 66 108 66H103"/><path d="M38 92H116"/><path d="M66 32C60 26 72 21 66 12"/><path d="M82 32C76 26 88 21 82 12"/></svg>',
+ key:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="52" cy="50" r="22"/><circle cx="52" cy="50" r="7"/><path d="M74 50H138"/><path d="M122 50V66"/><path d="M132 50V61"/></svg>',
+ sign:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 10V94"/><path d="M80 22H124L134 31L124 40H80Z"/><path d="M80 52H36L26 61L36 70H80Z"/><path d="M62 94H98"/></svg>'
+};
+
+/* ---------- Estado ---------- */
+var KEY='cadence.fr.v1';
+var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',start:null,t:null};
+try{var rawS=localStorage.getItem(KEY);if(rawS){S=Object.assign(S,JSON.parse(rawS))}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function T(){var t=dstr();if(!S.t||S.t.d!==t)S.t={d:t,sounds:[],scenes:0,rev:0};return S.t}
+function touch(){var t=dstr();if(S.days.indexOf(t)<0)S.days.push(t);save()}
+function streak(){var n=0,d=dstr();if(S.days.indexOf(d)<0)d=addDays(d,-1);while(S.days.indexOf(d)>=0){n++;d=addDays(d,-1)}return n}
+if(!S.start){S.start=dstr();save()}
+function dayNo(){return diffDays(S.start,dstr())+1}
+
+var INT=[0,1,3,7,16,35];
+function lab(b){var n=INT[b];return n===0?'hoy':n===1?'mañana':n+' días'}
+function unlockedPh(){return Object.keys(PH).map(function(k){return PH[k]}).filter(function(p){return S.unlocked[p.scene]})}
+function dueList(){var t=dstr(),nw=[],old=[];unlockedPh().forEach(function(p){var c=S.cards[p.id];if(!c)nw.push(p.id);else if(c.due<=t)old.push(p.id)});return{nw:nw,old:old}}
+function nextBox(id,r){var c=S.cards[id];var b=c?c.box:0;return r===0?0:Math.min(5,b+(r===2?2:1))}
+
+/* ---------- Audio ---------- */
+var frVoice=null,beatT=[];
+function pickVoice(){
+  if(!('speechSynthesis' in window))return;
+  var vs=speechSynthesis.getVoices();
+  frVoice=vs.filter(function(v){return v.lang==='fr-FR'})[0]||vs.filter(function(v){return v.lang&&v.lang.toLowerCase().indexOf('fr')===0})[0]||null;
+  $('#vnote').hidden=!(vs.length>0&&!frVoice);
+}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;setTimeout(pickVoice,1500)}
+function runBeats(el){
+  beatT.forEach(clearTimeout);beatT=[];
+  var bs=[].slice.call(el.querySelectorAll('.b'));
+  bs.forEach(function(b){b.classList.remove('on')});
+  var step=S.speed==='slow'?330:230;
+  bs.forEach(function(b,i){beatT.push(setTimeout(function(){bs.forEach(function(x){x.classList.remove('on')});b.classList.add('on')},i*step))});
+  beatT.push(setTimeout(function(){bs.forEach(function(x){x.classList.remove('on')})},bs.length*step+500));
+}
+function say(text,beatsEl){
+  var t=raw(text);
+  if(!('speechSynthesis' in window)){toast('Este navegador no incluye voz. Sigue las notas del ritmo y prueba desde otro dispositivo para oír.');if(beatsEl)runBeats(beatsEl);return}
+  try{speechSynthesis.cancel()}catch(e){}
+  var u=new SpeechSynthesisUtterance(t);
+  u.lang='fr-FR';if(frVoice)u.voice=frVoice;
+  u.rate=S.speed==='slow'?0.6:0.88;
+  var started=false;
+  function go(){if(started)return;started=true;if(beatsEl)runBeats(beatsEl)}
+  u.onstart=go;setTimeout(go,300);
+  speechSynthesis.speak(u);
+}
+var toastT;
+function toast(m){var e=$('#toast');e.textContent=m;e.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){e.hidden=true},3800)}
+
+/* ---------- Estado de interfaz ---------- */
+var tab='home',curScene='cafe',pl=null,rhy='c2',rv={mode:'intro',q:[],total:0,done:0,shown:false};
+
+function beatsHTML(p,lg){
+  return '<div class="beats'+(lg?' lg':'')+'" aria-hidden="true">'+p.syl.map(function(g){
+    return '<div class="grp">'+g.map(function(s,i){return '<span class="b'+(i===g.length-1?' end':'')+'"><i></i><span>'+s+'</span></span>'}).join('')+'</div>';
+  }).join('')+'</div>';
+}
+
+/* ---------- Hoy ---------- */
+function rHome(){
+  var t=T(),jour=dayNo();
+  var mastered=Object.keys(S.cards).filter(function(k){return S.cards[k].box>=3}).length;
+  var total=Object.keys(PH).length;
+  var done=[t.sounds.length>=3,t.scenes>=1,t.rev>=1];
+  var steps=[
+   {n:'1',t:'Escuchar',d:'Tres sonidos y una frase con su ritmo.',m:'6 min',go:'sounds'},
+   {n:'2',t:'Entrar en una escena',d:'Un café, un hotel o la calle. Tú eliges qué decir y la otra persona te contesta.',m:'8 min',go:'scenes'},
+   {n:'3',t:'Repasar',d:'Las frases que te tocan hoy.',m:'4 min',go:'review'}
+  ];
+  var date=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  $('#v-home').innerHTML=
+   '<div class="hero"><span class="eyebrow">Día '+jour+' · '+date+'</span>'+
+   '<h1>Bonjour.</h1>'+
+   '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
+   '<p class="lead">Curso de autoestudio de francés desde cero para hispanohablantes: cuatro semanas, unos veinte minutos al día. La primera semana ya está abierta.</p>'+'<p class="lead">Hoy vas a oír francés, seguir su ritmo y usarlo en tres situaciones reales.</p>'+
+   '<div class="hero-actions"><button class="btn" type="button" data-a="go" data-t="sounds">Empezar</button><button class="btn ghost" type="button" data-a="go" data-t="scenes">Ir a una escena</button></div>'+
+   '<div class="statline"><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span><span>Escenas jugadas <b>'+Object.keys(S.scenes).length+'/'+SCENES.length+'</b></span></div></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo empezar · tu primera vez</span><ol class="how">'+
+   '<li><span class="n">1</span><div><div class="t">Prepara el sonido<span class="min">1 min</span></div><div class="d">Usa auriculares o un altavoz. Deja la velocidad en <b>Lento</b> (el selector Lento / Natural está junto al menú) y pulsa ▶ en la portada para comprobar que oyes la voz. Si no se oye, mira el aviso de voz de esta página.</div></div></li>'+
+   '<li><span class="n">2</span><div><div class="t">Escucha tres sonidos<span class="min">6 min</span></div><div class="d">En <b>Sonidos</b>, pulsa ▶ en una frase y sigue las notas con la vista. Después repite en voz alta, aunque suene raro. Es lo que más cuenta esta primera semana.</div><button class="go" type="button" data-a="go" data-t="sounds">Ir a Sonidos</button></div></li>'+
+   '<li><span class="n">3</span><div><div class="t">Entra en la escena del café<span class="min">8 min</span></div><div class="d">En <b>Escenas</b>, escucha las frases clave y pulsa <b>Jouer la scène</b>. Te hablan, eliges qué dirías y ves cómo responde la otra persona. Nadie te corrige: aprendes de su respuesta.</div><button class="go" type="button" data-a="go" data-t="scenes">Ir a Escenas</button></div></li>'+
+   '<li><span class="n">4</span><div><div class="t">Haz tu primer repaso<span class="min">4 min</span></div><div class="d">En <b>Repaso</b> ves una situación y dices la frase en voz alta antes de verla. Pulsa <b>Mostrar</b> y valora: <b>Otra vez</b>, <b>Bien</b> o <b>Fácil</b>. El curso usa tu respuesta para decidir cuándo volver a enseñártela.</div><button class="go" type="button" data-a="go" data-t="review">Ir a Repaso</button></div></li>'+
+   '<li><span class="n">5</span><div><div class="t">Vuelve mañana<span class="min">20 min al día</span></div><div class="d">Veinte minutos cada día funcionan mejor que dos horas un solo día. Cada vez que abras Cadence, empieza por esta portada: te dice qué toca hoy.</div></div></li>'+
+   '</ol></div>'+
+   '<div class="sec"><span class="eyebrow">Tu sesión de hoy</span><ol class="steps">'+steps.map(function(s,i){
+     return '<li><button type="button" data-a="go" data-t="'+s.go+'"><span class="n">'+s.n+'</span><span><div class="t">'+s.t+'<span class="min">'+s.m+'</span></div><div class="d">'+s.d+'</div></span>'+
+     (done[i]?'<span class="tag ok">Hecho</span>':'<span class="tag">Pendiente</span>')+'</button></li>';
+   }).join('')+'</ol></div>'+
+   '<div class="sec"><span class="eyebrow">Al terminar la semana 1</span><ol class="obj">'+GOALS.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>'+
+   '<div class="sec"><span class="eyebrow">El primer mes</span><div class="prog" role="img" aria-label="Semana 1 de 4 abierta"><i class="on"></i><i></i><i></i><i></i></div><p class="progl">Semana 1 de 4 abierta · las otras tres están en preparación</p><ul class="weeks">'+WEEKS.map(function(w,i){
+     return '<li class="'+(i?'dim':'')+'"><span class="w">'+w.w+'</span><div><div class="tt">'+w.t+'</div><div class="out">'+w.d+' <b>Meta:</b> '+w.o+'</div></div>'+(i?'<span class="tag">En preparación</span>':'<span class="tag now">Disponible</span>')+'</li>';
+   }).join('')+'</ul></div>';
+}
+
+/* ---------- Sonidos ---------- */
+function rhyHTML(){
+  var p=PH[rhy];
+  return '<div class="chips" role="group" aria-label="Frase">'+RHY.map(function(id){return '<button type="button" class="chip" data-a="rhy" data-id="'+id+'" aria-pressed="'+(id===rhy)+'">'+PH[id].fr+'</button>'}).join('')+'</div>'+
+   '<div class="rhy" data-unit="1"><div class="row"><button class="play" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar: '+esc(p.fr)+'">'+ICON.play+'</button><span class="frx">'+p.fr+'</span></div>'+
+   beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div></div>';
+}
+function rSounds(){
+  $('#v-sounds').innerHTML=
+   '<span class="eyebrow">Sonidos</span><h2 class="h2">Primero el oído</h2>'+
+   '<p class="lead">El francés se escribe de una manera y suena de otra, así que empezamos por los sonidos. Escucha, sigue las notas con la vista y repite en voz alta.</p>'+
+   '<div class="sec"><span class="eyebrow">El ritmo</span><p class="lead">En español acentúas cada palabra. En francés las sílabas tienden a pesar parecido y el acento cae al final del grupo. Aquí cada sílaba es una nota, el acento es la nota larga y la barra cierra el compás.</p>'+
+   '<div id="rhy">'+rhyHTML()+'</div>'+
+   '<p class="legend"><b>Cómo leer la pronunciación.</b> La mayúscula marca la sílaba con el acento. <code>zh</code> suena como la «y» rioplatense de «yo». <code>ü</code> es la u francesa y <code>ö</code> es eu. <code>õ ã ẽ</code> son nasales y la n no suena.</p></div>'+
+   '<div class="sec"><span class="eyebrow">Los sonidos que cambian todo</span>'+SOUNDS.map(function(s){
+     return '<div class="snd"><div><div class="g'+(s.sm?' sm':'')+'">'+s.g+'</div><div class="rs resp">'+s.rs+'</div></div><div><h3>'+s.t+'</h3><p>'+s.tip+'</p><div class="words">'+
+       s.words.map(function(w){return '<button type="button" class="word" data-a="say" data-snd="'+s.id+'" data-say="'+esc(w)+'">'+ICON.play+w+'</button>'}).join('')+'</div></div></div>';
+   }).join('')+'</div>';
+}
+
+/* ---------- Escenas ---------- */
+function curS(){return SCENES.filter(function(s){return s.id===curScene})[0]}
+function rScenes(){
+  var sc=curS();
+  if(!S.unlocked[sc.id]){S.unlocked[sc.id]=true;save()}
+  $('#v-scenes').innerHTML=
+   '<span class="eyebrow">Escenas</span><h2 class="h2">Entra y responde</h2>'+
+   '<div class="chips" role="group" aria-label="Escena">'+SCENES.map(function(s){return '<button type="button" class="chip" data-a="scene" data-id="'+s.id+'" aria-pressed="'+(s.id===curScene)+'">'+s.title+(S.scenes[s.id]!==undefined?' · '+S.scenes[s.id]+'/6':'')+'</button>'}).join('')+'</div>'+
+   '<div class="scene-head"><div class="art">'+ICON[sc.art]+'</div><p class="setting">'+sc.setting+'</p></div>'+
+   '<div class="sec"><span class="eyebrow">Frases clave</span><div>'+sc.phrases.map(function(p){
+     return '<div class="ph" data-unit="1"><button class="play" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar: '+esc(p.fr)+'">'+ICON.play+'</button><div><div class="fr">'+p.fr+'</div><div class="cue">'+p.cue+'</div>'+beatsHTML(p)+'<div class="resp">'+p.resp+'</div></div></div>';
+   }).join('')+'</div></div>'+
+   '<div class="sec" id="player"><span class="eyebrow">La escena</span>'+playerHTML(sc)+'</div>';
+}
+function playerHTML(sc){
+  if(!pl||pl.scene!==sc.id){
+    return '<h3 class="h3">Tres turnos</h3><p class="lead">Escucha lo que te dicen, elige lo que dirías y mira cómo responde la otra persona. Nadie te corrige: te contestan con la forma natural.</p><div class="row2"><button class="btn" type="button" data-a="start">Jouer la scène</button></div>';
+  }
+  var h='<div class="dlg">';
+  pl.log.forEach(function(e){
+    h+='<div class="line"><div class="who">'+sc.who+'</div><div class="fl"><span>'+e.partner+'</span></div></div>'+
+       '<div class="line me"><div class="who">Tú</div><div class="fl"><span>'+e.pick+'</span></div></div>'+
+       '<div class="line"><div class="who">'+sc.who+'</div><div class="fl"><span>'+mk(e.reply)+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(e.reply)+'" aria-label="Escuchar la respuesta">'+ICON.play+'</button></div></div>';
+  });
+  if(pl.phase==='ask'){
+    var tr=sc.turns[pl.turn];
+    h+='<div class="line"><div class="who">'+sc.who+'</div><div class="fl"><span>'+tr.fr+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(tr.fr)+'" aria-label="Escuchar de nuevo">'+ICON.play+'</button></div>'+
+       (pl.sense?'<div class="sense">'+tr.sense+'</div>':'<button class="linkbtn" type="button" data-a="sense">¿Qué ha dicho?</button>')+'</div>'+
+       '<div class="opts" role="group" aria-label="Lo que dices">'+pl.orders[pl.turn].map(function(i){return '<button class="opt" type="button" data-a="pick" data-i="'+i+'">'+tr.opts[i].fr+'</button>'}).join('')+'</div>';
+  }else if(pl.phase==='reply'){
+    var last=pl.turn>=sc.turns.length-1;
+    h+='<div class="row2"><button class="btn" type="button" data-a="next">'+(last?'Terminer':'Continuer')+'</button></div>';
+  }else{
+    var tot=sc.turns.length*2;
+    h+='<div class="endbox"><div class="score">'+pl.score+'<span> / '+tot+'</span></div><p style="margin-top:8px">'+
+       (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo marcado en rosa es la forma natural que usó la otra persona. Esas frases ya están en tu repaso.')+
+       '</p><div class="row2"><button class="btn" type="button" data-a="go" data-t="review">Repasar frases</button><button class="btn ghost" type="button" data-a="start">Jouer de nouveau</button></div></div>';
+  }
+  return h+'</div><span id="pend"></span>';
+}
+function startScene(){
+  var sc=curS();
+  pl={scene:sc.id,turn:0,phase:'ask',score:0,log:[],sense:false,orders:sc.turns.map(function(t){return shuffle(t.opts.map(function(o,i){return i}))})};
+  rScenes();
+  say(sc.turns[0].fr);
+}
+
+/* ---------- Repaso ---------- */
+function rReview(){
+  var el=$('#v-review'),d=dueList();
+  var h='<span class="eyebrow">Repaso</span><h2 class="h2">Lo que toca hoy</h2>';
+  if(rv.mode==='card'){
+    var id=rv.q[0],p=PH[id],sc=SCENES.filter(function(s){return s.id===p.scene})[0];
+    h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(rv.done/rv.total*100)+'%"></i></div>'+
+       '<div class="rcard" data-unit="1"><span class="tag">'+sc.title+'</span><div class="cue-big">'+p.cue+'</div>';
+    if(!rv.shown){
+      h+='<p class="lead">Dilo en voz alta, con su ritmo, y luego compruébalo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar</button></div>';
+    }else{
+      h+='<div class="rfr">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>'+
+         '<div class="row2"><button class="btn ghost" type="button" data-a="say" data-say="'+esc(p.fr)+'">Escuchar</button></div>'+
+         '<div class="rate"><button type="button" data-a="rate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="rate" data-r="1">Bien<small>'+lab(nextBox(id,1))+'</small></button><button type="button" data-a="rate" data-r="2">Fácil<small>'+lab(nextBox(id,2))+'</small></button></div>';
+    }
+    h+='</div>';
+  }else if(rv.mode==='done'){
+    h+='<div class="endbox"><div class="score">'+rv.total+'<span> tarjetas</span></div><p style="margin-top:8px">Repaso terminado. Las frases que dijiste con soltura se alejan en el tiempo y las demás vuelven antes.</p><div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="scenes">Otra escena</button></div></div>';
+  }else{
+    var n=d.nw.length,o=d.old.length;
+    if(n+o===0){
+      var next=Object.keys(S.cards).map(function(k){return S.cards[k].due}).sort()[0];
+      h+='<p class="lead">No hay tarjetas pendientes.'+(next?' El próximo repaso es el '+next+'.':' Juega una escena para desbloquear frases.')+'</p>';
+    }else{
+      h+='<p class="lead">'+(n?n+(n===1?' frase nueva':' frases nuevas'):'')+(n&&o?' y ':'')+(o?o+' para repasar':'')+'. Cada tarjeta te da una situación y tú dices la frase antes de verla.</p><div class="row2"><button class="btn" type="button" data-a="rvstart">Empezar el repaso</button></div>';
+    }
+  }
+  var cnt=[0,0,0,0,0,0];
+  Object.keys(S.cards).forEach(function(k){cnt[S.cards[k].box]++});
+  var mx=Math.max.apply(null,cnt.concat([1])),names=['hoy','1 d','3 d','7 d','16 d','35 d'];
+  h+='<div class="sec"><span class="eyebrow">Tus cajas de memoria</span><div class="boxes">'+cnt.map(function(c,i){return '<div class="'+(c?'':'z')+'"><b>'+c+'</b><i style="height:'+Math.round(c/mx*72)+'px"></i><span>'+names[i]+'</span></div>'}).join('')+'</div>'+
+     '<p class="lead" style="margin-top:14px;font-size:14px">Cada columna es el intervalo hasta que vuelvas a ver esa frase. Todavía sin ver: '+d.nw.length+'.</p></div>';
+  el.innerHTML=h;
+}
+
+/* ---------- Método ---------- */
+function rMethod(){
+  $('#v-method').innerHTML=
+   '<span class="eyebrow">Método</span><h2 class="h2">Qué está comprobado y qué no</h2>'+
+   '<p class="lead">Cadence combina técnicas con niveles de evidencia muy distintos. Esta es cada una, con su fuente.</p>'+
+   '<div class="sec"><ul class="ev">'+EVID.map(function(e){
+     return '<li><div class="evh"><h3>'+e.t+'</h3><span class="tag'+(e.lv?' '+e.lv:'')+'">'+e.lt+'</span></div><p>'+e.p+'</p>'+(e.u?'<p><a href="'+e.u+'" target="_blank" rel="noopener">'+e.ul+'</a></p>':'')+'</li>';
+   }).join('')+'</ul></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo sacarle partido</span><ul class="plain">'+
+   '<li><b>Di cada frase en voz alta antes de ver la respuesta.</b> Es la práctica de recuperación que sí tiene respaldo.</li>'+
+   '<li><b>Estudia un poco cada día.</b> El repaso espaciado funciona con días distintos, no con una sola sesión larga.</li>'+
+   '<li><b>Busca a una persona con quien practicar.</b> Cadence no escucha ni corrige tu pronunciación. Es una recomendación mía, no un resultado de estudio.</li>'+
+   '</ul></div>'+
+   '<div class="sec"><span class="eyebrow">Límites de esta versión</span><ul class="plain">'+
+   '<li>Usa una sola voz del dispositivo. Si no hay voz francesa instalada, no se oye nada.</li>'+
+   '<li>No reconoce tu voz.</li>'+
+   '<li>Solo la semana 1 está construida.</li>'+
+   '</ul></div>';
+}
+
+/* ---------- Render ---------- */
+function render(){
+  [].forEach.call(document.querySelectorAll('.nav button'),function(b){b.setAttribute('aria-selected',String(b.dataset.t===tab))});
+  [].forEach.call(document.querySelectorAll('.view'),function(v){v.hidden=v.id!=='v-'+tab});
+  ({home:rHome,sounds:rSounds,scenes:rScenes,review:rReview,method:rMethod})[tab]();
+  [].forEach.call(document.querySelectorAll('[data-a="speed"]'),function(b){b.setAttribute('aria-pressed',String(b.dataset.v===S.speed))});
+  document.body.setAttribute('data-look','b');
+}
+
+/* ---------- Acciones ---------- */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-a]');if(!el)return;
+  var a=el.dataset.a;
+  if(a==='tab'||a==='go'){tab=el.dataset.t;if(tab==='review'&&rv.mode!=='card')rv={mode:'intro',q:[],total:0,done:0,shown:false};render();window.scrollTo(0,0)}
+  else if(a==='speed'){S.speed=el.dataset.v;save();render()}
+  else if(a==='say'){
+    var unit=el.closest('[data-unit]');
+    say(el.dataset.say,unit?unit.querySelector('.beats'):null);
+    if(el.dataset.snd){var t=T();if(t.sounds.indexOf(el.dataset.snd)<0){t.sounds.push(el.dataset.snd);touch()}}
+  }
+  else if(a==='rhy'){rhy=el.dataset.id;$('#rhy').innerHTML=rhyHTML()}
+  else if(a==='scene'){curScene=el.dataset.id;pl=null;rScenes()}
+  else if(a==='start'){startScene()}
+  else if(a==='sense'){pl.sense=true;rScenes()}
+  else if(a==='pick'){
+    var sc=curS(),tr=sc.turns[pl.turn],o=tr.opts[+el.dataset.i];
+    pl.log.push({partner:tr.fr,pick:o.fr,reply:o.reply,q:o.q});pl.score+=o.q;pl.phase='reply';
+    rScenes();say(o.reply);
+    var pe=$('#pend');if(pe)pe.scrollIntoView({block:'nearest'});
+  }
+  else if(a==='next'){
+    var sc2=curS();pl.turn++;pl.sense=false;
+    if(pl.turn>=sc2.turns.length){
+      pl.phase='end';
+      S.scenes[sc2.id]=Math.max(S.scenes[sc2.id]||0,pl.score);
+      T().scenes++;touch();rScenes();
+    }else{pl.phase='ask';rScenes();say(sc2.turns[pl.turn].fr)}
+    var pe2=$('#pend');if(pe2)pe2.scrollIntoView({block:'nearest'});
+  }
+  else if(a==='rvstart'){
+    var d=dueList();rv.q=d.old.concat(d.nw.slice(0,8));rv.total=rv.q.length;rv.done=0;rv.mode='card';rv.shown=false;rReview();
+  }
+  else if(a==='show'){rv.shown=true;rReview();var p=PH[rv.q[0]];say(p.fr,$('#v-review .beats'))}
+  else if(a==='rate'){
+    var id=rv.q.shift(),r=+el.dataset.r,b=nextBox(id,r);
+    S.cards[id]={box:b,due:addDays(dstr(),INT[b])};
+    T().rev++;touch();
+    if(r===0)rv.q.push(id);else rv.done++;
+    rv.shown=false;
+    if(!rv.q.length)rv.mode='done';
+    rReview();
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>

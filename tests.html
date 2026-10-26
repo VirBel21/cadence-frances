@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<title>Ejecutando pruebas…</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;padding:20px;max-width:900px;margin:0 auto}li{margin:4px 0}.ok{color:#1b6b3a}.ko{color:#b00020;font-weight:600}iframe{width:100%;height:760px;border:1px solid #ccc;margin-top:16px}</style></head>
+<body>
+<h1>Pruebas de Cadence</h1>
+<p>Recorre la página real en el marco de abajo. Guarda y restaura tu progreso, así que no lo altera.</p>
+<ul id="out"></ul>
+<iframe id="f" src="index.html" title="Cadence"></iframe>
+<script>
+(function(){
+var KEY='cadence.fr.v1',out=document.getElementById('out'),f=document.getElementById('f'),fails=0,backup=null;
+try{backup=localStorage.getItem(KEY)}catch(e){}
+function log(ok,msg){var li=document.createElement('li');li.className=ok?'ok':'ko';li.textContent=(ok?'PASS  ':'FAIL  ')+msg;out.appendChild(li);if(!ok)fails++}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function q(s){return f.contentDocument.querySelector(s)}
+function qa(s){return f.contentDocument.querySelectorAll(s)}
+async function click(s){var e=q(s);if(!e){return false}e.click();await sleep(250);return true}
+async function run(){
+  await sleep(800);
+  var d=f.contentDocument;
+  log(/Cadence/.test(d.title),'El título de la página contiene «Cadence»');
+  log(qa('[data-a="tab"]').length===5,'El menú tiene 5 secciones');
+  log(/Bonjour/.test((q('#v-home h1')||{}).textContent||''),'La portada muestra «Bonjour.»');
+  log(qa('#v-home .how li').length===5,'La guía «Cómo empezar» tiene 5 pasos');
+  log(qa('#v-home .steps li').length===3,'«Tu sesión de hoy» tiene 3 pasos');
+  await click('[data-a="tab"][data-t="sounds"]');
+  log(qa('#v-sounds .snd').length>=7,'Sonidos: hay al menos 7 sonidos ('+qa('#v-sounds .snd').length+')');
+  log(qa('#v-sounds [data-a="rhy"]').length===4,'Sonidos: 4 frases de ritmo');
+  await click('#v-sounds [data-a="rhy"]:nth-of-type(2)');
+  log(qa('#v-sounds .beats .b').length>0,'Sonidos: el ritmo muestra notas');
+  await click('[data-a="tab"][data-t="scenes"]');
+  log(qa('#v-scenes .ph').length>=5,'Escenas: al menos 5 frases clave');
+  var started=await click('#v-scenes [data-a="start"]');
+  log(started&&qa('#v-scenes [data-a="pick"]').length===3,'Escenas: cada turno ofrece 3 opciones');
+  await click('#v-scenes [data-a="pick"]');
+  log(!!q('#v-scenes [data-a="next"]'),'Escenas: tras elegir aparece la respuesta y «Continuar»');
+  await click('[data-a="tab"][data-t="review"]');
+  var rs=await click('#v-review [data-a="rvstart"]');
+  log(rs,'Repaso: se puede empezar');
+  await click('#v-review [data-a="show"]');
+  log(qa('#v-review [data-a="rate"]').length===3,'Repaso: 3 valoraciones (Otra vez, Bien, Fácil)');
+  await click('[data-a="tab"][data-t="method"]');
+  log(qa('#v-method .ev li').length===7,'Método: 7 evidencias ('+qa('#v-method .ev li').length+')');
+  log(qa('#v-method .ev li a').length>=5,'Método: las 5 evidencias con estudio llevan enlace a su fuente');
+  try{if(backup===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,backup)}catch(e){}
+  document.title=(fails?'FAIL':'PASS')+' · Cadence';
+  var h=document.createElement('h2');h.textContent=document.title;h.className=fails?'ko':'ok';document.body.insertBefore(h,out);
+}
+f.addEventListener('load',function(){run().catch(function(e){log(false,'Error en la prueba: '+e.message);document.title='FAIL · Cadence'})},{once:true});
+})();
+</script></body></html>

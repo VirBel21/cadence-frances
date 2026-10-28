@@ -23,13 +23,14 @@ async function run(){
   log(qa('[data-a="tab"]').length===7,'El menú tiene 7 secciones');
   log(/Bonjour/.test((q('#v-home h1')||{}).textContent||''),'Empezar: muestra «Bonjour.»');
   log(qa('#v-home .stage').length===3,'Empezar: principio, desarrollo y final');
+  log(/90 y 100 horas/.test(q('#v-home').textContent),'Empezar: cita la referencia de horas');
   log(qa('#v-home .how li').length===4,'Empezar: el día tiene 4 pasos');
   await click('[data-a="tab"][data-t="route"]');
-  log(qa('#v-route .days button').length===7,'Ruta: 7 días de la semana 1');
-  log(qa('#v-route li.plan').length===21,'Ruta: 21 días planificados (semanas 2-4)');
+  log(qa('#v-route .trow').length===8,'Ruta: 8 sesiones de la unidad 1');
+  log(qa('#v-route li.plan').length===24,'Ruta: 24 sesiones planificadas (unidades 2-4)');
   await click('#v-route [data-a="day"][data-n="1"]');
   log(qa('#v-today .stp button').length===4,'Hoy: 4 pasos');
-  log(qa('#v-today .story .sl').length===6,'Día 1: la historia tiene 6 líneas');
+  log(qa('#v-today .story .sl').length===6,'Sesión 1: la historia tiene 6 líneas');
   await click('#v-today [data-a="es"]');
   log(qa('#v-today .story .sense').length===6,'Día 1: se muestra el sentido en español');
   await click('#v-today [data-a="stepdone"][data-i="0"]');
@@ -46,13 +47,13 @@ async function run(){
   await click('#v-review [data-a="backday"]');
   log(/Día 1 completo/.test(q('#v-today').textContent),'Día 1 queda completo');
   await click('[data-a="tab"][data-t="route"]');
-  log(qa('#v-route .tag.ok').length===1,'Ruta: el día 1 aparece como Hecho');
-  await click('#v-route [data-a="day"][data-n="6"]');
+  log(qa('#v-route .node.done').length===1,'Ruta: el día 1 aparece como Hecho');
+  await click('#v-route [data-a="day"][data-n="7"]');
   await click('#v-today [data-a="qstart"]');
   log(qa('#v-today .qopt').length===3,'Mini-prueba: 3 opciones');
   for(var n2=0;n2<8;n2++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
   log(/\/ 8/.test(q('#v-today').textContent),'Mini-prueba: muestra resultado sobre 8');
-  await click('#v-route [data-a="day"][data-n="7"]');
+  await click('#v-route [data-a="day"][data-n="8"]');
   log(!!q('#v-today .checks'),'Día 7: lista de balance');
   await click('[data-a="tab"][data-t="sounds"]');
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');

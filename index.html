@@ -356,6 +356,35 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .vm .fo{font:var(--wd) 28px/1.1 var(--f-display)}
 .vm .fo .e{color:var(--blue)}.vm .fo .e.mu{opacity:.5}
 @media (max-width:520px){.vm .r{grid-template-columns:64px 1fr auto auto;gap:8px}.vm .fo{font-size:24px}}
+/* color y conversación */
+:root{--c1:#2A7A74;--c2:#B84B2A;--c3:#5B4FA0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c1:#6CC3BB;--c2:#F29A7B;--c3:#A9A0E6}}
+:root[data-theme="dark"]{--c1:#6CC3BB;--c2:#F29A7B;--c3:#A9A0E6}
+.trail{position:relative;max-width:560px}
+.trail svg{position:absolute;left:0;top:0}
+.trow{position:absolute;left:0;right:0;height:72px;display:flex;align-items:center;gap:12px;background:none;border:0;padding:0 0 0 150px;text-align:left;cursor:pointer;color:var(--ink)}
+.trow .tx{display:grid;gap:2px;min-width:0}
+.trow .tx b{font:var(--wd) 22px/1.15 var(--f-display);font-weight:400}
+.trow .tx small{font:400 13px/1.35 var(--f-body);color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.trow:hover .tx b{color:var(--blue)}
+.trow .tag{flex:none;margin-left:auto}
+.node{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font:var(--wd) 22px var(--f-display);background:var(--card);border:2px solid var(--line);color:var(--ink)}
+.node.done{background:var(--blue);border-color:transparent;color:var(--on-blue)}
+.node.cur{width:66px;height:66px;background:var(--honey);border-color:transparent;color:#2A141B;font-size:26px;box-shadow:0 0 0 5px rgba(224,169,59,.3)}
+.node.c0{border-color:var(--c1)}.node.c1{border-color:var(--c2)}.node.c2{border-color:var(--c3)}
+.stp li:nth-child(1) button{border-top:4px solid var(--c1)}
+.stp li:nth-child(2) button{border-top:4px solid var(--honey)}
+.stp li:nth-child(3) button{border-top:4px solid var(--c2)}
+.stp li:nth-child(4) button{border-top:4px solid var(--c3)}
+.dlg{display:grid;gap:12px}
+.dlg .line,.story .sl{border:1px solid var(--line);background:var(--card);border-radius:18px 18px 18px 4px;padding:12px 18px;margin:0;max-width:92%}
+.dlg .line.me,.story .sl.me{margin-left:auto;background:var(--blue);color:var(--on-blue);border-color:transparent;border-radius:18px 18px 4px 18px}
+.dlg .line.me .who,.story .sl.me .who{color:inherit;opacity:.75}
+.dlg .line.me .sense,.story .sl.me .sense{color:inherit;opacity:.85}
+.story{display:grid;gap:12px}
+.story .sl.on{box-shadow:0 0 0 3px var(--honey)}
+.story .sl.me.on{background:var(--blue)}
+.story .sl.me .play{background:transparent;border-color:var(--on-blue);color:var(--on-blue)}
 .vsel[hidden],.note[hidden]{display:none!important}
 .lead+.lead{margin-top:10px}
 </style>
@@ -392,7 +421,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · micrófono 4</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · micrófono 4 · unidades 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -498,6 +527,30 @@ var SCENES=[
      {fr:'Merci beaucoup, bonne journée !',q:2,reply:'Je vous en prie. Au revoir !'},
      {fr:'Merci.',q:1,reply:'Je vous en prie, madame. {Bonne journée} !'},
      {fr:'Excusez-moi.',q:0,reply:'Oui ? Non ? Eh bien… {bonne journée} !'}]}
+  ]},
+ {id:'verbes',title:'Les verbes du quotidien',art:'sun',
+  setting:'Estás en un mercado de flores. La vendedora te habla y tú dices cómo estás, qué tienes, adónde vas y qué no sabes.',
+  who:'La fleuriste',
+  phrases:[
+   {id:'v1',fr:'Je suis fatiguée.',syl:[['zhe','süi'],['fa','ti','gé']],cue:'Dices que estás cansada.'},
+   {id:'v2',fr:'J’ai faim.',syl:[['zhé','fẽ']],cue:'Dices que tienes hambre.'},
+   {id:'v3',fr:'Je vais à la gare.',syl:[['zhe','vé','a'],['la','gar']],cue:'Dices adónde vas.'},
+   {id:'v4',fr:'Je peux payer par carte ?',syl:[['zhe','pö'],['pé','yé'],['par','kart']],cue:'Preguntas si puedes pagar con tarjeta.'},
+   {id:'v5',fr:'Je ne sais pas.',syl:[['zhe','ne','sé'],['pa']],cue:'No lo sabes y lo dices.'}
+  ],
+  turns:[
+   {fr:'Bonjour ! Vous allez bien ?',sense:'Te saluda y pregunta si estás bien.',opts:[
+     {fr:'Je suis fatiguée.',q:2,reply:'Ah, courage, madame !'},
+     {fr:'Je fatiguée.',q:1,reply:'Vous {êtes} fatiguée ? Courage !'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Ici, ce sont des fleurs ! {Vous allez bien} ?'}]},
+   {fr:'Vous avez faim ? Il y a un café là-bas.',sense:'Te pregunta si tienes hambre y te dice que hay un café allí.',opts:[
+     {fr:'Oui, j’ai faim.',q:2,reply:'Alors, allez-y !'},
+     {fr:'Je suis faim.',q:1,reply:'Vous {avez} faim ? Allez au café !'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous avez faim} ?'}]},
+   {fr:'Et vous allez où ?',sense:'Te pregunta adónde vas.',opts:[
+     {fr:'Je vais à la gare.',q:2,reply:'La gare ? C’est tout droit.'},
+     {fr:'Je vas gare.',q:1,reply:'Vous {allez à la gare} ? C’est tout droit.'},
+     {fr:'Merci beaucoup.',q:0,reply:'De rien ! Mais… {vous allez où} ?'}]}
   ]}
 ];
 
@@ -515,9 +568,10 @@ var DAYS=[
  {n:2,t:'En el café',sc:'cafe',m:20,goal:'Pedir una bebida y algo de comer con cortesía, y pedir la cuenta.'},
  {n:3,t:'Pedir ayuda en la calle',sc:'rue',m:20,goal:'Preguntar dónde está un lugar y decir que no entiendes sin quedarte callada.'},
  {n:4,t:'En el hotel',sc:'hotel',m:20,goal:'Anunciar una reserva, decir cuántas noches y preguntar por el ascensor.'},
- {n:5,t:'Una jornada completa',sc:null,m:20,goal:'Unir las cuatro situaciones de la semana en una sola historia.'},
- {n:6,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado: ocho frases que escuchas y reconoces.'},
- {n:7,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
+ {n:5,t:'Los verbos de todos los días',sc:'verbes',m:20,goal:'Decir cómo estás, qué tienes, adónde vas y que no lo sabes, con verbos muy comunes: être, avoir, aller, pouvoir y savoir.'},
+ {n:6,t:'Una jornada completa',sc:null,m:20,goal:'Unir las situaciones de la unidad en una sola historia.'},
+ {n:7,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado: ocho frases que escuchas y reconoces.'},
+ {n:8,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
 ];
 var STORY={
  1:[{w:'Julien',fr:'Bonjour, madame !',es:'¡Buenos días, señora!'},
@@ -546,7 +600,15 @@ var STORY={
     {w:'Clara',fr:'Où est l’ascenseur, s’il vous plaît ?',es:'¿Dónde está el ascensor, por favor?'},
     {w:'La réceptionniste',fr:'Là, à droite. Bonne soirée !',es:'Allí, a la derecha. ¡Buenas noches!'},
     {w:'Clara',fr:'Merci, bonne soirée !',es:'¡Gracias, buenas noches!'}],
- 5:[{w:'Clara',fr:'Bonjour ! Un café, s’il vous plaît.',es:'¡Buenos días! Un café, por favor.'},
+ 5:[{w:'La fleuriste',fr:'Bonjour ! Vous allez bien ?',es:'¡Buenos días! ¿Se encuentra bien?'},
+    {w:'Clara',fr:'Je suis fatiguée.',es:'Estoy cansada.'},
+    {w:'La fleuriste',fr:'Vous avez faim ? Il y a un café là-bas.',es:'¿Tiene hambre? Hay un café allí.'},
+    {w:'Clara',fr:'Oui, j’ai faim.',es:'Sí, tengo hambre.'},
+    {w:'La fleuriste',fr:'Et vous allez où ?',es:'¿Y adónde va?'},
+    {w:'Clara',fr:'Je vais à la gare.',es:'Voy a la estación.'},
+    {w:'La fleuriste',fr:'Vous voulez des fleurs ?',es:'¿Quiere flores?'},
+    {w:'Clara',fr:'Je ne sais pas. Je peux payer par carte ?',es:'No lo sé. ¿Puedo pagar con tarjeta?'}],
+ 6:[{w:'Clara',fr:'Bonjour ! Un café, s’il vous plaît.',es:'¡Buenos días! Un café, por favor.'},
     {w:'Le serveur',fr:'Voilà. Ça fait trois euros.',es:'Aquí tiene. Son tres euros.'},
     {w:'Clara',fr:'Excusez-moi, où est la gare ?',es:'Perdone, ¿dónde está la estación?'},
     {w:'Un passant',fr:'C’est tout droit, puis à gauche.',es:'Todo recto y luego a la izquierda.'},
@@ -556,21 +618,21 @@ var STORY={
     {w:'La réceptionniste',fr:'Bonsoir, madame. Bienvenue !',es:'Buenas noches, señora. ¡Bienvenida!'}]
 };
 var PLAN=[
- {w:'S2',t:'Moverse',days:['Los números del 0 al 20','La hora','Comprar un billete','Metro y taxi','Precios y pagar','Repaso y mini-prueba','Descanso y balance']},
- {w:'S3',t:'Mesa y mercado',days:['Pedir en un restaurante','Platos y bebidas','El mercado','Cantidades','Decir lo que no comes','Repaso y mini-prueba','Descanso y balance']},
- {w:'S4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Prueba final del mes','Descanso y balance']}
+ {w:'U2',t:'Moverse',days:['Los números del 0 al 20','La hora','Comprar un billete','Metro y taxi','Precios y pagar','Una jornada completa','Repaso y mini-prueba','Descanso y balance']},
+ {w:'U3',t:'Mesa y mercado',days:['Pedir en un restaurante','Platos y bebidas','El mercado','Cantidades','Decir lo que no comes','Una jornada completa','Repaso y mini-prueba','Descanso y balance']},
+ {w:'U4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Una jornada completa','Prueba final del nivel','Descanso y balance']}
 ];
 var STAGES=[
- {k:'Principio',t:'Semana 1 · Sobrevivir',d:'Oyes tus primeras frases y las usas en cuatro situaciones: saludar, un café, pedir ayuda y un hotel. Termina con una mini-prueba.',s:'Disponible'},
- {k:'Desarrollo',t:'Semanas 2 y 3 · Moverte y comer',d:'Números, horas, billetes, restaurante y mercado. Cada semana sigue el mismo ritmo de siete días.',s:'En preparación'},
- {k:'Final',t:'Semana 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. El último día es la prueba final del mes.',s:'En preparación'}
+ {k:'Principio',t:'Unidad 1 · Sobrevivir',d:'Tus primeras frases en cinco situaciones: saludar, un café, pedir ayuda, un hotel y los verbos de todos los días. Termina con una mini-prueba.',s:'Disponible'},
+ {k:'Desarrollo',t:'Unidades 2 y 3 · Moverte y comer',d:'Números, horas, billetes, restaurante y mercado. Cada unidad sigue el mismo ritmo de ocho sesiones.',s:'En preparación'},
+ {k:'Final',t:'Unidad 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. Cierra el nivel A1 con una prueba final.',s:'En preparación'}
 ];
 var RHY=['c1','c2','c3','h5'];
 var WEEKS=[
- {w:'S1',t:'Sobrevivir',d:'Café, recepción de hotel y calle.',o:'Pedir, saludar y recuperar la conversación cuando no entiendes.'},
- {w:'S2',t:'Moverse',d:'Taquilla, taxi y horarios.',o:'Comprar un billete y entender una hora dicha en voz alta.'},
- {w:'S3',t:'Mesa y mercado',d:'Restaurante, mercado y pago.',o:'Pedir una comida completa y preguntar un precio.'},
- {w:'S4',t:'Primeras conversaciones',d:'Presentarte y hablar de tu trabajo.',o:'Mantener tres minutos de conversación con alguien.'}
+ {w:'U1',t:'Sobrevivir',d:'Saludo, café, calle, hotel y verbos comunes.',o:'Pedir, saludar y recuperar la conversación cuando no entiendes.'},
+ {w:'U2',t:'Moverse',d:'Taquilla, taxi y horarios.',o:'Comprar un billete y entender una hora dicha en voz alta.'},
+ {w:'U3',t:'Mesa y mercado',d:'Restaurante, mercado y pago.',o:'Pedir una comida completa y preguntar un precio.'},
+ {w:'U4',t:'Primeras conversaciones',d:'Presentarte y hablar de tu trabajo.',o:'Mantener tres minutos de conversación con alguien.'}
 ];
 var GOALS=[
  'Saludar y despedirte según la hora del día.',
@@ -606,13 +668,14 @@ var ICON={
  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
  cup:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 42H104V58C104 76 92 86 77 86C62 86 50 76 50 58Z"/><path d="M104 48H112C121 48 121 66 108 66H103"/><path d="M38 92H116"/><path d="M66 32C60 26 72 21 66 12"/><path d="M82 32C76 26 88 21 82 12"/></svg>',
  key:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="52" cy="50" r="22"/><circle cx="52" cy="50" r="7"/><path d="M74 50H138"/><path d="M122 50V66"/><path d="M132 50V61"/></svg>',
+ sun:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="80" cy="50" r="20"/><path d="M80 14V24M80 76V86M44 50H54M106 50H116M54 24L61 31M99 69L106 76M106 24L99 31M61 69L54 76"/></svg>',
  wave:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 18H88V56H50L36 70V56H24Z"/><path d="M72 44H136V80H124V94L108 80H72Z"/><path d="M40 32H72M40 42H62"/></svg>',
  sign:'<svg viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M80 10V94"/><path d="M80 22H124L134 31L124 40H80Z"/><path d="M80 52H36L26 61L36 70H80Z"/><path d="M62 94H98"/></svg>'
 };
 
 /* ---------- Estado ---------- */
 var KEY='cadence.fr.v1';
-var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null,prog:{},goals:{},test1:null,rest:false};
+var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null,prog:{},goals:{},test1:null,rest:false,mins:0};
 try{var rawS=localStorage.getItem(KEY);if(rawS){S=Object.assign(S,JSON.parse(rawS))}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function T(){var t=dstr();if(!S.t||S.t.d!==t)S.t={d:t,sounds:[],scenes:0,rev:0};return S.t}
@@ -691,10 +754,12 @@ function beatsHTML(p,lg){
 /* ---------- Ayudas de curso ---------- */
 function pd(n){return S.prog[n]||(S.prog[n]={})}
 function dayDone(n){var d=DAYS[n-1];if(d.kind==='test')return S.test1!=null;if(d.kind==='rest')return !!S.rest;var p=S.prog[n]||{};return !!(p[0]&&p[1]&&p[2]&&p[3])}
-function curDayNo(){for(var i=1;i<=7;i++){if(!dayDone(i))return i}return 7}
+function curDayNo(){for(var i=1;i<=DAYS.length;i++){if(!dayDone(i))return i}return DAYS.length}
 function sceneById(id){return SCENES.filter(function(s){return s.id===id})[0]}
 function dayPhr(n){var d=DAYS[n-1];return d.sc?sceneById(d.sc).phrases.map(function(p){return p.id}):Object.keys(PH)}
-function daysDone(){var c=0;for(var i=1;i<=7;i++)if(dayDone(i))c++;return c}
+function daysDone(){var c=0;for(var i=1;i<=DAYS.length;i++)if(dayDone(i))c++;return c}
+function mark(day,i){var q=pd(day);if(!q[i]){S.mins=(S.mins||0)+[5,4,5,4][i];q[i]=1;save()}}
+var A1_MIN=95*60;
 
 /* ---------- Empezar ---------- */
 function rHome(){
@@ -709,51 +774,58 @@ function rHome(){
    ['Dilo tú','4 min','Tarjetas: ves la situación, dices la frase en voz alta y compruebas. Tu respuesta decide cuándo vuelve a salir.']
   ];
   $('#v-home').innerHTML=
-   '<div class="hero"><span class="eyebrow">Curso de francés · desde cero · 4 semanas</span>'+
+   '<div class="hero"><span class="eyebrow">Curso de francés · desde cero · nivel A1</span>'+
    '<h1>Bonjour.</h1>'+
    '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
-   '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada semana tiene siete días y cada día unos veinte minutos, siempre en el mismo orden: escuchar, practicar, usar y repasar.</p>'+
-   '<p class="lead">Ahora está abierta la semana 1. Las semanas 2, 3 y 4 están planificadas y en preparación.</p>'+
+   '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada sesión dura de 15 a 20 minutos y sigue siempre el mismo orden: escuchar, practicar, usar y repasar.</p>'+
+   '<p class="lead">Está abierta la unidad 1. Las unidades 2, 3 y 4 están planificadas y en preparación.</p>'+
    '<div class="hero-actions"><button class="btn" type="button" data-a="day" data-n="'+n+'">'+(started?'Seguir: día '+n:'Empezar el día 1')+'</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div>'+
-   '<div class="statline"><span>Días completados <b>'+dn+'/7</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
+   '<div class="statline"><span>Sesiones <b>'+dn+'/'+DAYS.length+'</b></span><span>Estudio <b>'+Math.round(S.mins||0)+' min</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
    '<div class="sec"><span class="eyebrow">Cómo está organizado el curso</span><div class="path">'+STAGES.map(function(s){
      return '<div class="stage"><span class="k">'+s.k+'</span><div><div class="tt">'+s.t+'</div><div class="d">'+s.d+'</div><div style="margin-top:8px"><span class="tag'+(s.s==='Disponible'?' now':'')+'">'+s.s+'</span></div></div></div>';
    }).join('')+'</div></div>'+
    '<div class="sec"><span class="eyebrow">Cómo es un día de estudio · unos 20 minutos</span><ol class="how">'+stp.map(function(s,i){
      return '<li><span class="n">'+(i+1)+'</span><div><div class="t">'+s[0]+'<span class="min">'+s[1]+'</span></div><div class="d">'+s[2]+'</div></div></li>';
    }).join('')+'</ol></div>'+
-   '<div class="sec"><span class="eyebrow">Cómo es una semana</span><ul class="plain">'+
-   '<li><b>Días 1 a 5.</b> Una situación nueva cada día, con su historia, sus frases y su escena. El día 5 une las cuatro en una sola jornada.</li>'+
-   '<li><b>Día 6.</b> Repaso y mini-prueba de reconocimiento.</li>'+
-   '<li><b>Día 7.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
+   '<div class="sec"><span class="eyebrow">Cómo es una unidad</span><ul class="plain">'+
+   '<li><b>Sesiones 1 a 5.</b> Una situación nueva cada una, con su historia, sus frases y su escena.</li>'+
+   '<li><b>Sesión 6.</b> Una jornada completa que une las situaciones.</li>'+
+   '<li><b>Sesión 7.</b> Repaso y mini-prueba de reconocimiento.</li>'+
+   '<li><b>Sesión 8.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
+   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia, Cambridge English estima que un A1 completo suele pedir entre 90 y 100 horas guiadas desde cero. Es una orientación para inglés, no una promesa, y no tengo una cifra verificada para francés. Con 15–20 minutos al día son varios meses: ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
+   '<div class="bar" style="height:8px" role="img" aria-label="Progreso respecto a la referencia"><i style="width:'+Math.max(1,Math.min(100,Math.round((S.mins||0)/A1_MIN*100)))+'%"></i></div><p class="progl">'+Math.round((S.mins||0)/60*10)/10+' h de unas 95 h de referencia</p></div>'+
    '<div class="sec"><span class="eyebrow">Antes del primer día · 1 minuto</span><ul class="plain">'+
    '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
-   '<li><b>Deja la velocidad en Lento</b> las primeras semanas. Puedes cambiarla en el menú.</li>'+
+   '<li><b>Deja la velocidad en Lento</b> al principio. Puedes cambiarla en el menú.</li>'+
    '<li><b>Habla en voz alta.</b> Aunque suene raro. Es la parte que más cuenta.</li></ul></div>'+
-   '<div class="sec"><span class="eyebrow">Al terminar la semana 1</span><ol class="obj">'+GOALS.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>'+
-   '<div class="sec"><span class="eyebrow">La meta de cada semana</span><ul class="weeks">'+WEEKS.map(function(w,i){
+   '<div class="sec"><span class="eyebrow">Al terminar la unidad 1</span><ol class="obj">'+GOALS.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>'+
+   '<div class="sec"><span class="eyebrow">La meta de cada unidad</span><ul class="weeks">'+WEEKS.map(function(w,i){
      return '<li class="'+(i?'dim':'')+'"><span class="w">'+w.w+'</span><div><div class="tt">'+w.t+'</div><div class="out">'+w.d+' <b>Meta:</b> '+w.o+'</div></div>'+(i?'<span class="tag">En preparación</span>':'<span class="tag now">Disponible</span>')+'</li>';
    }).join('')+'</ul></div>';
 }
 
 /* ---------- Ruta ---------- */
 function rRoute(){
-  var n=curDayNo(),dn=daysDone();
+  var n=curDayNo(),dn=daysDone(),N=DAYS.length,GAP=96,H=N*GAP+16;
+  var pts=DAYS.map(function(d,i){return[34+34*(1+Math.sin(i*1.3)),44+i*GAP]});
+  var pd2='M '+pts[0][0]+' '+pts[0][1];
+  for(var k=1;k<pts.length;k++){var a=pts[k-1],b=pts[k],my=(a[1]+b[1])/2;pd2+=' C '+a[0]+' '+my+', '+b[0]+' '+my+', '+b[0]+' '+b[1]}
   var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
-   '<p class="lead">Cuatro semanas, siete días cada una. Puedes abrir cualquier día de la semana 1, pero el orden está pensado: cada día usa lo del anterior.</p>'+
-   '<div class="sec"><span class="eyebrow">Semana 1 · Sobrevivir · disponible</span>'+
-   '<div class="prog" style="grid-template-columns:repeat(7,1fr)" role="img" aria-label="'+dn+' de 7 días completados">'+DAYS.map(function(d,i){return '<i class="'+(dayDone(i+1)?'on':'')+'"></i>'}).join('')+'</div>'+
-   '<p class="progl">'+dn+' de 7 días completados</p>'+
-   '<ul class="days">'+DAYS.map(function(d){
-     var st=dayDone(d.n)?'<span class="tag ok">Hecho</span>':d.n===n?'<span class="tag now">Hoy</span>':'<span class="tag">Abierto</span>';
-     return '<li><button type="button" data-a="day" data-n="'+d.n+'"><span class="n">'+d.n+'</span><span><div class="tt">'+d.t+'</div><div class="d">'+d.goal+' · '+d.m+' min</div></span>'+st+'</button></li>';
-   }).join('')+'</ul></div>';
+   '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión de la unidad 1, pero el orden está pensado: cada una usa lo de la anterior.</p>'+
+   '<div class="sec"><span class="eyebrow">Unidad 1 · Sobrevivir · disponible</span>'+
+   '<p class="progl">'+dn+' de '+N+' sesiones completadas</p>'+
+   '<div class="trail" style="height:'+H+'px"><svg width="150" height="'+H+'" viewBox="0 0 150 '+H+'" aria-hidden="true"><path d="'+pd2+'" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/></svg>'+
+   DAYS.map(function(d,i){
+     var done=dayDone(d.n),cur=d.n===n,cls=done?'done':cur?'cur':'c'+(i%3);
+     var lab='Sesión '+d.n+': '+d.t+(done?', hecha':cur?', toca hoy':'');
+     return '<button type="button" class="trow" data-a="day" data-n="'+d.n+'" aria-label="'+lab+'" style="top:'+(pts[i][1]-36)+'px"><span class="node '+cls+'" style="left:'+(pts[i][0]-(cur?33:27))+'px">'+(done?'✓':d.n)+'</span><span class="tx"><b>'+d.t+'</b><small>'+d.goal+' · '+d.m+' min</small></span>'+(cur?'<span class="tag now">Hoy</span>':'')+'</button>';
+   }).join('')+'</div></div>';
   PLAN.forEach(function(w){
-    h+='<div class="sec"><span class="eyebrow">Semana '+w.w.slice(1)+' · '+w.t+' · en preparación</span><ul class="days">'+w.days.map(function(t,i){
+    h+='<div class="sec"><span class="eyebrow">Unidad '+w.w.slice(1)+' · '+w.t+' · en preparación</span><ul class="days">'+w.days.map(function(t,i){
       return '<li class="plan"><div class="row"><span class="n">'+(i+1)+'</span><span class="tt">'+t+'</span></div></li>';
     }).join('')+'</ul></div>';
   });
-  h+='<p class="legend">Los temas de las semanas 2 a 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
+  h+='<p class="legend">Los temas de las unidades 2 a 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
   $('#v-route').innerHTML=h;
 }
 
@@ -777,11 +849,12 @@ function rSounds(){
    }).join('')+'</div>';
 }
 
+
 /* ---------- Hoy ---------- */
 var visT=false,curDay=1,st=0,showEs=false,qz=null;
 function storyHTML(n){
   return '<div class="story" data-unit="1">'+STORY[n].map(function(l,i){
-    return '<div class="sl" id="sl'+i+'"><div class="who">'+l.w+'</div><div class="fl"><span>'+l.fr+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(l.fr)+'" aria-label="Escuchar la línea '+(i+1)+'">'+ICON.play+'</button></div>'+(showEs?'<div class="sense">'+l.es+'</div>':'')+'</div>';
+    return '<div class="sl'+(l.w==='Clara'?' me':'')+'" id="sl'+i+'"><div class="who">'+l.w+'</div><div class="fl"><span>'+l.fr+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(l.fr)+'" aria-label="Escuchar la línea '+(i+1)+'">'+ICON.play+'</button></div>'+(showEs?'<div class="sense">'+l.es+'</div>':'')+'</div>';
   }).join('')+'</div>';
 }
 function hl(i){[].forEach.call(document.querySelectorAll('.story .sl'),function(e,j){e.classList.toggle('on',j===i)})}
@@ -811,7 +884,7 @@ function rToday(){
   if(sc){curScene=sc.id;if(!S.unlocked[sc.id]){S.unlocked[sc.id]=true;save()}}
   else if(!sceneById(curScene))curScene='cafe';
   var names=[['Escucha','5 min'],['Frases','4 min'],['Escena','5 min'],['Dilo tú','4 min']];
-  var h='<span class="eyebrow">Semana 1 · Día '+curDay+' de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+'</p>'+
+  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+'</p>'+
    '<ol class="stp" aria-label="Pasos del día">'+names.map(function(x,i){
      return '<li><button type="button" data-a="step" data-i="'+i+'" class="'+(p[i]?'ok':'')+'"'+(i===st?' aria-current="step"':'')+'><b>'+(i+1)+' · '+(p[i]?'Hecho':x[1])+'</b><span>'+x[0]+'</span></button></li>';
    }).join('')+'</ol>';
@@ -823,7 +896,7 @@ function rToday(){
      '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="0">Continuar: frases clave</button></div></div>';
   }else if(st===1){
     var list=sc?sc.phrases:Object.keys(PH).map(function(k){return PH[k]});
-    h+='<div class="sec"><span class="eyebrow">Paso 2 · Frases clave</span><p class="lead">'+(sc?'Son las frases de la historia que vas a usar hoy.':'Las frases de toda la semana, para oírlas otra vez.')+' Pulsa ▶, sigue las notas con la vista y repite en voz alta.</p><div>'+phrasesHTML(list)+'</div>'+
+    h+='<div class="sec"><span class="eyebrow">Paso 2 · Frases clave</span><p class="lead">'+(sc?'Son las frases de la historia que vas a usar hoy.':'Las frases de toda la unidad, para oírlas otra vez.')+' Pulsa ▶, sigue las notas con la vista y repite en voz alta.</p><div>'+phrasesHTML(list)+'</div>'+
      '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="1">Continuar: la escena</button></div></div>';
   }else if(st===2){
     h+='<div class="sec" id="player"><span class="eyebrow">Paso 3 · La escena</span>'+
@@ -835,12 +908,12 @@ function rToday(){
      '<div class="row2"><button class="btn" type="button" data-a="dayrv">'+(p[3]?'Repetir las tarjetas':'Empezar las tarjetas')+'</button></div></div>';
   }
   if(dayDone(curDay)){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Día '+curDay+' completo</div><p style="margin-top:8px">Bien hecho. Mañana el repaso te devolverá las frases que más lo necesiten.</p><div class="row2"><button class="btn" type="button" data-a="day" data-n="'+Math.min(7,curDay+1)+'">Siguiente día</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta</button></div></div>';
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Día '+curDay+' completo</div><p style="margin-top:8px">Bien hecho. Mañana el repaso te devolverá las frases que más lo necesiten.</p><div class="row2"><button class="btn" type="button" data-a="day" data-n="'+Math.min(DAYS.length,curDay+1)+'">Siguiente día</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta</button></div></div>';
   }
   el.innerHTML=h;
 }
 function rTest(el,d){
-  var h='<span class="eyebrow">Semana 1 · Día 6 de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+' Esta prueba mide si reconoces lo que oyes, no si sabes hablar. Para eso están las escenas y las tarjetas.</p>';
+  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+' Esta prueba mide si reconoces lo que oyes, no si sabes hablar. Para eso están las escenas y las tarjetas.</p>';
   if(!qz){
     h+=(S.test1!=null?'<p class="progl">Última puntuación: '+S.test1+' de 8</p>':'')+'<div class="row2"><button class="btn" type="button" data-a="qstart">'+(S.test1!=null?'Repetir la mini-prueba':'Empezar la mini-prueba')+'</button><button class="btn ghost" type="button" data-a="go" data-t="review">Hacer el repaso antes</button></div>';
   }else if(!qz.done){
@@ -855,20 +928,20 @@ function rTest(el,d){
     h+='</div>';
   }else{
     h+='<div class="endbox"><div class="score">'+qz.score+'<span> / '+qz.q.length+'</span></div><p style="margin-top:8px">'+
-     (qz.score>=7?'Reconoces casi todo lo que has oído esta semana.':qz.score>=5?'Vas bien. Repasa las tarjetas antes de seguir.':'Todavía te cuesta reconocerlas. No pasa nada: repite las historias y las tarjetas esta semana.')+
+     (qz.score>=7?'Reconoces casi todo lo que has oído en esta unidad.':qz.score>=5?'Vas bien. Repasa las tarjetas antes de seguir.':'Todavía te cuesta reconocerlas. No pasa nada: repite las historias y las tarjetas de la unidad.')+
      '</p>'+(qz.miss.length?'<p class="legend">Para repasar: '+qz.miss.map(function(id){return PH[id].fr}).join(' · ')+'</p>':'')+
-     '<div class="row2"><button class="btn" type="button" data-a="go" data-t="review">Ir al repaso</button><button class="btn ghost" type="button" data-a="day" data-n="7">Siguiente: descanso y balance</button></div></div>';
+     '<div class="row2"><button class="btn" type="button" data-a="go" data-t="review">Ir al repaso</button><button class="btn ghost" type="button" data-a="day" data-n="'+(curDay+1)+'">Siguiente: descanso y balance</button></div></div>';
   }
   el.innerHTML=h;
 }
 function rRest(el,d){
-  var h='<span class="eyebrow">Semana 1 · Día 7 de 7</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
+  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
    '<ul class="checks">'+GOALS.map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+i+'"'+(S.goals[i]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
    '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="5">Escuchar la jornada completa</button></div>';
   if(S.rest){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Semana 1 completa</div><p style="margin-top:8px">Has recorrido el primer tramo. Las semanas 2, 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.</p></div>';
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad 1 completa</div><p style="margin-top:8px">Has recorrido el primer tramo. Las unidades 2, 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.</p></div>';
   }else{
-    h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la semana 1</button></div>';
+    h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad 1</button></div>';
   }
   el.innerHTML=h;
 }
@@ -969,7 +1042,7 @@ function rReview(){
     }
     h+='</div>';
   }else if(rv.mode==='done'){
-    if(rv.back){pd(rv.back)[3]=1;save()}
+    if(rv.back)mark(rv.back,3);
     h+='<div class="endbox"><div class="score">'+rv.total+'<span> tarjetas</span></div><p style="margin-top:8px">Repaso terminado. Las frases que dijiste con soltura se alejan en el tiempo y las demás vuelven antes.</p><div class="row2">'+(rv.back?'<button class="btn" type="button" data-a="backday">Volver al día '+rv.back+'</button>':'<button class="btn ghost" type="button" data-a="go" data-t="today">Ir a Hoy</button>')+'</div></div>';
   }else{
     var n=d.nw.length,o=d.old.length;
@@ -1042,7 +1115,7 @@ function rMethod(){
    '<div class="sec"><span class="eyebrow">Límites de esta versión</span><ul class="plain">'+
    '<li>Usa una sola voz del dispositivo. Si no hay voz francesa instalada, no se oye nada.</li>'+
    '<li>El micrófono es experimental y solo en Chrome: transcribe lo que dices y lo compara palabra a palabra con la frase. No valora tu pronunciación ni tu acento. El audio se envía a Google para transcribirlo.</li>'+
-   '<li>Solo la semana 1 está construida. Las semanas 2 a 4 son un plan.</li><li>La mini-prueba del día 6 mide reconocimiento de lo que oyes. No mide si hablas bien.</li>'+
+   '<li>Solo la unidad 1 está construida. Las unidades 2 a 4 son un plan.</li><li>El vocabulario son las frases de cada situación y los verbos más comunes que elegí yo. No sigue todavía una lista de frecuencia verificada.</li><li>La mini-prueba mide reconocimiento de lo que oyes. No mide si hablas bien.</li>'+
    '</ul></div>';
 }
 
@@ -1068,7 +1141,7 @@ document.addEventListener('click',function(e){
   }
   else if(a==='day'){curDay=+el.dataset.n;st=0;pl=null;qz=null;tab='today';render();window.scrollTo(0,0)}
   else if(a==='step'){st=+el.dataset.i;render();if(el.closest('.stp'))window.scrollTo(0,0)}
-  else if(a==='stepdone'){var i0=+el.dataset.i;pd(curDay)[i0]=1;touch();st=Math.min(i0+1,3);render();window.scrollTo(0,0)}
+  else if(a==='stepdone'){var i0=+el.dataset.i;mark(curDay,i0);touch();st=Math.min(i0+1,3);render();window.scrollTo(0,0)}
   else if(a==='es'){showEs=!showEs;rToday()}
   else if(a==='storyall'){sayAll(curDay)}
   else if(a==='dayrv'){
@@ -1109,7 +1182,7 @@ document.addEventListener('click',function(e){
     if(pl.turn>=sc2.turns.length){
       pl.phase='end';
       S.scenes[sc2.id]=Math.max(S.scenes[sc2.id]||0,pl.score);
-      T().scenes++;if(DAYS[curDay-1].sc||true)pd(curDay)[2]=1;touch();rToday();
+      T().scenes++;mark(curDay,2);touch();rToday();
     }else{pl.phase='ask';rToday();say(sc2.turns[pl.turn].fr)}
     var pe2=$('#pend');if(pe2)pe2.scrollIntoView({block:'nearest'});
   }

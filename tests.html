@@ -20,7 +20,7 @@ async function run(){
   await sleep(800);
   var d=f.contentDocument;
   log(/Cadence/.test(d.title),'El título de la página contiene «Cadence»');
-  log(qa('[data-a="tab"]').length===7,'El menú tiene 7 secciones');
+  log(qa('[data-a="tab"]').length===8,'El menú tiene 8 secciones');
   log(/Bonjour/.test((q('#v-home h1')||{}).textContent||''),'Empezar: muestra «Bonjour.»');
   log(qa('#v-home .stage').length===3,'Empezar: principio, desarrollo y final');
   log(/90 y 100 horas/.test(q('#v-home').textContent),'Empezar: cita la referencia de horas');
@@ -59,6 +59,12 @@ async function run(){
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
   await click('[data-a="tab"][data-t="review"]');
   log(!!q('#v-review .boxes'),'Repaso: muestra las cajas de memoria');
+  await click('[data-a="tab"][data-t="words"]');
+  log(qa('#v-words .wrow').length>=50,'Palabras: lista con rango de frecuencia');
+  await click('#v-words [data-a="wstart"]');
+  log(!!q('#v-words [data-a="wshow"]'),'Palabras: la práctica empieza');
+  await click('#v-words [data-a="wshow"]');
+  log(qa('#v-words [data-a="wrate"]').length===3,'Palabras: 3 valoraciones');
   await click('[data-a="tab"][data-t="verbs"]');
   log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6,'Verbos: mapa y matriz con 6 formas');
   await click('#v-verbs [data-a="verb"][data-id="habiter"]');

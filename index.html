@@ -385,6 +385,13 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .story .sl.on{box-shadow:0 0 0 3px var(--honey)}
 .story .sl.me.on{background:var(--blue)}
 .story .sl.me .play{background:transparent;border-color:var(--on-blue);color:var(--on-blue)}
+.wrow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:start;padding:16px 0;border-bottom:1px solid var(--line)}
+.wrow .rk{font:500 12px var(--f-mono);color:var(--ink2);padding-top:10px}
+.wrow .ww{font:var(--wd) 30px/1.1 var(--f-display)}
+.wrow .es{color:var(--ink2);font-size:15px;margin-top:2px}
+.wrow .ex{display:flex;gap:8px;align-items:center;margin-top:6px;font:var(--wd) 19px/1.3 var(--f-display);color:var(--ink)}
+.wlist{border-top:1px solid var(--line);margin-top:10px}
+.gap{border-bottom:2px solid var(--blue);padding:0 14px}
 .vsel[hidden],.note[hidden]{display:none!important}
 .lead+.lead{margin-top:10px}
 </style>
@@ -406,6 +413,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
       <button role="tab" data-a="tab" data-t="route" type="button">Ruta</button>
       <button role="tab" data-a="tab" data-t="today" type="button">Hoy</button>
       <button role="tab" data-a="tab" data-t="review" type="button">Repaso</button>
+      <button role="tab" data-a="tab" data-t="words" type="button">Palabras</button>
       <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
       <button role="tab" data-a="tab" data-t="verbs" type="button">Verbos</button>
       <button role="tab" data-a="tab" data-t="method" type="button">Método</button>
@@ -418,10 +426,11 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-route" hidden></section>
     <section class="view" id="v-today" hidden></section>
     <section class="view" id="v-review" hidden></section>
+    <section class="view" id="v-words" hidden></section>
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · micrófono 4 · unidades 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · palabras 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -675,7 +684,7 @@ var ICON={
 
 /* ---------- Estado ---------- */
 var KEY='cadence.fr.v1';
-var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null,prog:{},goals:{},test1:null,rest:false,mins:0};
+var S={cards:{},scenes:{},days:[],unlocked:{cafe:true},speed:'slow',look:'b',voice:null,start:null,t:null,prog:{},goals:{},test1:null,rest:false,mins:0,wc:{}};
 try{var rawS=localStorage.getItem(KEY);if(rawS){S=Object.assign(S,JSON.parse(rawS))}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function T(){var t=dstr();if(!S.t||S.t.d!==t)S.t={d:t,sounds:[],scenes:0,rev:0};return S.t}
@@ -792,7 +801,7 @@ function rHome(){
    '<li><b>Sesión 6.</b> Una jornada completa que une las situaciones.</li>'+
    '<li><b>Sesión 7.</b> Repaso y mini-prueba de reconocimiento.</li>'+
    '<li><b>Sesión 8.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
-   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia, Cambridge English estima que un A1 completo suele pedir entre 90 y 100 horas guiadas desde cero. Es una orientación para inglés, no una promesa, y no tengo una cifra verificada para francés. Con 15–20 minutos al día son varios meses: ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
+   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia general del Marco Común Europeo, Cambridge English publica entre 90 y 100 horas guiadas para un A1 desde cero. Es una orientación, no una promesa, y no tengo una cifra verificada específica para francés. Con 15–20 minutos al día son varios meses: ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
    '<div class="bar" style="height:8px" role="img" aria-label="Progreso respecto a la referencia"><i style="width:'+Math.max(1,Math.min(100,Math.round((S.mins||0)/A1_MIN*100)))+'%"></i></div><p class="progl">'+Math.round((S.mins||0)/60*10)/10+' h de unas 95 h de referencia</p></div>'+
    '<div class="sec"><span class="eyebrow">Antes del primer día · 1 minuto</span><ul class="plain">'+
    '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
@@ -1062,6 +1071,50 @@ function rReview(){
 }
 
 
+/* ---------- Palabras ---------- */
+var WORDS=[{"w": "je", "r": 2, "es": "yo", "ex": "Je suis fatiguée."}, {"w": "est", "r": 3, "es": "es, está (verbo être)", "ex": "Il est à la gare."}, {"w": "pas", "r": 4, "es": "no (en negativas)", "ex": "Je ne sais pas."}, {"w": "vous", "r": 8, "es": "usted, ustedes, vosotros", "ex": "Vous allez bien ?"}, {"w": "tu", "r": 9, "es": "tú", "ex": "Tu as faim ?"}, {"w": "un", "r": 10, "es": "un, uno", "ex": "Un café, s’il vous plaît."}, {"w": "à", "r": 12, "es": "a, en", "ex": "Je vais à la gare."}, {"w": "il", "r": 14, "es": "él", "ex": "Il est fatigué."}, {"w": "on", "r": 21, "es": "se; también «nosotros» al hablar", "ex": "On va au café ?"}, {"w": "ça", "r": 22, "es": "eso", "ex": "Ça va bien."}, {"w": "mais", "r": 32, "es": "pero", "ex": "Je suis fatiguée, mais ça va."}, {"w": "nous", "r": 34, "es": "nosotros", "ex": "Nous allons à la gare."}, {"w": "elle", "r": 35, "es": "ella", "ex": "Elle parle français."}, {"w": "bien", "r": 37, "es": "bien", "ex": "Ça va bien, merci."}, {"w": "suis", "r": 41, "es": "soy, estoy (être)", "ex": "Je suis ici."}, {"w": "non", "r": 42, "es": "no", "ex": "Non, merci."}, {"w": "avec", "r": 44, "es": "con", "ex": "Avec plaisir !"}, {"w": "tout", "r": 45, "es": "todo", "ex": "C’est tout droit."}, {"w": "plus", "r": 46, "es": "más", "ex": "Plus lentement, s’il vous plaît."}, {"w": "fait", "r": 51, "es": "hace, hecho (faire)", "ex": "Ça fait six euros."}, {"w": "moi", "r": 52, "es": "yo (tras preposición)", "ex": "Pour moi, un café."}, {"w": "oui", "r": 54, "es": "sí", "ex": "Oui, j’ai faim."}, {"w": "va", "r": 55, "es": "va (aller)", "ex": "Ça va ?"}, {"w": "quoi", "r": 61, "es": "qué (informal)", "ex": "C’est quoi ?"}, {"w": "sais", "r": 64, "es": "sé (savoir)", "ex": "Je ne sais pas."}, {"w": "veux", "r": 66, "es": "quiero (vouloir), más directo que «je voudrais»", "ex": "Je veux un café."}, {"w": "ici", "r": 67, "es": "aquí", "ex": "Je suis ici."}, {"w": "est-ce", "r": 70, "es": "fórmula de pregunta («est-ce que»)", "ex": "Est-ce que vous parlez anglais ?"}, {"w": "pourquoi", "r": 75, "es": "por qué", "ex": "Pourquoi ?"}, {"w": "où", "r": 76, "es": "dónde", "ex": "Où est la gare ?"}, {"w": "là", "r": 77, "es": "allí, ahí", "ex": "Là, à droite."}, {"w": "rien", "r": 78, "es": "nada", "ex": "De rien."}, {"w": "quand", "r": 81, "es": "cuándo", "ex": "C’est quand ?"}, {"w": "peux", "r": 82, "es": "puedo (pouvoir)", "ex": "Je peux payer par carte ?"}, {"w": "avez", "r": 85, "es": "tiene, tienen (avoir), con «vous»", "ex": "Vous avez faim ?"}, {"w": "vais", "r": 86, "es": "voy (aller)", "ex": "Je vais à la gare."}, {"w": "alors", "r": 87, "es": "entonces, pues", "ex": "Alors, allez-y !"}, {"w": "comment", "r": 89, "es": "cómo", "ex": "Comment allez-vous ?"}, {"w": "bon", "r": 93, "es": "bueno", "ex": "Bon, à bientôt !"}, {"w": "merci", "r": 95, "es": "gracias", "ex": "Merci beaucoup."}, {"w": "très", "r": 97, "es": "muy", "ex": "Très bien."}, {"w": "aussi", "r": 100, "es": "también", "ex": "Moi aussi."}, {"w": "êtes", "r": 112, "es": "es, está usted (être)", "ex": "Vous êtes fatiguée ?"}, {"w": "allez", "r": 113, "es": "va usted, vayan (aller)", "ex": "Vous allez où ?"}, {"w": "autre", "r": 115, "es": "otro", "ex": "Un autre café, s’il vous plaît."}, {"w": "temps", "r": 117, "es": "tiempo", "ex": "Je n’ai pas le temps."}, {"w": "besoin", "r": 124, "es": "necesidad («avoir besoin de»)", "ex": "J’ai besoin d’aide."}, {"w": "accord", "r": 126, "es": "acuerdo (se usa en «d’accord»)", "ex": "D’accord !"}, {"w": "dois", "r": 128, "es": "debo (devoir)", "ex": "Je dois partir."}, {"w": "peut-être", "r": 130, "es": "quizá", "ex": "Peut-être."}, {"w": "parler", "r": 143, "es": "hablar", "ex": "Je voudrais parler français."}, {"w": "aime", "r": 155, "es": "me gusta, amo (aimer)", "ex": "J’aime le café."}, {"w": "beaucoup", "r": 170, "es": "mucho", "ex": "Merci beaucoup."}, {"w": "désolé", "r": 184, "es": "lo siento", "ex": "Désolée, je ne comprends pas."}, {"w": "voilà", "r": 186, "es": "aquí tiene, ya está", "ex": "Voilà."}, {"w": "maison", "r": 189, "es": "casa", "ex": "Je suis à la maison."}, {"w": "monsieur", "r": 198, "es": "señor", "ex": "Merci, monsieur."}];
+var WLAST={};
+function wId(w){return 'w:'+w.w}
+function blank(ex,w){
+  var re=new RegExp('(^|[^\\p{L}])('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')(?![\\p{L}])','iu');
+  return re.test(ex)?ex.replace(re,function(m,a){return a+'<span class="gap">&nbsp;</span>'}):null;
+}
+function wNext(id,r){var c=S.wc[id];var b=c?c.box:0;return r===0?0:Math.min(5,b+(r===2?2:1))}
+var wv={mode:'intro',q:[],total:0,done:0,shown:false};
+function wDue(){var t=dstr(),nw=[],old=[];WORDS.forEach(function(w){var c=S.wc[wId(w)];if(!c)nw.push(w);else if(c.due<=t)old.push(w)});return{nw:nw,old:old}}
+function rWords(){
+  var d=wDue(),h='<span class="eyebrow">Palabras</span><h2 class="h2">Las que más se usan</h2>';
+  if(wv.mode==='card'){
+    var w=wv.q[0],b=blank(w.ex,w.w);
+    h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(wv.done/wv.total*100)+'%"></i></div><div class="rcard" data-unit="1"><div style="display:flex;gap:10px;flex-wrap:wrap"><span class="tag">Palabra n.º '+w.r+'</span><span class="tag">'+Math.min(wv.done+1,wv.total)+' de '+wv.total+'</span></div>'+
+      '<p class="eyebrow" style="margin-top:16px">Lo que quieres decir</p><div class="cue-big" style="margin-top:4px">'+w.es+'</div>';
+    if(!wv.shown){
+      h+=(b?'<p class="eyebrow" style="margin-top:14px">Completa la frase en voz alta</p><div class="rfr" style="margin-top:6px">'+b+'</div>':'')+
+         '<p class="lead">Di la palabra en francés y pulsa «Mostrar».</p><div class="row2"><button class="btn" type="button" data-a="wshow">Mostrar</button></div>';
+    }else{
+      h+='<p class="eyebrow" style="margin-top:14px">La palabra</p><div class="rfr" style="margin-top:6px">'+w.w+'</div><div class="fl" style="margin-top:8px"><span>'+w.ex+'</span></div>'+
+         '<div class="row2"><button class="btn" type="button" data-a="say" data-say="'+esc(w.ex)+'">▶ Escuchar la frase</button><button class="btn ghost" type="button" data-a="say" data-say="'+esc(w.w)+'">▶ La palabra</button></div>'+
+         '<p class="eyebrow" style="margin-top:22px">¿Cómo te ha salido?</p>'+
+         '<div class="rate" style="margin-top:8px"><button type="button" data-a="wrate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="wrate" data-r="1">Bien<small>'+lab(wNext(wId(w),1))+'</small></button><button type="button" data-a="wrate" data-r="2">Fácil<small>'+lab(wNext(wId(w),2))+'</small></button></div>';
+    }
+    h+='</div>';
+  }else if(wv.mode==='done'){
+    h+='<div class="endbox"><div class="score">'+wv.total+'<span> palabras</span></div><p style="margin-top:8px">Práctica terminada. Las que dijiste con soltura vuelven más tarde y las demás, antes.</p><div class="row2"><button class="btn ghost" type="button" data-a="wback">Ver la lista</button></div></div>';
+  }else{
+    h+='<p class="lead">Una lista real de las palabras que más aparecen en francés hablado, para aprender primero lo que más vas a oír. No es mi intuición: sale de un recuento de 313 millones de palabras de subtítulos de películas y series.</p>'+
+      '<div class="sec"><span class="eyebrow">Qué dicen los datos</span><ul class="plain">'+
+      '<li><b>Las 100 formas más frecuentes</b> suman el 57,7 % de todas las palabras de la lista. Las 200, el 66,2 %. Las 500, el 75,0 %. Las 1000, el 80,8 %.</li>'+
+      '<li><b>Fuente:</b> FrequencyWords (OpenSubtitles 2018, francés, 50 000 formas), licencia CC BY-SA 4.0.</li>'+
+      '<li><b>Límites:</b> son subtítulos, es decir, diálogo de ficción, no conversación real. Cuenta formas escritas, no agrupa conjugaciones (suis, est y êtes son formas de être) e incluye nombres propios y errores. La selección de '+WORDS.length+' palabras, sus sentidos en español y las frases de ejemplo son míos.</li></ul></div>'+
+      '<div class="row2">'+((d.nw.length+d.old.length)?'<button class="btn" type="button" data-a="wstart">Practicar '+Math.min(10,d.nw.length)+(d.nw.length===1?' palabra nueva':' palabras nuevas')+(d.old.length?' y repasar '+d.old.length:'')+'</button>':'<span class="progl">No hay palabras pendientes hoy.</span>')+'</div>'+
+      '<div class="sec"><span class="eyebrow">La lista · por frecuencia</span><div class="wlist">'+WORDS.map(function(w){
+        var c=S.wc[wId(w)];
+        return '<div class="wrow" data-unit="1"><span class="rk">n.º '+w.r+'</span><div><div class="ww">'+w.w+'</div><div class="es">'+w.es+'</div><div class="ex"><span>'+w.ex+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(w.ex)+'" aria-label="Escuchar: '+esc(w.ex)+'">'+ICON.play+'</button></div></div><span class="tag'+(c&&c.box>=3?' ok':'')+'">'+(c?(c.box>=3?'Dominada':'En práctica'):'Nueva')+'</span></div>';
+      }).join('')+'</div></div>';
+  }
+  $('#v-words').innerHTML=h;
+}
+
 /* ---------- Verbos ---------- */
 var VERBS=[
  {id:'parler',r:'parl',es:'hablar'},
@@ -1096,7 +1149,7 @@ function rVerbs(){
      var fm=vForm(v,i);
      return '<div class="r"><span class="pr">'+fm.pr+'</span><span class="fo">'+v.r+'<span class="e'+(f[2]?'':' mu')+'">'+f[1]+'</span></span><span class="tag'+(f[2]?' now':'')+'">'+(f[2]?'suena -'+(i===3?'õ':'é'):'igual')+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(fm.full)+'" aria-label="Escuchar '+esc(fm.full)+'">'+ICON.play+'</button></div>';
    }).join('')+'</div></div>'+
-   '<p class="legend">Con verbos que empiezan por vocal o h muda, <i>je</i> pasa a <i>j’</i> (j’habite). Próximamente: verbos modales del inglés y laboratorio de enlaces.</p>';
+   '<p class="legend">Con verbos que empiezan por vocal o h muda, <i>je</i> pasa a <i>j’</i> (j’habite). Próximamente: laboratorio de enlaces (liaisons).</p>';
 }
 
 /* ---------- Método ---------- */
@@ -1123,7 +1176,7 @@ function rMethod(){
 function render(){
   [].forEach.call(document.querySelectorAll('.nav button'),function(b){b.setAttribute('aria-selected',String(b.dataset.t===tab))});
   [].forEach.call(document.querySelectorAll('.view'),function(v){v.hidden=v.id!=='v-'+tab});
-  ({home:rHome,route:rRoute,today:rToday,review:rReview,sounds:rSounds,verbs:rVerbs,method:rMethod})[tab]();
+  ({home:rHome,route:rRoute,today:rToday,review:rReview,words:rWords,sounds:rSounds,verbs:rVerbs,method:rMethod})[tab]();
   [].forEach.call(document.querySelectorAll('[data-a="speed"]'),function(b){b.setAttribute('aria-pressed',String(b.dataset.v===S.speed))});
   document.body.setAttribute('data-look','b');
 }
@@ -1167,6 +1220,16 @@ document.addEventListener('click',function(e){
   else if(a==='goal'){S.goals[el.dataset.i]=el.checked?1:0;save()}
   else if(a==='restdone'){S.rest=true;touch();rToday()}
   else if(a==='verb'){vb=el.dataset.id;rVerbs()}
+  else if(a==='wstart'){var dd=wDue();wv.q=dd.old.concat(dd.nw.slice(0,10));wv.total=wv.q.length;wv.done=0;wv.shown=false;wv.mode='card';rWords()}
+  else if(a==='wshow'){wv.shown=true;rWords();say(wv.q[0].ex)}
+  else if(a==='wrate'){
+    var cw=wv.q.shift(),rr=+el.dataset.r,bb=wNext(wId(cw),rr);
+    S.wc[wId(cw)]={box:bb,due:addDays(dstr(),INT[bb])};
+    if(rr===0)wv.q.push(cw);else wv.done++;
+    wv.shown=false;if(!wv.q.length)wv.mode='done';
+    touch();rWords();
+  }
+  else if(a==='wback'){wv.mode='intro';rWords()}
   else if(a==='rhy'){rhy=el.dataset.id;$('#rhy').innerHTML=rhyHTML()}
   else if(a==='scene'){curScene=el.dataset.id;pl=null;rToday()}
   else if(a==='start'){startScene()}

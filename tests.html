@@ -15,17 +15,20 @@ function log(ok,msg){var li=document.createElement('li');li.className=ok?'ok':'k
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 function q(s){return f.contentDocument.querySelector(s)}
 function qa(s){return f.contentDocument.querySelectorAll(s)}
+async function go(t){var d=f.contentDocument,b=d.createElement('button');b.setAttribute('data-a','tab');b.setAttribute('data-t',t);d.body.appendChild(b);b.click();d.body.removeChild(b);await sleep(250)}
 async function click(s){var e=q(s);if(!e){return false}e.click();await sleep(250);return true}
 async function run(){
   await sleep(800);
   var d=f.contentDocument;
   log(/Cadence/.test(d.title),'El título de la página contiene «Cadence»');
-  log(qa('[data-a="tab"]').length===8,'El menú tiene 8 secciones');
+  log(qa('.nav [data-a="tab"]').length===5,'El menú tiene 5 apartados');
+  log(qa('#v-home .rstep').length===3&&qa('#v-home .ucard').length===4,'Camino: rutina de 3 pasos y 4 unidades');
+  log(!!q('#v-home .badges'),'Camino: racha, puntos y nivel');
   log(/Bonjour/.test((q('#v-home h1')||{}).textContent||''),'Empezar: muestra «Bonjour.»');
   log(qa('#v-home .stage').length===3,'Empezar: principio, desarrollo y final');
   log(/90 y 100 horas/.test(q('#v-home').textContent),'Empezar: cita la referencia de horas');
   log(qa('#v-home .how li').length===4,'Empezar: el día tiene 4 pasos');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   log(qa('#v-route .trow').length===32,'Ruta: 32 sesiones (unidades 1 a 4)');
   log(qa('#v-route li.plan').length===0,'Ruta: no quedan sesiones solo planificadas');
   await click('#v-route [data-a="day"][data-n="1"]');
@@ -53,7 +56,7 @@ async function run(){
   log(!!q('#v-review [data-a="backday"]'),'Dilo tú: al acabar vuelve al día');
   await click('#v-review [data-a="backday"]');
   log(/Día 1 completo/.test(q('#v-today').textContent),'Día 1 queda completo');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   log(qa('#v-route .node.done').length===1,'Ruta: el día 1 aparece como Hecho');
   await click('#v-route [data-a="day"][data-n="7"]');
   await click('#v-today [data-a="qstart"]');
@@ -72,25 +75,25 @@ async function run(){
   for(var k2=0;k2<3;k2++){await click('#v-today [data-a="pick"]');await click('#v-today [data-a="next"]')}
   log(!!q('#v-today .endbox'),'U2 escena: termina con resultado');
   for(var dd=10;dd<=13;dd++){
-    await click('[data-a="tab"][data-t="route"]');
+    await go('route');
     await click('#v-route [data-a="day"][data-n="'+dd+'"]');
     log(qa('#v-today .story .sl').length>=7&&!!q('#v-today .stp'),'U2 sesión '+dd+': historia y 4 pasos');
   }
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="14"]');
   log(qa('#v-today .story .sl').length===8,'U2 jornada: 8 líneas');
   await click('#v-today [data-a="stepdone"][data-i="0"]');
   log(qa('#v-today .ph').length===25,'U2 jornada: 25 frases de la unidad');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="15"]');
   await click('#v-today [data-a="qstart"]');
   for(var n3=0;n3<8;n3++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
   log(/\/ 8/.test(q('#v-today').textContent),'U2 mini-prueba: resultado sobre 8');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="16"]');
   log(qa('#v-today .checks li').length===4&&/billete/.test(q('#v-today .checks').textContent),'U2 balance: objetivos de la unidad 2');
   for(var u3=17;u3<=22;u3++){
-    await click('[data-a="tab"][data-t="route"]');
+    await go('route');
     await click('#v-route [data-a="day"][data-n="'+u3+'"]');
     log(qa('#v-today .story .sl').length>=8&&!!q('#v-today .stp')&&/Unidad 3/.test(q('#v-today').textContent),'U3 sesión '+u3+': historia, pasos y unidad');
     if(u3===17){
@@ -100,16 +103,16 @@ async function run(){
     }
     if(u3===22){await click('#v-today [data-a="stepdone"][data-i="0"]');log(qa('#v-today .ph').length===25,'U3 jornada: 25 frases');}
   }
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="23"]');
   await click('#v-today [data-a="qstart"]');
   for(var n4=0;n4<8;n4++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
   log(/\/ 8/.test(q('#v-today').textContent),'U3 mini-prueba: resultado sobre 8');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="24"]');
   log(qa('#v-today .checks li').length===4&&/restaurante/.test(q('#v-today .checks').textContent),'U3 balance: objetivos de la unidad 3');
   for(var u4=25;u4<=30;u4++){
-    await click('[data-a="tab"][data-t="route"]');
+    await go('route');
     await click('#v-route [data-a="day"][data-n="'+u4+'"]');
     log(qa('#v-today .story .sl').length>=7&&!!q('#v-today .stp')&&/Unidad 4/.test(q('#v-today').textContent),'U4 sesión '+u4+': historia, pasos y unidad');
     if(u4===25){
@@ -119,29 +122,43 @@ async function run(){
     }
     if(u4===30){await click('#v-today [data-a="stepdone"][data-i="0"]');log(qa('#v-today .ph').length===25,'U4 jornada: 25 frases');}
   }
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="31"]');
   await click('#v-today [data-a="qstart"]');
   for(var n5=0;n5<8;n5++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
   log(/\/ 8/.test(q('#v-today').textContent),'Prueba final: resultado sobre 8');
-  await click('[data-a="tab"][data-t="route"]');
+  await go('route');
   await click('#v-route [data-a="day"][data-n="32"]');
   log(qa('#v-today .checks li').length===4&&/cita/.test(q('#v-today .checks').textContent),'U4 balance: objetivos de la unidad 4');
-  await click('[data-a="tab"][data-t="sounds"]');
+  await go('games');
+  log(qa('#v-games .gtile').length===4,'Juegos: 4 juegos');
+  await click('#v-games [data-a="gstart"][data-g="pq"]');
+  for(var g1=0;g1<8;g1++){await click('#v-games .qopt');await click('#v-games [data-a="pqnext"]')}
+  log(/\/ 8/.test(q('#v-games').textContent),'Juegos: ¿Qué es? termina con resultado');
+  await click('#v-games [data-a="pqend"]');
+  await click('#v-games [data-a="gstart"][data-g="ls"]');
+  log(qa('#v-games #listen .chips .chip').length>=5,'Juegos: Escucha y marca empieza');
+  await click('#v-games [data-a="gend"]');
+  await click('#v-games [data-a="gstart"][data-g="lq"]');
+  for(var g2=0;g2<8;g2++){await click('#v-games .lqbox [data-a="lqans"]');await click('#v-games .lqbox [data-a="lqnext"]')}
+  log(/\/ 8/.test(q('#v-games .lqbox').textContent),'Juegos: Enlaces termina con resultado');
+  await go('home');
+  log(qa('#v-home .rstep.done').length>=1,'Camino: un paso de la rutina queda marcado');
+  await go('sounds');
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
   log(qa('#v-sounds #lib .lex').length===14&&qa('#v-sounds #lib .arc').length===14,'Enlaces: 14 ejemplos con arco');
   await click('#v-sounds [data-a="lqstart"]');
   for(var z=0;z<8;z++){await click('#v-sounds #lq [data-a="lqans"]');await click('#v-sounds #lq [data-a="lqnext"]')}
   log(/\/ 8/.test(q('#v-sounds #lq').textContent),'Enlaces: prueba con resultado sobre 8');
-  await click('[data-a="tab"][data-t="review"]');
+  await go('review');
   log(!!q('#v-review .boxes'),'Repaso: muestra las cajas de memoria');
-  await click('[data-a="tab"][data-t="words"]');
+  await go('words');
   log(qa('#v-words .wrow').length>=50,'Palabras: lista con rango de frecuencia');
   await click('#v-words [data-a="wstart"]');
   log(!!q('#v-words [data-a="wshow"]'),'Palabras: la práctica empieza');
   await click('#v-words [data-a="wshow"]');
   log(qa('#v-words [data-a="wrate"]').length===3,'Palabras: 3 valoraciones');
-  await click('[data-a="tab"][data-t="verbs"]');
+  await go('verbs');
   log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6,'Verbos: mapa y matriz con 6 formas');
   await click('#v-verbs [data-a="verb"][data-id="habiter"]');
   log(/j’habite/.test(q('#v-verbs').textContent),'Verbos: habiter usa j’');
@@ -165,7 +182,7 @@ async function run(){
   await click('#v-verbs [data-a="pqstart"]');
   for(var y=0;y<8;y++){await click('#v-verbs .qopt');await click('#v-verbs [data-a="pqnext"]')}
   log(/\/ 8/.test(q('#v-verbs').textContent),'Imágenes: juego con resultado sobre 8');
-  await click('[data-a="tab"][data-t="method"]');
+  await go('method');
   log(qa('#v-method .ev li').length===7,'Método: 7 evidencias');
   try{if(backup===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,backup)}catch(e){}
   document.title=(fails?'FAIL':'PASS')+' · Cadence';

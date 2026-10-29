@@ -448,7 +448,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · imágenes 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · unidad 4 · 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -820,6 +820,127 @@ var SCENES=[
      {fr:'Sans oignon, s’il vous plaît.',q:2,reply:'Sans oignon, très bien.'},
      {fr:'Pas oignon.',q:1,reply:'{Sans oignon}, très bien.'},
      {fr:'Au revoir.',q:0,reply:'Déjà ? {Avec} ou {sans oignon} ?'}]}
+  ]},
+
+ {id:'moi',u:4,title:'Se présenter',art:'wave',
+  setting:'Una cena entre amigos. Un invitado que no conoces se sienta a tu lado y empieza a charlar con una sonrisa.',
+  who:'Marc',
+  phrases:[
+   {id:'i1',fr:'Je viens d’Uruguay.',syl:[['zhe','viẽ'],['dü','rü','gwé']],cue:'Dices de qué país vienes.'},
+   {id:'i2',fr:'J’habite à Madrid.',syl:[['zha','bit','a'],['ma','drid']],cue:'Dices en qué ciudad vives.'},
+   {id:'i3',fr:'Je parle espagnol.',syl:[['zhe','parl'],['es','pa','nyol']],cue:'Dices que hablas español.'},
+   {id:'i4',fr:'Et vous, vous venez d’où ?',syl:[['é','vu'],['vu','ve','né'],['du']],cue:'Preguntas de dónde es la otra persona.'},
+   {id:'i5',fr:'Enchantée de faire votre connaissance.',syl:[['ã','shã','té'],['de','fér'],['vo','tre','ko','ne','sãs']],cue:'Dices con elegancia que te alegra conocerle.'}
+  ],
+  turns:[
+   {fr:'Bonsoir ! Je m’appelle Marc. Et vous ?',sense:'Se presenta y te pregunta tu nombre.',opts:[
+     {fr:'Je m’appelle Clara. Enchantée de faire votre connaissance.',q:2,reply:'Enchanté, Clara !'},
+     {fr:'Clara.',q:1,reply:'{Je m’appelle Clara}, enchanté !'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Ah ! Un café plus tard. {Vous vous appelez} comment ?'}]},
+   {fr:'Vous venez d’où, Clara ?',sense:'Te pregunta de dónde eres.',opts:[
+     {fr:'Je viens d’Uruguay.',q:2,reply:'L’Uruguay ! C’est loin.'},
+     {fr:'Uruguay.',q:1,reply:'Vous {venez d’Uruguay} ! C’est loin.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous venez d’où} ?'}]},
+   {fr:'Et vous habitez ici, à Paris ?',sense:'Te pregunta si vives aquí, en París.',opts:[
+     {fr:'Non, j’habite à Madrid. Et vous, vous venez d’où ?',q:2,reply:'Moi, je viens de Lyon.'},
+     {fr:'Madrid.',q:1,reply:'Vous {habitez à Madrid} ! Moi, je viens de Lyon.'},
+     {fr:'Merci beaucoup.',q:0,reply:'De rien. Vous {habitez} où ?'}]}
+  ]},
+ {id:'travail',u:4,title:'Mon travail',art:'key',
+  setting:'Sigue la cena. Marc te sirve agua y te pregunta con curiosidad a qué te dedicas.',
+  who:'Marc',
+  phrases:[
+   {id:'j1',fr:'Je suis avocate.',syl:[['zhe','süi','za','vo','kat']],cue:'Dices tu profesión: abogada.'},
+   {id:'j2',fr:'Je travaille dans un cabinet.',syl:[['zhe','tra','vay'],['dã','zẽ'],['ka','bi','né']],cue:'Dices dónde trabajas: en un despacho.'},
+   {id:'j3',fr:'Je travaille beaucoup.',syl:[['zhe','tra','vay'],['bo','ku']],cue:'Dices que trabajas mucho.'},
+   {id:'j4',fr:'Et vous, vous faites quoi ?',syl:[['é','vu'],['vu','fet'],['kua']],cue:'Preguntas a qué se dedica la otra persona.'},
+   {id:'j5',fr:'J’aime mon travail.',syl:[['zhém'],['mõ','tra','vay']],cue:'Dices que te gusta tu trabajo.'}
+  ],
+  turns:[
+   {fr:'Et vous, Clara, vous faites quoi dans la vie ?',sense:'Te pregunta a qué te dedicas.',opts:[
+     {fr:'Je suis avocate.',q:2,reply:'Avocate ! C’est intéressant.'},
+     {fr:'Avocat.',q:1,reply:'{Vous êtes avocate} ! C’est intéressant.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Je vous en prie. Vous {faites} quoi ?'}]},
+   {fr:'Vous travaillez où ?',sense:'Te pregunta dónde trabajas.',opts:[
+     {fr:'Je travaille dans un cabinet.',q:2,reply:'Un cabinet, très bien.'},
+     {fr:'Cabinet.',q:1,reply:'Vous {travaillez dans un cabinet}, très bien.'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ! Vous {travaillez} où ?'}]},
+   {fr:'Et vous aimez votre travail ?',sense:'Te pregunta si te gusta tu trabajo.',opts:[
+     {fr:'Oui, j’aime mon travail. Et vous, vous faites quoi ?',q:2,reply:'Moi, je suis professeur.'},
+     {fr:'Oui, aime.',q:1,reply:'Vous {aimez} votre travail, très bien. Moi, je suis professeur.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous aimez} votre travail ?'}]}
+  ]},
+ {id:'famille',u:4,title:'Ma famille',art:'sun',
+  setting:'Con el postre llega la conversación sobre la familia. Marc saca el teléfono para enseñarte una foto.',
+  who:'Marc',
+  phrases:[
+   {id:'f1',fr:'J’ai une sœur.',syl:[['zhé','ün','sör']],cue:'Dices que tienes una hermana.'},
+   {id:'f2',fr:'Mon frère s’appelle Paul.',syl:[['mõ','frér'],['sa','pel'],['pol']],cue:'Dices cómo se llama tu hermano.'},
+   {id:'f3',fr:'Ma mère habite à Montevideo.',syl:[['ma','mér','a','bit'],['a','mõ','te','vi','de','o']],cue:'Dices dónde vive tu madre.'},
+   {id:'f4',fr:'Vous avez des frères et sœurs ?',syl:[['vu','za','vé'],['dé','frér'],['é','sör']],cue:'Preguntas si tiene hermanos.'},
+   {id:'f5',fr:'Voici ma famille.',syl:[['vua','si'],['ma','fa','miy']],cue:'Presentas a tu familia en una foto.'}
+  ],
+  turns:[
+   {fr:'Vous avez des frères et sœurs ?',sense:'Te pregunta si tienes hermanos.',opts:[
+     {fr:'J’ai une sœur.',q:2,reply:'Une sœur, c’est bien !'},
+     {fr:'Sœur.',q:1,reply:'Vous {avez une sœur}, c’est bien !'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ! Vous {avez} des frères et sœurs ?'}]},
+   {fr:'Et vos parents, ils habitent où ?',sense:'Te pregunta dónde viven tus padres.',opts:[
+     {fr:'Ma mère habite à Montevideo.',q:2,reply:'Montevideo, très joli !'},
+     {fr:'Mère Montevideo.',q:1,reply:'{Votre mère habite à Montevideo}, très joli !'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Ils habitent} où ?'}]},
+   {fr:'Vous avez une photo ?',sense:'Te pregunta si tienes una foto.',opts:[
+     {fr:'Oui, voici ma famille.',q:2,reply:'Quelle belle famille !'},
+     {fr:'Famille.',q:1,reply:'{Voici ma famille} ? Quelle belle famille !'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? {Une photo} ?'}]}
+  ]},
+ {id:'ville',u:4,title:'Ma ville',art:'sign',
+  setting:'La charla se alarga. Marc te pregunta por tu ciudad y tú le describes cómo es vivir allí.',
+  who:'Marc',
+  phrases:[
+   {id:'y1',fr:'J’habite dans une grande ville.',syl:[['zha','bit','dã','zün'],['grãd','vil']],cue:'Dices que vives en una ciudad grande.'},
+   {id:'y2',fr:'Il y a beaucoup de monde.',syl:[['i','li','a'],['bo','ku','de','mõd']],cue:'Dices que hay mucha gente.'},
+   {id:'y3',fr:'C’est très calme.',syl:[['se','tré','kalm']],cue:'Dices que es muy tranquilo.'},
+   {id:'y4',fr:'C’est près de la mer.',syl:[['se','pré','de','la','mér']],cue:'Dices que está cerca del mar.'},
+   {id:'y5',fr:'Vous connaissez Madrid ?',syl:[['vu','ko','ne','sé'],['ma','drid']],cue:'Preguntas si conoce Madrid.'}
+  ],
+  turns:[
+   {fr:'Vous habitez dans une grande ville ?',sense:'Te pregunta si vives en una ciudad grande.',opts:[
+     {fr:'Oui, j’habite dans une grande ville.',q:2,reply:'Madrid, c’est ça ?'},
+     {fr:'Oui, grande.',q:1,reply:'Vous {habitez dans une grande ville}. Madrid, c’est ça ?'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous habitez} où ?'}]},
+   {fr:'Il y a beaucoup de monde ?',sense:'Te pregunta si hay mucha gente.',opts:[
+     {fr:'Oui, il y a beaucoup de monde.',q:2,reply:'Comme à Paris !'},
+     {fr:'Beaucoup monde.',q:1,reply:'{Il y a beaucoup de monde}, oui. Comme à Paris !'},
+     {fr:'Merci.',q:0,reply:'Je vous en prie. {Il y a beaucoup de monde} ?'}]},
+   {fr:'Moi, j’habite près de la mer. C’est très calme.',sense:'Te cuenta que vive cerca del mar y que es muy tranquilo.',opts:[
+     {fr:'Ah, c’est très calme !',q:2,reply:'Oui, c’est très calme, près de la mer.'},
+     {fr:'Calme.',q:1,reply:'{C’est très calme}, oui, près de la mer.'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? {Près de la mer}, c’est calme.'}]}
+  ]},
+ {id:'rdv',u:4,title:'Rendez-vous',art:'cup',
+  setting:'La cena termina y la conversación ha ido tan bien que Marc propone volver a veros. Os ponéis de acuerdo en el día, el lugar y la hora.',
+  who:'Marc',
+  phrases:[
+   {id:'x1',fr:'On se voit demain ?',syl:[['õ','se','vua'],['de','mẽ']],cue:'Propones veros mañana.'},
+   {id:'x2',fr:'Vous êtes libre samedi ?',syl:[['vu','zét','libr'],['sam','di']],cue:'Preguntas si está libre el sábado.'},
+   {id:'x3',fr:'À quelle heure on se retrouve ?',syl:[['a','kel','ör'],['õ','se','re','truv']],cue:'Preguntas a qué hora quedáis.'},
+   {id:'x4',fr:'Rendez-vous devant la gare.',syl:[['rã','dé','vu'],['de','vã'],['la','gar']],cue:'Propones quedar delante de la estación.'},
+   {id:'x5',fr:'Avec plaisir !',syl:[['a','vek','plé','zir']],cue:'Aceptas con gusto una invitación.'}
+  ],
+  turns:[
+   {fr:'Je suis content de vous connaître. On se revoit ?',sense:'Dice que le alegra conocerte y propone volver a veros.',opts:[
+     {fr:'Avec plaisir ! Vous êtes libre samedi ?',q:2,reply:'Oui, samedi, c’est parfait.'},
+     {fr:'Oui. Samedi.',q:1,reply:'{Vous êtes libre samedi} ? Oui, c’est parfait.'},
+     {fr:'Au revoir.',q:0,reply:'Ah… vous partez déjà ? {On se voit samedi} ?'}]},
+   {fr:'Samedi, parfait. On se retrouve où ?',sense:'Pregunta dónde quedáis.',opts:[
+     {fr:'Rendez-vous devant la gare.',q:2,reply:'Très bien, devant la gare.'},
+     {fr:'Gare.',q:1,reply:'{Rendez-vous devant la gare}, très bien.'},
+     {fr:'Merci beaucoup.',q:0,reply:'De rien… {on se retrouve} où ?'}]},
+   {fr:'Parfait. Et à quelle heure ?',sense:'Pregunta a qué hora.',opts:[
+     {fr:'À midi et demi.',q:2,reply:'Parfait. À samedi !'},
+     {fr:'Midi.',q:1,reply:'{À midi et demi}, parfait. À samedi !'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! {À quelle heure} ?'}]}
   ]}
 ];
 
@@ -856,7 +977,15 @@ var DAYS=[
  {n:21,u:3,t:'Decir lo que no comes',sc:'sans',m:20,goal:'Explicar que no comes carne, que eres alérgica a algo o que quieres un plato sin algo.'},
  {n:22,u:3,t:'Una jornada completa',sc:null,m:20,goal:'Unir mesa, platos, cantidades y restricciones en una sola cena.'},
  {n:23,u:3,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado en esta unidad: ocho frases que escuchas y reconoces.'},
- {n:24,u:3,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
+ {n:24,u:3,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'},
+ {n:25,u:4,t:'Presentarte mejor',sc:'moi',m:20,goal:'Decir tu nombre, de dónde eres, dónde vives y qué idiomas hablas, y preguntar lo mismo.'},
+ {n:26,u:4,t:'Tu trabajo',sc:'travail',m:20,goal:'Decir tu profesión y dónde trabajas, y preguntar a qué se dedica la otra persona.'},
+ {n:27,u:4,t:'Tu familia',sc:'famille',m:20,goal:'Hablar de tus hermanos y de tus padres, y enseñar una foto.'},
+ {n:28,u:4,t:'Tu ciudad',sc:'ville',m:20,goal:'Describir dónde vives: si es grande, tranquila o cerca del mar.'},
+ {n:29,u:4,t:'Quedar con alguien',sc:'rdv',m:20,goal:'Proponer un día, un lugar y una hora, y aceptar con gusto.'},
+ {n:30,u:4,t:'Una jornada completa',sc:null,m:20,goal:'Unir presentación, trabajo, familia y una cita en una sola conversación.'},
+ {n:31,u:4,t:'Prueba final del nivel',kind:'test',final:true,m:15,goal:'Comprobar qué has fijado en todo el curso: ocho frases elegidas entre las cuatro unidades.'},
+ {n:32,u:4,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
 ];
 DAYS.forEach(function(d){d.u=d.u||1;d.k=d.n-(d.u-1)*8});
 var STORY={
@@ -999,15 +1128,63 @@ var STORY={
     {w:'Le serveur',fr:'Et comme dessert ?',es:'¿Y de postre?'},
     {w:'Clara',fr:'Un peu de fromage, s’il vous plaît.',es:'Un poco de queso, por favor.'},
     {w:'Le serveur',fr:'Voilà. Tout va bien ?',es:'Aquí tiene. ¿Todo bien?'},
-    {w:'Clara',fr:'C’était très bon, merci.',es:'Estaba muy bueno, gracias.'}]
+    {w:'Clara',fr:'C’était très bon, merci.',es:'Estaba muy bueno, gracias.'}],
+ 25:[{w:'Marc',fr:'Bonsoir ! Je m’appelle Marc. Et vous ?',es:'¡Buenas noches! Me llamo Marc. ¿Y usted?'},
+    {w:'Clara',fr:'Je m’appelle Clara. Enchantée de faire votre connaissance.',es:'Me llamo Clara. Encantada de conocerle.'},
+    {w:'Marc',fr:'Enchanté, Clara. Vous venez d’où ?',es:'Encantado, Clara. ¿De dónde es usted?'},
+    {w:'Clara',fr:'Je viens d’Uruguay, mais j’habite à Madrid.',es:'Soy de Uruguay, pero vivo en Madrid.'},
+    {w:'Marc',fr:'Ah, vous parlez espagnol !',es:'¡Ah, habla español!'},
+    {w:'Clara',fr:'Oui, je parle espagnol et un peu français.',es:'Sí, hablo español y un poco de francés.'},
+    {w:'Marc',fr:'Et vous parlez très bien !',es:'¡Y habla muy bien!'},
+    {w:'Clara',fr:'Merci ! Et vous, vous venez d’où ?',es:'¡Gracias! Y usted, ¿de dónde es?'},
+    {w:'Marc',fr:'Moi, je viens de Lyon.',es:'Yo soy de Lyon.'}],
+ 26:[{w:'Marc',fr:'Et vous, Clara, vous faites quoi dans la vie ?',es:'Y usted, Clara, ¿a qué se dedica?'},
+    {w:'Clara',fr:'Je suis avocate.',es:'Soy abogada.'},
+    {w:'Marc',fr:'Avocate ! Vous travaillez où ?',es:'¡Abogada! ¿Dónde trabaja?'},
+    {w:'Clara',fr:'Je travaille dans un cabinet. Je travaille beaucoup !',es:'Trabajo en un despacho. ¡Trabajo mucho!'},
+    {w:'Marc',fr:'Et vous aimez votre travail ?',es:'¿Y le gusta su trabajo?'},
+    {w:'Clara',fr:'Oui, j’aime mon travail. Et vous, vous faites quoi ?',es:'Sí, me gusta mi trabajo. Y usted, ¿a qué se dedica?'},
+    {w:'Marc',fr:'Moi, je suis professeur.',es:'Yo soy profesor.'}],
+ 27:[{w:'Marc',fr:'Vous avez des frères et sœurs, Clara ?',es:'¿Tiene hermanos, Clara?'},
+    {w:'Clara',fr:'J’ai une sœur et un frère. Mon frère s’appelle Paul.',es:'Tengo una hermana y un hermano. Mi hermano se llama Paul.'},
+    {w:'Marc',fr:'Et vos parents, ils habitent où ?',es:'¿Y sus padres, dónde viven?'},
+    {w:'Clara',fr:'Ma mère habite à Montevideo.',es:'Mi madre vive en Montevideo.'},
+    {w:'Marc',fr:'Vous avez une photo ?',es:'¿Tiene una foto?'},
+    {w:'Clara',fr:'Oui, voici ma famille.',es:'Sí, esta es mi familia.'},
+    {w:'Marc',fr:'Quelle belle famille !',es:'¡Qué bonita familia!'},
+    {w:'Clara',fr:'Merci ! Et vous, vous avez des frères et sœurs ?',es:'¡Gracias! Y usted, ¿tiene hermanos?'}],
+ 28:[{w:'Marc',fr:'Vous habitez dans une grande ville ?',es:'¿Vive en una ciudad grande?'},
+    {w:'Clara',fr:'Oui, j’habite dans une grande ville. Il y a beaucoup de monde.',es:'Sí, vivo en una ciudad grande. Hay mucha gente.'},
+    {w:'Marc',fr:'Moi, j’habite près de la mer. C’est très calme.',es:'Yo vivo cerca del mar. Es muy tranquilo.'},
+    {w:'Clara',fr:'C’est près de la mer ? Quelle chance !',es:'¿Cerca del mar? ¡Qué suerte!'},
+    {w:'Marc',fr:'Oui ! Vous connaissez Marseille ?',es:'¡Sí! ¿Conoce Marsella?'},
+    {w:'Clara',fr:'Non. Et vous, vous connaissez Madrid ?',es:'No. Y usted, ¿conoce Madrid?'},
+    {w:'Marc',fr:'Non, pas encore.',es:'No, todavía no.'},
+    {w:'Clara',fr:'Alors, venez !',es:'¡Pues venga!'}],
+ 29:[{w:'Marc',fr:'Je suis content de vous connaître. On se voit demain ?',es:'Me alegra conocerla. ¿Nos vemos mañana?'},
+    {w:'Clara',fr:'Demain, je travaille. Vous êtes libre samedi ?',es:'Mañana trabajo. ¿Está libre el sábado?'},
+    {w:'Marc',fr:'Oui, samedi, c’est parfait.',es:'Sí, el sábado es perfecto.'},
+    {w:'Clara',fr:'Rendez-vous devant la gare. À quelle heure on se retrouve ?',es:'Quedamos delante de la estación. ¿A qué hora nos encontramos?'},
+    {w:'Marc',fr:'À midi et demi ?',es:'¿A las doce y media?'},
+    {w:'Clara',fr:'Avec plaisir !',es:'¡Con mucho gusto!'},
+    {w:'Marc',fr:'À samedi !',es:'¡Hasta el sábado!'},
+    {w:'Clara',fr:'À samedi, Marc !',es:'¡Hasta el sábado, Marc!'}],
+ 30:[{w:'Clara',fr:'Bonsoir ! Je m’appelle Clara. Enchantée de faire votre connaissance.',es:'¡Buenas noches! Me llamo Clara. Encantada de conocerle.'},
+    {w:'Marc',fr:'Enchanté. Vous venez d’où ?',es:'Encantado. ¿De dónde es usted?'},
+    {w:'Clara',fr:'Je viens d’Uruguay, mais j’habite à Madrid.',es:'Soy de Uruguay, pero vivo en Madrid.'},
+    {w:'Marc',fr:'Et vous faites quoi dans la vie ?',es:'¿Y a qué se dedica?'},
+    {w:'Clara',fr:'Je suis avocate. Je travaille dans un cabinet.',es:'Soy abogada. Trabajo en un despacho.'},
+    {w:'Marc',fr:'Vous avez des frères et sœurs ?',es:'¿Tiene hermanos?'},
+    {w:'Clara',fr:'J’ai une sœur. Et vous ?',es:'Tengo una hermana. ¿Y usted?'},
+    {w:'Marc',fr:'Moi aussi. Vous êtes libre samedi ?',es:'Yo también. ¿Está libre el sábado?'},
+    {w:'Clara',fr:'Avec plaisir ! À quelle heure on se retrouve ?',es:'¡Con mucho gusto! ¿A qué hora nos encontramos?'}]
 };
 var PLAN=[
- {w:'U4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Una jornada completa','Prueba final del nivel','Descanso y balance']}
 ];
 var STAGES=[
  {k:'Principio',t:'Unidades 1 y 2 · Sobrevivir y moverte',d:'Saludar, un café, pedir ayuda y un hotel; después números, hora, billetes, metro, taxi y precios. Cada unidad termina con una mini-prueba.',s:'Disponible'},
  {k:'Desarrollo',t:'Unidad 3 · Mesa y mercado',d:'Restaurante, platos y bebidas, mercado, cantidades y decir lo que no comes. Sigue el mismo ritmo de ocho sesiones.',s:'Disponible'},
- {k:'Final',t:'Unidad 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. Cierra el nivel A1 con una prueba final.',s:'En preparación'}
+ {k:'Final',t:'Unidad 4 · Conversar',d:'Presentarte, hablar de tu trabajo, tu familia y tu ciudad, y quedar con alguien. Cierra con una prueba final de todo el curso.',s:'Disponible'}
 ];
 var RHY=['c1','c2','c3','h5'];
 var WEEKS=[
@@ -1027,6 +1204,12 @@ var GOALS3=[
  'Pedir entrante, plato, postre y bebida.',
  'Pedir una cantidad en el mercado y preguntar el precio por kilo.',
  'Decir que no comes algo, que eres alérgica o que lo quieres sin algo.'
+];
+var GOALS4=[
+ 'Presentarte: nombre, de dónde eres, dónde vives y qué idiomas hablas.',
+ 'Decir tu profesión y dónde trabajas, y preguntar a qué se dedica la otra persona.',
+ 'Hablar de tu familia y de tu ciudad en frases cortas.',
+ 'Proponer y aceptar una cita: día, hora y lugar.'
 ];
 var GOALS=[
  'Saludar y despedirte según la hora del día.',
@@ -1177,7 +1360,7 @@ function rHome(){
    '<h1>Bonjour.</h1>'+
    '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
    '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada sesión dura de 15 a 20 minutos y sigue siempre el mismo orden: escuchar, practicar, usar y repasar.</p>'+
-   '<p class="lead">Están abiertas las unidades 1, 2 y 3. La unidad 4 está planificada y en preparación.</p>'+
+   '<p class="lead">Están abiertas las cuatro unidades.</p>'+
    '<div class="hero-actions"><button class="btn" type="button" data-a="day" data-n="'+n+'">'+(started?'Seguir: día '+n:'Empezar el día 1')+'</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div>'+
    '<div class="statline"><span>Sesiones <b>'+dn+'/'+DAYS.length+'</b></span><span>Estudio <b>'+Math.round(S.mins||0)+' min</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
    '<div class="sec"><span class="eyebrow">Cómo está organizado el curso</span><div class="path">'+STAGES.map(function(s){
@@ -1191,7 +1374,7 @@ function rHome(){
    '<li><b>Sesión 6.</b> Una jornada completa que une las situaciones.</li>'+
    '<li><b>Sesión 7.</b> Repaso y mini-prueba de reconocimiento.</li>'+
    '<li><b>Sesión 8.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
-   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia general del Marco Común Europeo, Cambridge English publica entre 90 y 100 horas guiadas para un A1 desde cero. Es una orientación, no una promesa, y no tengo una cifra verificada específica para francés. Con 15–20 minutos al día son varios meses: ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
+   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia general del Marco Común Europeo, Cambridge English publica entre 90 y 100 horas guiadas para un A1 desde cero. Es una orientación, no una promesa, y no tengo una cifra verificada específica para francés. Las cuatro unidades de Cadence suman unas 10 horas de sesiones guiadas, es decir, una parte pequeña de esa referencia. El resto es práctica: repasos, escuchar francés real y hablar con personas. Con 15–20 minutos al día, ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
    '<div class="bar" style="height:8px" role="img" aria-label="Progreso respecto a la referencia"><i style="width:'+Math.max(1,Math.min(100,Math.round((S.mins||0)/A1_MIN*100)))+'%"></i></div><p class="progl">'+Math.round((S.mins||0)/60*10)/10+' h de unas 95 h de referencia</p></div>'+
    '<div class="sec"><span class="eyebrow">Antes del primer día · 1 minuto</span><ul class="plain">'+
    '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
@@ -1219,7 +1402,7 @@ function trailHTML(u){
 function rRoute(){
   var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
    '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión disponible, pero el orden está pensado: cada una usa lo de la anterior.</p>';
-  [[1,'Sobrevivir'],[2,'Moverse'],[3,'Mesa y mercado']].forEach(function(U){
+  [[1,'Sobrevivir'],[2,'Moverse'],[3,'Mesa y mercado'],[4,'Primeras conversaciones']].forEach(function(U){
     var u=U[0],ds=DAYS.filter(function(d){return d.u===u}),c=ds.filter(function(d){return dayDone(d.n)}).length;
     h+='<div class="sec"><span class="eyebrow">Unidad '+u+' · '+U[1]+' · disponible</span><p class="progl">'+c+' de '+ds.length+' sesiones completadas</p>'+trailHTML(u)+'</div>';
   });
@@ -1228,7 +1411,6 @@ function rRoute(){
       return '<li class="plan"><div class="row"><span class="n">'+(i+1)+'</span><span class="tt">'+t+'</span></div></li>';
     }).join('')+'</ul></div>';
   });
-  h+='<p class="legend">El tema de la unidad 4 es un plan provisional. Puede cambiar al construirla.</p>';
   $('#v-route').innerHTML=h;
 }
 
@@ -1427,10 +1609,10 @@ function rTest(el,d){
 }
 function rRest(el,d){
   var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
-   '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
+   '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
    '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="'+(d.u*8-2)+'">Escuchar la jornada completa</button></div>';
   if(S[rKey(d.u)]){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+({1:'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.',2:'Ya puedes moverte por una ciudad. Sigue con la unidad 3: mesa y mercado.',3:'Ya puedes pedir una comida y comprar alimentos. La unidad 4 está en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.'})[d.u]+'</p>'+(d.u<3?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+({1:'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.',2:'Ya puedes moverte por una ciudad. Sigue con la unidad 3: mesa y mercado.',3:'Ya puedes pedir una comida y comprar alimentos. Sigue con la unidad 4: primeras conversaciones.',4:'Has recorrido las cuatro unidades del curso. Esto no certifica ningún nivel: para saber dónde estás, habla con personas reales. Mantén el repaso diario para no perder lo aprendido.'})[d.u]+'</p>'+(d.u<4?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
   }else{
     h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad '+d.u+'</button></div>';
   }
@@ -1813,7 +1995,7 @@ document.addEventListener('click',function(e){
   }
   else if(a==='backday'){tab='today';st=3;render();window.scrollTo(0,0)}
   else if(a==='qstart'){
-    var all=uPh(DAYS[curDay-1].u),pick=shuffle(all).slice(0,8);
+    var dq=DAYS[curDay-1],all=dq.final?Object.keys(PH):uPh(dq.u),pick=shuffle(all).slice(0,8);
     qz={q:pick.map(function(id){return{id:id,opts:shuffle([id].concat(shuffle(all.filter(function(x){return x!==id})).slice(0,2)))}}),i:0,score:0,sel:null,done:false,miss:[]};
     rToday();say(PH[qz.q[0].id].fr);
   }

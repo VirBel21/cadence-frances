@@ -432,7 +432,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · escucha 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · unidad 3 · 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -683,6 +683,127 @@ var SCENES=[
      {fr:'D’accord, je prends ça. Voilà vingt euros.',q:2,reply:'Merci. Et voilà quatre euros.'},
      {fr:'Je prends. Vingt euros.',q:1,reply:'Vous {prenez ça}. Merci. Et voilà quatre euros.'},
      {fr:'Excusez-moi.',q:0,reply:'Oui ? {Seize euros}, ça va ?'}]}
+  ]},
+
+ {id:'resto',u:3,title:'Au restaurant',art:'cup',
+  setting:'Es la hora de la cena. Entras en un restaurante pequeño y el camarero te acompaña a una mesa junto a la ventana.',
+  who:'Le serveur',
+  phrases:[
+   {id:'m1',fr:'Une table pour deux, s’il vous plaît.',syl:[['ün','tabl'],['pur','dö'],['sil','vu','plé']],cue:'Pides una mesa para dos personas.'},
+   {id:'m2',fr:'Je voudrais la carte, s’il vous plaît.',syl:[['zhe','vu','dré'],['la','kart'],['sil','vu','plé']],cue:'Pides la carta.'},
+   {id:'m3',fr:'Qu’est-ce que vous recommandez ?',syl:[['kes','ke','vu'],['re','ko','mã','dé']],cue:'Preguntas qué te recomienda el camarero.'},
+   {id:'m4',fr:'Je prends le poulet.',syl:[['zhe','prã'],['le','pu','lé']],cue:'Eliges un plato: el pollo.'},
+   {id:'m5',fr:'C’était très bon, merci.',syl:[['sé','té'],['tré','bõ'],['mer','si']],cue:'Dices que la comida estaba muy buena.'}
+  ],
+  turns:[
+   {fr:'Bonsoir, madame. Vous êtes combien ?',sense:'Te saluda y pregunta cuántas personas sois.',opts:[
+     {fr:'Bonsoir. Une table pour deux, s’il vous plaît.',q:2,reply:'Très bien. Par ici, madame.'},
+     {fr:'Deux.',q:1,reply:'{Une table pour deux}, très bien. Par ici.'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Ici, c’est le restaurant ! {Une table pour deux} ?'}]},
+   {fr:'Voilà votre table. Je vous apporte la carte ?',sense:'Te lleva a la mesa y pregunta si te trae la carta.',opts:[
+     {fr:'Oui, je voudrais la carte, s’il vous plaît.',q:2,reply:'Voilà, madame.'},
+     {fr:'Carte.',q:1,reply:'{Je voudrais la carte}, oui. Voilà.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {La carte}, madame ?'}]},
+   {fr:'Alors, vous avez choisi ?',sense:'Pregunta si ya has elegido.',opts:[
+     {fr:'Qu’est-ce que vous recommandez ?',q:2,reply:'Le poulet est excellent.'},
+     {fr:'Recommandez ?',q:1,reply:'{Qu’est-ce que vous recommandez ?} Le poulet est excellent.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Pardon ? {Vous avez choisi} ?'}]}
+  ]},
+ {id:'plats',u:3,title:'Plats et boissons',art:'cup',
+  setting:'Ya has mirado la carta. El camarero vuelve con su libreta y tú vas diciendo qué quieres comer y beber.',
+  who:'Le serveur',
+  phrases:[
+   {id:'d1',fr:'Comme entrée, une soupe.',syl:[['kom','ã','tré'],['ün','sup']],cue:'Pides una sopa como entrante.'},
+   {id:'d2',fr:'Comme plat, le poisson.',syl:[['kom','pla'],['le','pua','sõ']],cue:'Pides el pescado como plato principal.'},
+   {id:'d3',fr:'Et comme dessert, une glace.',syl:[['é','kom','dé','sér'],['ün','glas']],cue:'Pides un helado de postre.'},
+   {id:'d4',fr:'Une carafe d’eau, s’il vous plaît.',syl:[['ün','ka','raf','do'],['sil','vu','plé']],cue:'Pides una jarra de agua.'},
+   {id:'d5',fr:'Un verre de vin rouge.',syl:[['ẽ','vér','de'],['vẽ','ruzh']],cue:'Pides una copa de vino tinto.'}
+  ],
+  turns:[
+   {fr:'Vous prenez une entrée ?',sense:'Te pregunta si quieres un entrante.',opts:[
+     {fr:'Oui, comme entrée, une soupe.',q:2,reply:'Une soupe, très bien.'},
+     {fr:'Soupe.',q:1,reply:'{Une soupe}, très bien.'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ! Une entrée… {une soupe} ?'}]},
+   {fr:'Et comme plat ?',sense:'Pregunta qué quieres de plato principal.',opts:[
+     {fr:'Comme plat, le poisson, s’il vous plaît.',q:2,reply:'Le poisson, parfait.'},
+     {fr:'Poisson.',q:1,reply:'{Le poisson}, parfait.'},
+     {fr:'Merci.',q:0,reply:'Je vous en prie. Et {comme plat} ?'}]},
+   {fr:'Et pour boire ?',sense:'Pregunta qué quieres beber.',opts:[
+     {fr:'Une carafe d’eau, s’il vous plaît.',q:2,reply:'Une carafe d’eau, voilà.'},
+     {fr:'Eau.',q:1,reply:'{Une carafe d’eau}, voilà.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Pour boire}, madame ?'}]}
+  ]},
+ {id:'marche',u:3,title:'Au marché',art:'sun',
+  setting:'Mercado de barrio, sábado por la mañana. Un puesto de fruta huele a manzana y el vendedor te sonríe detrás de las cajas.',
+  who:'Le marchand',
+  phrases:[
+   {id:'k1',fr:'Bonjour, je cherche des pommes.',syl:[['bõ','zhur'],['zhe','shersh'],['dé','pom']],cue:'Dices que buscas manzanas.'},
+   {id:'k2',fr:'C’est combien le kilo ?',syl:[['se','kõ','biẽ'],['le','ki','lo']],cue:'Preguntas cuánto cuesta el kilo.'},
+   {id:'k3',fr:'Elles sont bonnes ?',syl:[['el','sõ','bon']],cue:'Preguntas si las manzanas están buenas.'},
+   {id:'k4',fr:'Je voudrais un kilo, s’il vous plaît.',syl:[['zhe','vu','dré'],['ẽ','ki','lo'],['sil','vu','plé']],cue:'Pides un kilo.'},
+   {id:'k5',fr:'Ce sera tout, merci.',syl:[['se','su','ra'],['tu'],['mer','si']],cue:'Dices que eso es todo.'}
+  ],
+  turns:[
+   {fr:'Bonjour, madame ! Qu’est-ce que vous cherchez ?',sense:'Te saluda y pregunta qué buscas.',opts:[
+     {fr:'Bonjour. Je cherche des pommes.',q:2,reply:'Les voilà, madame.'},
+     {fr:'Pommes.',q:1,reply:'Vous {cherchez} des pommes ? Les voilà.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous cherchez} quelque chose ?'}]},
+   {fr:'Ce sont des pommes de la région.',sense:'Te dice que son manzanas de la región.',opts:[
+     {fr:'Elles sont bonnes ? C’est combien le kilo ?',q:2,reply:'Très bonnes. Trois euros le kilo.'},
+     {fr:'Bonnes ? Combien ?',q:1,reply:'{Elles sont bonnes ?} Oui. Trois euros le kilo.'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? {Trois euros le kilo}, madame.'}]},
+   {fr:'Et vous en voulez combien ?',sense:'Te pregunta cuántas quieres.',opts:[
+     {fr:'Je voudrais un kilo, s’il vous plaît.',q:2,reply:'Voilà un kilo. Ce sera tout ?'},
+     {fr:'Un kilo.',q:1,reply:'{Je voudrais un kilo}, voilà. Ce sera tout ?'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! {Un kilo} ?'}]}
+  ]},
+ {id:'quant',u:3,title:'Les quantités',art:'sign',
+  setting:'Una pequeña tienda de alimentación. El tendero está cortando jamón y te pregunta qué quieres.',
+  who:'L’épicier',
+  phrases:[
+   {id:'q1',fr:'Un peu de fromage, s’il vous plaît.',syl:[['ẽ','pö','de'],['fro','mazh'],['sil','vu','plé']],cue:'Pides un poco de queso.'},
+   {id:'q2',fr:'Deux cents grammes de jambon.',syl:[['dö','sã'],['gram'],['de','zhã','bõ']],cue:'Pides doscientos gramos de jamón.'},
+   {id:'q3',fr:'Une bouteille d’eau.',syl:[['ün','bu','tey'],['do']],cue:'Pides una botella de agua.'},
+   {id:'q4',fr:'Encore un peu, merci.',syl:[['ã','kor'],['ẽ','pö'],['mer','si']],cue:'Quieres un poco más.'},
+   {id:'q5',fr:'Un morceau de pain.',syl:[['ẽ','mor','so'],['de','pẽ']],cue:'Pides un trozo de pan.'}
+  ],
+  turns:[
+   {fr:'Bonjour ! Je vous sers ?',sense:'Te saluda y pregunta qué quieres.',opts:[
+     {fr:'Bonjour. Deux cents grammes de jambon.',q:2,reply:'Deux cents grammes, voilà.'},
+     {fr:'Jambon.',q:1,reply:'{Deux cents grammes de jambon}, voilà.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Je vous en prie. Mais… {vous voulez} quoi ?'}]},
+   {fr:'Et avec ça ?',sense:'Pregunta si quieres algo más.',opts:[
+     {fr:'Un peu de fromage, s’il vous plaît.',q:2,reply:'Un peu de fromage, très bien.'},
+     {fr:'Fromage.',q:1,reply:'{Un peu de fromage}, très bien.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Avec ça} ?'}]},
+   {fr:'Voilà. C’est assez ?',sense:'Te da el queso y pregunta si es suficiente.',opts:[
+     {fr:'Encore un peu, merci.',q:2,reply:'Encore un peu, voilà.'},
+     {fr:'Encore.',q:1,reply:'{Encore un peu}, voilà.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! C’est {assez} ?'}]}
+  ]},
+ {id:'sans',u:3,title:'Ce que je ne mange pas',art:'key',
+  setting:'De nuevo en el restaurante. Hoy quieres explicar con calma lo que no comes y preguntar qué lleva cada plato.',
+  who:'Le serveur',
+  phrases:[
+   {id:'a1',fr:'Je ne mange pas de viande.',syl:[['zhe','ne','mãzh'],['pa','de','vyãd']],cue:'Dices que no comes carne.'},
+   {id:'a2',fr:'Je suis allergique aux noix.',syl:[['zhe','süi','za','ler','zhik'],['o','nua']],cue:'Dices que eres alérgica a las nueces.'},
+   {id:'a3',fr:'Il y a du gluten ?',syl:[['i','li','a','dü'],['glü','ten']],cue:'Preguntas si el plato lleva gluten.'},
+   {id:'a4',fr:'Sans oignon, s’il vous plaît.',syl:[['sã','zo','nyõ'],['sil','vu','plé']],cue:'Pides el plato sin cebolla.'},
+   {id:'a5',fr:'C’est sans viande ?',syl:[['se','sã'],['vyãd']],cue:'Preguntas si el plato no lleva carne.'}
+  ],
+  turns:[
+   {fr:'Voici le plat du jour : un poulet rôti.',sense:'Te cuenta el plato del día: pollo asado.',opts:[
+     {fr:'Je ne mange pas de viande. C’est sans viande ?',q:2,reply:'Non, madame. Mais il y a une salade.'},
+     {fr:'Pas de viande.',q:1,reply:'Vous {ne mangez pas} de viande. Il y a une salade.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Je vous en prie. Mais… {sans viande}, oui ?'}]},
+   {fr:'La salade est avec du fromage et des noix.',sense:'La ensalada lleva queso y nueces.',opts:[
+     {fr:'Je suis allergique aux noix, désolée.',q:2,reply:'Pas de problème. Sans noix.'},
+     {fr:'Allergique noix.',q:1,reply:'Vous {êtes allergique aux noix} ? Pas de problème.'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ! {Avec} ou {sans noix} ?'}]},
+   {fr:'Je vous mets aussi des oignons ?',sense:'Pregunta si te pone también cebolla.',opts:[
+     {fr:'Sans oignon, s’il vous plaît.',q:2,reply:'Sans oignon, très bien.'},
+     {fr:'Pas oignon.',q:1,reply:'{Sans oignon}, très bien.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Avec} ou {sans oignon} ?'}]}
   ]}
 ];
 
@@ -711,7 +832,15 @@ var DAYS=[
  {n:13,u:2,t:'Precios y pagar',sc:'prix',m:20,goal:'Preguntar cuánto cuesta, decir que es caro, preguntar por la tarjeta y pagar.'},
  {n:14,u:2,t:'Una jornada completa',sc:null,m:20,goal:'Unir la hora, el transporte, el billete y el pago en una sola historia.'},
  {n:15,u:2,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado en esta unidad: ocho frases que escuchas y reconoces.'},
- {n:16,u:2,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
+ {n:16,u:2,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'},
+ {n:17,u:3,t:'Pedir en un restaurante',sc:'resto',m:20,goal:'Pedir una mesa y la carta, preguntar qué recomiendan y elegir un plato.'},
+ {n:18,u:3,t:'Platos y bebidas',sc:'plats',m:20,goal:'Pedir entrante, plato principal, postre y bebida.'},
+ {n:19,u:3,t:'El mercado',sc:'marche',m:20,goal:'Decir qué buscas, preguntar si está bueno y cuánto cuesta el kilo.'},
+ {n:20,u:3,t:'Cantidades',sc:'quant',m:20,goal:'Pedir una cantidad: un poco, doscientos gramos, una botella, un trozo.'},
+ {n:21,u:3,t:'Decir lo que no comes',sc:'sans',m:20,goal:'Explicar que no comes carne, que eres alérgica a algo o que quieres un plato sin algo.'},
+ {n:22,u:3,t:'Una jornada completa',sc:null,m:20,goal:'Unir mesa, platos, cantidades y restricciones en una sola cena.'},
+ {n:23,u:3,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado en esta unidad: ocho frases que escuchas y reconoces.'},
+ {n:24,u:3,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
 ];
 DAYS.forEach(function(d){d.u=d.u||1;d.k=d.n-(d.u-1)*8});
 var STORY={
@@ -803,15 +932,65 @@ var STORY={
     {w:'Clara',fr:'Un aller-retour pour Lyon, s’il vous plaît.',es:'Un billete de ida y vuelta para Lyon, por favor.'},
     {w:'L’employé',fr:'Ça fait dix-huit euros.',es:'Son dieciocho euros.'},
     {w:'Clara',fr:'Voilà vingt euros. Le train part à quelle heure ?',es:'Aquí tiene veinte euros. ¿A qué hora sale el tren?'},
-    {w:'L’employé',fr:'À neuf heures et quart, quai douze.',es:'A las nueve y cuarto, andén doce.'}]
+    {w:'L’employé',fr:'À neuf heures et quart, quai douze.',es:'A las nueve y cuarto, andén doce.'}],
+ 17:[{w:'Le serveur',fr:'Bonsoir, madame. Vous êtes combien ?',es:'Buenas noches, señora. ¿Cuántos son?'},
+    {w:'Clara',fr:'Une table pour deux, s’il vous plaît.',es:'Una mesa para dos, por favor.'},
+    {w:'Le serveur',fr:'Par ici. Je vous apporte la carte ?',es:'Por aquí. ¿Le traigo la carta?'},
+    {w:'Clara',fr:'Oui, je voudrais la carte, s’il vous plaît.',es:'Sí, quisiera la carta, por favor.'},
+    {w:'Le serveur',fr:'Voilà. Vous avez choisi ?',es:'Aquí tiene. ¿Ha elegido?'},
+    {w:'Clara',fr:'Qu’est-ce que vous recommandez ?',es:'¿Qué me recomienda?'},
+    {w:'Le serveur',fr:'Le poulet est excellent.',es:'El pollo es excelente.'},
+    {w:'Clara',fr:'Je prends le poulet.',es:'Tomo el pollo.'},
+    {w:'Le serveur',fr:'Tout va bien, madame ?',es:'¿Todo bien, señora?'},
+    {w:'Clara',fr:'C’était très bon, merci.',es:'Estaba muy bueno, gracias.'}],
+ 18:[{w:'Le serveur',fr:'Vous prenez une entrée ?',es:'¿Toma un entrante?'},
+    {w:'Clara',fr:'Oui, comme entrée, une soupe.',es:'Sí, de entrante, una sopa.'},
+    {w:'Le serveur',fr:'Et comme plat ?',es:'¿Y de plato principal?'},
+    {w:'Clara',fr:'Comme plat, le poisson.',es:'De plato principal, el pescado.'},
+    {w:'Le serveur',fr:'Et pour boire ?',es:'¿Y para beber?'},
+    {w:'Clara',fr:'Une carafe d’eau, s’il vous plaît. Et un verre de vin rouge.',es:'Una jarra de agua, por favor. Y una copa de vino tinto.'},
+    {w:'Le serveur',fr:'Très bien. Et comme dessert ?',es:'Muy bien. ¿Y de postre?'},
+    {w:'Clara',fr:'Et comme dessert, une glace.',es:'Y de postre, un helado.'}],
+ 19:[{w:'Le marchand',fr:'Bonjour, madame ! Qu’est-ce que vous cherchez ?',es:'¡Buenos días, señora! ¿Qué busca?'},
+    {w:'Clara',fr:'Bonjour, je cherche des pommes.',es:'Buenos días, busco manzanas.'},
+    {w:'Le marchand',fr:'Les voilà. Ce sont des pommes de la région.',es:'Aquí están. Son manzanas de la región.'},
+    {w:'Clara',fr:'Elles sont bonnes ? C’est combien le kilo ?',es:'¿Están buenas? ¿Cuánto cuesta el kilo?'},
+    {w:'Le marchand',fr:'Très bonnes. Trois euros le kilo.',es:'Muy buenas. Tres euros el kilo.'},
+    {w:'Clara',fr:'Je voudrais un kilo, s’il vous plaît.',es:'Quisiera un kilo, por favor.'},
+    {w:'Le marchand',fr:'Voilà. Ce sera tout ?',es:'Aquí tiene. ¿Eso es todo?'},
+    {w:'Clara',fr:'Oui, ce sera tout, merci.',es:'Sí, eso es todo, gracias.'}],
+ 20:[{w:'L’épicier',fr:'Bonjour ! Je vous sers ?',es:'¡Buenos días! ¿Qué le pongo?'},
+    {w:'Clara',fr:'Bonjour. Deux cents grammes de jambon, s’il vous plaît.',es:'Buenos días. Doscientos gramos de jamón, por favor.'},
+    {w:'L’épicier',fr:'Voilà. Et avec ça ?',es:'Aquí tiene. ¿Y con eso?'},
+    {w:'Clara',fr:'Un peu de fromage, s’il vous plaît.',es:'Un poco de queso, por favor.'},
+    {w:'L’épicier',fr:'Comme ça ?',es:'¿Así?'},
+    {w:'Clara',fr:'Encore un peu, merci.',es:'Un poco más, gracias.'},
+    {w:'L’épicier',fr:'Voilà. Autre chose ?',es:'Aquí tiene. ¿Algo más?'},
+    {w:'Clara',fr:'Une bouteille d’eau et un morceau de pain.',es:'Una botella de agua y un trozo de pan.'}],
+ 21:[{w:'Le serveur',fr:'Voici le plat du jour : un poulet rôti.',es:'Este es el plato del día: pollo asado.'},
+    {w:'Clara',fr:'Je ne mange pas de viande. C’est sans viande ?',es:'No como carne. ¿Es sin carne?'},
+    {w:'Le serveur',fr:'Non, madame. Mais il y a une salade.',es:'No, señora. Pero hay una ensalada.'},
+    {w:'Clara',fr:'Il y a du gluten ?',es:'¿Lleva gluten?'},
+    {w:'Le serveur',fr:'Non, pas de gluten. Il y a du fromage et des noix.',es:'No, sin gluten. Lleva queso y nueces.'},
+    {w:'Clara',fr:'Je suis allergique aux noix, désolée.',es:'Soy alérgica a las nueces, lo siento.'},
+    {w:'Le serveur',fr:'Pas de problème. Sans noix.',es:'Sin problema. Sin nueces.'},
+    {w:'Clara',fr:'Sans oignon, s’il vous plaît. Merci !',es:'Sin cebolla, por favor. ¡Gracias!'}],
+ 22:[{w:'Clara',fr:'Bonsoir. Une table pour deux, s’il vous plaît.',es:'Buenas noches. Una mesa para dos, por favor.'},
+    {w:'Le serveur',fr:'Voilà la carte. Vous avez choisi ?',es:'Aquí tiene la carta. ¿Ha elegido?'},
+    {w:'Clara',fr:'Je ne mange pas de viande. Qu’est-ce que vous recommandez ?',es:'No como carne. ¿Qué me recomienda?'},
+    {w:'Le serveur',fr:'Le poisson est excellent.',es:'El pescado es excelente.'},
+    {w:'Clara',fr:'Je prends le poisson. Une carafe d’eau, s’il vous plaît.',es:'Tomo el pescado. Una jarra de agua, por favor.'},
+    {w:'Le serveur',fr:'Et comme dessert ?',es:'¿Y de postre?'},
+    {w:'Clara',fr:'Un peu de fromage, s’il vous plaît.',es:'Un poco de queso, por favor.'},
+    {w:'Le serveur',fr:'Voilà. Tout va bien ?',es:'Aquí tiene. ¿Todo bien?'},
+    {w:'Clara',fr:'C’était très bon, merci.',es:'Estaba muy bueno, gracias.'}]
 };
 var PLAN=[
- {w:'U3',t:'Mesa y mercado',days:['Pedir en un restaurante','Platos y bebidas','El mercado','Cantidades','Decir lo que no comes','Una jornada completa','Repaso y mini-prueba','Descanso y balance']},
  {w:'U4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Una jornada completa','Prueba final del nivel','Descanso y balance']}
 ];
 var STAGES=[
- {k:'Principio',t:'Unidades 1 y 2 · Sobrevivir y moverte',d:'Saludar, un café, pedir ayuda, un hotel y los verbos de todos los días; después números, hora, billetes, metro, taxi y precios. Cada unidad termina con una mini-prueba.',s:'Disponible'},
- {k:'Desarrollo',t:'Unidad 3 · Mesa y mercado',d:'Restaurante, platos, mercado y cantidades. Sigue el mismo ritmo de ocho sesiones.',s:'En preparación'},
+ {k:'Principio',t:'Unidades 1 y 2 · Sobrevivir y moverte',d:'Saludar, un café, pedir ayuda y un hotel; después números, hora, billetes, metro, taxi y precios. Cada unidad termina con una mini-prueba.',s:'Disponible'},
+ {k:'Desarrollo',t:'Unidad 3 · Mesa y mercado',d:'Restaurante, platos y bebidas, mercado, cantidades y decir lo que no comes. Sigue el mismo ritmo de ocho sesiones.',s:'Disponible'},
  {k:'Final',t:'Unidad 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. Cierra el nivel A1 con una prueba final.',s:'En preparación'}
 ];
 var RHY=['c1','c2','c3','h5'];
@@ -826,6 +1005,12 @@ var GOALS2=[
  'Preguntar qué hora es y decir una hora: en punto, y cuarto, y media.',
  'Comprar un billete y preguntar por el andén y la hora de salida.',
  'Preguntar cuánto cuesta algo, decir que es caro y pagar.'
+];
+var GOALS3=[
+ 'Pedir una mesa, la carta y un plato en un restaurante.',
+ 'Pedir entrante, plato, postre y bebida.',
+ 'Pedir una cantidad en el mercado y preguntar el precio por kilo.',
+ 'Decir que no comes algo, que eres alérgica o que lo quieres sin algo.'
 ];
 var GOALS=[
  'Saludar y despedirte según la hora del día.',
@@ -976,7 +1161,7 @@ function rHome(){
    '<h1>Bonjour.</h1>'+
    '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
    '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada sesión dura de 15 a 20 minutos y sigue siempre el mismo orden: escuchar, practicar, usar y repasar.</p>'+
-   '<p class="lead">Están abiertas las unidades 1 y 2. Las unidades 3 y 4 están planificadas y en preparación.</p>'+
+   '<p class="lead">Están abiertas las unidades 1, 2 y 3. La unidad 4 está planificada y en preparación.</p>'+
    '<div class="hero-actions"><button class="btn" type="button" data-a="day" data-n="'+n+'">'+(started?'Seguir: día '+n:'Empezar el día 1')+'</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div>'+
    '<div class="statline"><span>Sesiones <b>'+dn+'/'+DAYS.length+'</b></span><span>Estudio <b>'+Math.round(S.mins||0)+' min</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
    '<div class="sec"><span class="eyebrow">Cómo está organizado el curso</span><div class="path">'+STAGES.map(function(s){
@@ -1018,7 +1203,7 @@ function trailHTML(u){
 function rRoute(){
   var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
    '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión disponible, pero el orden está pensado: cada una usa lo de la anterior.</p>';
-  [[1,'Sobrevivir'],[2,'Moverse']].forEach(function(U){
+  [[1,'Sobrevivir'],[2,'Moverse'],[3,'Mesa y mercado']].forEach(function(U){
     var u=U[0],ds=DAYS.filter(function(d){return d.u===u}),c=ds.filter(function(d){return dayDone(d.n)}).length;
     h+='<div class="sec"><span class="eyebrow">Unidad '+u+' · '+U[1]+' · disponible</span><p class="progl">'+c+' de '+ds.length+' sesiones completadas</p>'+trailHTML(u)+'</div>';
   });
@@ -1027,7 +1212,7 @@ function rRoute(){
       return '<li class="plan"><div class="row"><span class="n">'+(i+1)+'</span><span class="tt">'+t+'</span></div></li>';
     }).join('')+'</ul></div>';
   });
-  h+='<p class="legend">Los temas de las unidades 3 y 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
+  h+='<p class="legend">El tema de la unidad 4 es un plan provisional. Puede cambiar al construirla.</p>';
   $('#v-route').innerHTML=h;
 }
 
@@ -1174,10 +1359,10 @@ function rTest(el,d){
 }
 function rRest(el,d){
   var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
-   '<ul class="checks">'+(d.u===1?GOALS:GOALS2).map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
+   '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
    '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="'+(d.u*8-2)+'">Escuchar la jornada completa</button></div>';
   if(S[rKey(d.u)]){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+(d.u===1?'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.':'Ya puedes moverte por una ciudad. Las unidades 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.')+'</p>'+(d.u===1?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="9">Empezar la unidad 2</button></div>':'')+'</div>';
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+({1:'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.',2:'Ya puedes moverte por una ciudad. Sigue con la unidad 3: mesa y mercado.',3:'Ya puedes pedir una comida y comprar alimentos. La unidad 4 está en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.'})[d.u]+'</p>'+(d.u<3?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
   }else{
     h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad '+d.u+'</button></div>';
   }

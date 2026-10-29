@@ -26,8 +26,8 @@ async function run(){
   log(/90 y 100 horas/.test(q('#v-home').textContent),'Empezar: cita la referencia de horas');
   log(qa('#v-home .how li').length===4,'Empezar: el día tiene 4 pasos');
   await click('[data-a="tab"][data-t="route"]');
-  log(qa('#v-route .trow').length===16,'Ruta: 16 sesiones (unidades 1 y 2)');
-  log(qa('#v-route li.plan').length===16,'Ruta: 16 sesiones planificadas (unidades 3-4)');
+  log(qa('#v-route .trow').length===24,'Ruta: 24 sesiones (unidades 1 a 3)');
+  log(qa('#v-route li.plan').length===8,'Ruta: 8 sesiones planificadas (unidad 4)');
   await click('#v-route [data-a="day"][data-n="1"]');
   log(qa('#v-today .stp button').length===4,'Hoy: 4 pasos');
   log(qa('#v-today .story .sl').length===6,'Sesión 1: la historia tiene 6 líneas');
@@ -89,6 +89,25 @@ async function run(){
   await click('[data-a="tab"][data-t="route"]');
   await click('#v-route [data-a="day"][data-n="16"]');
   log(qa('#v-today .checks li').length===4&&/billete/.test(q('#v-today .checks').textContent),'U2 balance: objetivos de la unidad 2');
+  for(var u3=17;u3<=22;u3++){
+    await click('[data-a="tab"][data-t="route"]');
+    await click('#v-route [data-a="day"][data-n="'+u3+'"]');
+    log(qa('#v-today .story .sl').length>=8&&!!q('#v-today .stp')&&/Unidad 3/.test(q('#v-today').textContent),'U3 sesión '+u3+': historia, pasos y unidad');
+    if(u3===17){
+      await click('#v-today [data-a="stepdone"][data-i="0"]');await click('#v-today [data-a="stepdone"][data-i="1"]');
+      await click('#v-today [data-a="start"]');
+      log(qa('#v-today [data-a="pick"]').length===3,'U3 escena: 3 opciones');
+    }
+    if(u3===22){await click('#v-today [data-a="stepdone"][data-i="0"]');log(qa('#v-today .ph').length===25,'U3 jornada: 25 frases');}
+  }
+  await click('[data-a="tab"][data-t="route"]');
+  await click('#v-route [data-a="day"][data-n="23"]');
+  await click('#v-today [data-a="qstart"]');
+  for(var n4=0;n4<8;n4++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
+  log(/\/ 8/.test(q('#v-today').textContent),'U3 mini-prueba: resultado sobre 8');
+  await click('[data-a="tab"][data-t="route"]');
+  await click('#v-route [data-a="day"][data-n="24"]');
+  log(qa('#v-today .checks li').length===4&&/restaurante/.test(q('#v-today .checks').textContent),'U3 balance: objetivos de la unidad 3');
   await click('[data-a="tab"][data-t="sounds"]');
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
   await click('[data-a="tab"][data-t="review"]');

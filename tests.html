@@ -159,9 +159,9 @@ async function run(){
   await click('#v-verbs [data-a="mapmode"][data-id="num"]');
   log(qa('#v-verbs .vm .r').length===21&&/vingt/.test(q('#v-verbs').textContent),'Mapas: números del 0 al 20');
   await click('#v-verbs [data-a="mapmode"][data-id="img"]');
-  log(qa('#v-verbs .pic').length===36&&!!q('#v-verbs .pic svg'),'Imágenes: galería con dibujos');
+  log(qa('#v-verbs .pic').length===46&&!!q('#v-verbs .pic img'),'Imágenes: galería con dibujos');
   await click('#v-verbs [data-a="pcat"][data-id="Comida"]');
-  log(qa('#v-verbs .pic').length>=8&&qa('#v-verbs .pic').length<36,'Imágenes: filtro por categoría');
+  log(qa('#v-verbs .pic').length>=8&&qa('#v-verbs .pic').length<46,'Imágenes: filtro por categoría');
   await click('#v-verbs [data-a="pqstart"]');
   for(var y=0;y<8;y++){await click('#v-verbs .qopt');await click('#v-verbs [data-a="pqnext"]')}
   log(/\/ 8/.test(q('#v-verbs').textContent),'Imágenes: juego con resultado sobre 8');

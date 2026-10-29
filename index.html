@@ -223,12 +223,11 @@ main{min-width:0;max-width:760px}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:16px 0}
 .pic{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 10px 14px;border:1px solid var(--line);background:var(--card);border-radius:16px;cursor:pointer;text-align:center;font:inherit;color:var(--ink)}
 .pic:hover{border-color:var(--ink)}
-.pic svg{width:72px;height:72px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.pic .bg{fill:var(--card)}
-.pc0 svg{color:var(--c1)}.pc1 svg{color:var(--c2)}.pc2 svg{color:var(--c3)}
+.pic img{width:76px;height:76px;display:block}
+.pc0{background:color-mix(in srgb,var(--c1) 12%,var(--card))}.pc1{background:color-mix(in srgb,var(--c2) 12%,var(--card))}.pc2{background:color-mix(in srgb,var(--c3) 12%,var(--card))}
 .pic .pw{font:var(--it) var(--wd) 20px/1.1 var(--f-display)}
 .pic .pe{font:400 13px var(--f-body);color:var(--ink2)}
-.pic.big{border:0;margin:8px auto}.pic.big svg{width:112px;height:112px}
+.pic.big{border:0;margin:8px auto}.pic.big img{width:120px;height:120px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
 .chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font:500 14px var(--f-body);cursor:pointer;min-height:40px}
 .chip:hover{border-color:var(--blue)}
@@ -255,8 +254,9 @@ main{min-width:0;max-width:760px}
 .word svg{color:var(--blue)}
 
 .scene-head{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:26px;align-items:center;margin-top:28px}
-.art{color:var(--ink);background:var(--sunk);border-radius:14px;padding:18px}
+.art{color:var(--ink);background:color-mix(in srgb,var(--honey) 22%,var(--card));border-radius:22px;padding:18px}
 .art svg{width:100%;height:auto;display:block}
+.art img{width:100%;max-width:130px;height:auto;display:block;margin:0 auto}
 .setting{font:var(--wd) 24px/1.3 var(--f-display);max-width:34ch}
 @media (max-width:520px){.scene-head{grid-template-columns:1fr}.art{max-width:190px}}
 
@@ -1562,7 +1562,7 @@ function rToday(){
      return '<li><button type="button" data-a="step" data-i="'+i+'" class="'+(p[i]?'ok':'')+'"'+(i===st?' aria-current="step"':'')+'><b>'+(i+1)+' · '+(p[i]?'Hecho':x[1])+'</b><span>'+x[0]+'</span></button></li>';
    }).join('')+'</ol>';
   if(st===0){
-    h+=(sc?'<div class="scene-head"><div class="art">'+ICON[sc.art]+'</div><p class="setting">'+sc.setting+'</p></div>':'')+
+    h+=(sc?'<div class="scene-head"><div class="art">'+artHTML(sc)+'</div><p class="setting">'+sc.setting+'</p></div>':'')+
      '<div class="sec"><span class="eyebrow">Paso 1 · Escucha la historia</span><p class="lead">Escucha primero sin mirar el español. Fíjate en quién habla y en qué pasa. Después comprueba el sentido.</p>'+
      '<div class="row2"><button class="btn" type="button" data-a="storyall">Escuchar toda la historia</button><button class="btn ghost" type="button" data-a="es">'+(showEs?'Ocultar el sentido':'Ver el sentido en español')+'</button></div>'+
      storyHTML(curDay)+
@@ -1697,7 +1697,7 @@ function rReview(){
     var micBtn=SR?'<button class="btn ghost" type="button" data-a="mic"'+(rv.listening?' disabled':'')+'>'+(rv.listening?'Escuchando… habla ahora':'🎙 Repetirla con el micrófono')+'</button>':'';
     h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(rv.done/rv.total*100)+'%"></i></div>'+
        '<div class="rcard'+(rv.shown&&!isNew?' flip':'')+'" data-unit="1"><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="tag">'+sc.title+'</span><span class="tag '+(isNew?'now':'')+'">'+(isNew?'Tarjeta nueva':'Repaso')+'</span><span class="tag">'+Math.min(rv.done+1,rv.total)+' de '+rv.total+'</span></div>'+
-       (sh?'':'<div class="art" aria-hidden="true">'+ICON[sc.art]+'</div>')+
+       (sh?'':'<div class="art" aria-hidden="true">'+artHTML(sc)+'</div>')+
        '<p class="eyebrow" style="margin-top:16px">La situación</p><div class="cue-big" style="margin-top:4px">'+p.cue+'</div>';
     if(!sh){
       h+='<p class="lead"><b>Tu turno:</b> ¿qué dirías en francés en esta situación? Piénsalo y dilo en voz alta. Después pulsa «Mostrar la frase» para comprobarlo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar la frase</button>'+micBtn+'</div>';
@@ -1806,47 +1806,58 @@ var ASK=[
 ];
 var NUMF=[['0','zéro','zé-ro'],['1','un','ẽ'],['2','deux','dö'],['3','trois','trua'],['4','quatre','katr'],['5','cinq','sẽk'],['6','six','sis'],['7','sept','set'],['8','huit','üit'],['9','neuf','nöf'],['10','dix','dis'],['11','onze','õz'],['12','douze','duz'],['13','treize','trez'],['14','quatorze','ka-torz'],['15','quinze','kẽz'],['16','seize','sez'],['17','dix-sept','di-set'],['18','dix-huit','di-züit'],['19','dix-neuf','diz-nöf'],['20','vingt','vẽ']];
 var PIC=[
-['Transporte','la voiture','el coche','<path d="M6 42v-8l6-10h28l10 10h8v8z"/><path d="M17 34l4-8h12v8z M37 26l8 8h-8z"/><circle cx="18" cy="44" r="5" class="bg"/><circle cx="46" cy="44" r="5" class="bg"/>'],
-['Transporte','le bus','el autobús','<rect x="8" y="10" width="48" height="38" rx="6"/><path d="M8 32h48"/><rect x="13" y="16" width="12" height="11" rx="1.5"/><rect x="29" y="16" width="12" height="11" rx="1.5"/><rect x="45" y="16" width="6" height="11" rx="1.5"/><circle cx="18" cy="50" r="4.5" class="bg"/><circle cx="46" cy="50" r="4.5" class="bg"/>'],
-['Transporte','le train','el tren','<rect x="14" y="6" width="36" height="42" rx="9"/><rect x="19" y="13" width="26" height="14" rx="2"/><circle cx="23" cy="38" r="2.5"/><circle cx="41" cy="38" r="2.5"/><path d="M20 58l6-10 M44 58l-6-10"/>'],
-['Transporte','le taxi','el taxi','<path d="M6 44v-8l6-10h28l10 10h8v8z"/><path d="M17 36l4-8h12v8z M37 28l8 8h-8z"/><rect x="24" y="16" width="14" height="7" rx="2"/><circle cx="18" cy="46" r="5" class="bg"/><circle cx="46" cy="46" r="5" class="bg"/>'],
-['Transporte','le métro','el metro','<circle cx="32" cy="32" r="24"/><path d="M19 43V22l13 15 13-15v21"/>'],
-['Transporte','le vélo','la bicicleta','<circle cx="14" cy="42" r="10"/><circle cx="50" cy="42" r="10"/><path d="M14 42l10-18h18l8 18 M24 24l10 18h-20 M20 18h8 M38 24l-3-8h8"/>'],
-['Lugares','la gare','la estación','<path d="M8 56V26l24-14 24 14v30z"/><circle cx="32" cy="30" r="6"/><path d="M32 26v4l3 2 M24 56V44h16v12"/>'],
-['Lugares','l’hôtel','el hotel','<rect x="14" y="8" width="36" height="48"/><rect x="20" y="14" width="8" height="8"/><rect x="36" y="14" width="8" height="8"/><rect x="20" y="28" width="8" height="8"/><rect x="36" y="28" width="8" height="8"/><rect x="27" y="44" width="10" height="12"/>'],
-['Lugares','le restaurant','el restaurante','<path d="M14 8v12a6 6 0 0 0 12 0V8 M20 8v48 M44 8c-8 6-8 20 0 26v22 M44 8v26"/>'],
-['Lugares','le marché','el mercado','<path d="M8 26l6-14h36l6 14z"/><path d="M8 26q6 8 12 0q6 8 12 0q6 8 12 0q6 8 12 0 M12 34v22 M52 34v22 M10 56h44 M12 46h40"/>'],
-['Lugares','le supermarché','el supermercado','<path d="M6 10h8l6 30h30l6-22H16"/><circle cx="24" cy="50" r="3.5"/><circle cx="46" cy="50" r="3.5"/><path d="M24 18l2 22 M34 18v22 M44 18l-2 22"/>'],
-['Lugares','la pharmacie','la farmacia','<rect x="10" y="10" width="44" height="44" rx="9"/><path d="M32 20v24M20 32h24"/>'],
-['Lugares','la maison','la casa','<path d="M6 32L32 10l26 22 M13 28v28h38V28"/><rect x="27" y="40" width="10" height="16"/>'],
-['Comida','le pain','el pan','<g transform="rotate(-35 32 32)"><rect x="4" y="22" width="56" height="20" rx="10"/><path d="M20 24v16 M32 24v16 M44 24v16"/></g>'],
-['Comida','le croissant','el cruasán','<path d="M6 40C8 22 20 14 32 14s24 8 26 26c-4 2-8 0-10-4-6 6-26 6-32 0-2 4-6 6-10 4z"/><path d="M24 17l3 18 M40 17l-3 18"/>'],
-['Comida','la pomme','la manzana','<path d="M32 22c-6-6-18-2-18 14 0 10 8 20 14 20 2 0 3-1 4-1s2 1 4 1c6 0 14-10 14-20 0-16-12-20-18-14z"/><path d="M32 22c0-6 2-10 6-12 M38 12c4-2 9 0 9 4-5 2-9 0-9-4z"/>'],
-['Comida','le fromage','el queso','<path d="M6 48V28L58 16v32z"/><circle cx="20" cy="38" r="3.5"/><circle cx="36" cy="34" r="3"/><circle cx="46" cy="42" r="3.5"/>'],
-['Comida','le poisson','el pescado','<path d="M6 32c8-12 24-14 34-4l16-8v24l-16-8C30 46 14 44 6 32z"/><circle cx="18" cy="30" r="1.8"/>'],
-['Comida','le poulet','el pollo','<ellipse cx="38" cy="24" rx="17" ry="14" transform="rotate(-30 38 24)"/><path d="M28 34L12 50"/><circle cx="10" cy="48" r="4"/><circle cx="14" cy="53" r="4"/>'],
-['Comida','la soupe','la sopa','<path d="M6 30h52c0 14-10 24-26 24S6 44 6 30z"/><path d="M22 22c-4-4 4-6 0-10 M34 22c-4-4 4-6 0-10 M46 22c-4-4 4-6 0-10"/>'],
-['Comida','la glace','el helado','<path d="M19 30h26L32 58z"/><path d="M17 30c0-14 9-22 15-22s15 8 15 22z"/>'],
-['Comida','la salade','la ensalada','<path d="M6 32h52c0 12-10 22-26 22S6 44 6 32z"/><path d="M14 32c-2-8 6-12 12-9 4-6 14-5 15 3 5-2 9 2 8 6"/>'],
-['Bebidas','l’eau','el agua','<path d="M26 6h12v8l6 8v34H20V22l6-8z"/><path d="M26 10h12 M20 36h24 M20 44c4-3 6 3 12 0s8 3 12 0"/>'],
-['Bebidas','le vin','el vino','<path d="M18 6h28c0 16-5 24-14 26-9-2-14-10-14-26z"/><path d="M32 32v22 M22 57h20 M19 16h26"/>'],
-['Bebidas','le café','el café','<path d="M10 26h32v14c0 8-7 14-16 14s-16-6-16-14z"/><path d="M42 30h4a6 6 0 0 1 0 12h-4 M6 58h40 M20 20c-3-3 3-5 0-8 M30 20c-3-3 3-5 0-8"/>'],
-['Objetos','la clé','la llave','<circle cx="20" cy="24" r="11"/><path d="M28 32l26 24 M44 48l7-6 M36 40l6-5"/>'],
-['Objetos','le billet','el billete','<path d="M6 16h52v12a4 4 0 0 0 0 8v12H6V36a4 4 0 0 0 0-8z"/><path d="M42 16v32" stroke-dasharray="3 4"/>'],
-['Objetos','la carte','la tarjeta','<rect x="6" y="14" width="52" height="36" rx="5"/><path d="M6 26h52 M12 40h14"/>'],
-['Objetos','l’horloge','el reloj','<circle cx="32" cy="32" r="24"/><path d="M32 16v16l10 7"/>'],
-['Objetos','la valise','la maleta','<rect x="10" y="18" width="44" height="34" rx="5"/><path d="M24 18v-6h16v6 M10 32h44 M26 32v6h12v-6"/>'],
-['Objetos','le téléphone','el teléfono','<rect x="18" y="6" width="28" height="52" rx="6"/><path d="M28 51h8 M26 12h12"/>'],
-['Objetos','le sac','el bolso','<path d="M12 26h40l4 28H8z"/><path d="M22 26v-6a10 10 0 0 1 20 0v6"/>'],
-['Oficina','le bureau','la oficina / el escritorio','<path d="M6 28h52 M10 28v26 M54 28v26 M18 28v14h16V28 M40 20h8"/>'],
-['Oficina','l’ordinateur','el ordenador','<rect x="12" y="12" width="40" height="28" rx="3"/><path d="M6 50h52l-4-10H10z"/>'],
-['Oficina','le livre','el libro','<path d="M8 14c8-4 16-4 24 2 8-6 16-6 24-2v36c-8-4-16-4-24 2-8-6-16-6-24-2z M32 16v36"/>'],
-['Oficina','la fleur','la flor','<circle cx="32" cy="20" r="5"/><circle cx="32" cy="8" r="5"/><circle cx="43" cy="16" r="5"/><circle cx="39" cy="28" r="5"/><circle cx="25" cy="28" r="5"/><circle cx="21" cy="16" r="5"/><path d="M32 34v22 M32 48c-8-2-12-8-12-12 8 0 12 4 12 12z"/>']
+['Transporte','la voiture','el coche','1F697'],
+['Transporte','le bus','el autobús','1F68C'],
+['Transporte','le train','el tren','1F686'],
+['Transporte','le taxi','el taxi','1F695'],
+['Transporte','le métro','el metro','1F687'],
+['Transporte','le vélo','la bicicleta','1F6B2'],
+['Transporte','l’avion','el avión','2708'],
+['Lugares','la gare','la estación','1F689'],
+['Lugares','l’hôtel','el hotel','1F3E8'],
+['Lugares','le restaurant','el restaurante','1F37D'],
+['Lugares','le marché','el mercado','1F9FA'],
+['Lugares','le supermarché','el supermercado','1F6D2'],
+['Lugares','la pharmacie','la farmacia','1F48A'],
+['Lugares','la maison','la casa','1F3E0'],
+['Lugares','la ville','la ciudad','1F3D9'],
+['Comida','le pain','el pan','1F956'],
+['Comida','le croissant','el cruasán','1F950'],
+['Comida','la pomme','la manzana','1F34E'],
+['Comida','le fromage','el queso','1F9C0'],
+['Comida','le poisson','el pescado','1F41F'],
+['Comida','le poulet','el pollo','1F357'],
+['Comida','la soupe','la sopa','1F372'],
+['Comida','la glace','el helado','1F366'],
+['Comida','la salade','la ensalada','1F957'],
+['Bebidas','l’eau','el agua','1F4A7'],
+['Bebidas','le vin','el vino','1F377'],
+['Bebidas','le café','el café','2615'],
+['Objetos','la clé','la llave','1F511'],
+['Objetos','le billet','el billete','1F3AB'],
+['Objetos','la carte','la tarjeta','1F4B3'],
+['Objetos','l’argent','el dinero','1F4B6'],
+['Objetos','l’horloge','el reloj','1F550'],
+['Objetos','la valise','la maleta','1F9F3'],
+['Objetos','le téléphone','el teléfono','1F4F1'],
+['Objetos','le sac','el bolso','1F45C'],
+['Objetos','la photo','la foto','1F4F7'],
+['Trabajo','le bureau','la oficina','1F3E2'],
+['Trabajo','l’ordinateur','el ordenador','1F4BB'],
+['Trabajo','le livre','el libro','1F4D6'],
+['Trabajo','le rendez-vous','la cita','1F4C5'],
+['Trabajo','la famille','la familia','1F468-200D-1F469-200D-1F467'],
+['Naturaleza','la mer','el mar','1F30A'],
+['Naturaleza','le soleil','el sol','2600'],
+['Naturaleza','la fleur','la flor','1F338'],
+['Naturaleza','le chat','el gato','1F431'],
+['Naturaleza','le chien','el perro','1F436']
 ];
-
-var PCATS=['Todo','Transporte','Lugares','Comida','Bebidas','Objetos','Oficina'],pc='Todo',pq=null;
-function picSvg(p){return '<svg viewBox="0 0 64 64" aria-hidden="true">'+p[3]+'</svg>'}
+var PCATS=['Todo','Transporte','Lugares','Comida','Bebidas','Objetos','Trabajo','Naturaleza'],pc='Todo',pq=null;
+function picSvg(p){return '<img src="img/'+p[3]+'.svg" alt="" width="72" height="72" loading="lazy">'}
 function picCat(c){return 'pc'+(PCATS.indexOf(c)%3)}
+var SCENE_IMG={salut:'1F44B',cafe:'2615',rue:'1F5FA',hotel:'1F3E8',verbes:'1F338',chiffres:'1F522',heure:'1F550',billet:'1F3AB',transport:'1F695',prix:'1F3F7',resto:'1F37D',plats:'1F372',marche:'1F9FA',quant:'1F956',sans:'1F6AB',moi:'1F91D',travail:'1F4BC',famille:'1F468-200D-1F469-200D-1F467',ville:'1F3D9',rdv:'1F4C5'};
+function artHTML(sc){return SCENE_IMG[sc.id]?'<img src="img/'+SCENE_IMG[sc.id]+'.svg" alt="" width="120" height="120">':ICON[sc.art]}
 var vb='parler',vt='pres',mm='verbs';
 var TENSES=[['pres','Presente'],['pc','Pasado (passé composé)'],['fut','Futuro cercano']];
 var AUXF={avoir:['ai','as','a','avons','avez','ont'],'être':['suis','es','est','sommes','êtes','sont']};

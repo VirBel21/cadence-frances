@@ -110,6 +110,10 @@ async function run(){
   log(qa('#v-today .checks li').length===4&&/restaurante/.test(q('#v-today .checks').textContent),'U3 balance: objetivos de la unidad 3');
   await click('[data-a="tab"][data-t="sounds"]');
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
+  log(qa('#v-sounds #lib .lex').length===14&&qa('#v-sounds #lib .arc').length===14,'Enlaces: 14 ejemplos con arco');
+  await click('#v-sounds [data-a="lqstart"]');
+  for(var z=0;z<8;z++){await click('#v-sounds #lq [data-a="lqans"]');await click('#v-sounds #lq [data-a="lqnext"]')}
+  log(/\/ 8/.test(q('#v-sounds #lq').textContent),'Enlaces: prueba con resultado sobre 8');
   await click('[data-a="tab"][data-t="review"]');
   log(!!q('#v-review .boxes'),'Repaso: muestra las cajas de memoria');
   await click('[data-a="tab"][data-t="words"]');

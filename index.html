@@ -213,6 +213,13 @@ main{min-width:0;max-width:760px}
 @media (prefers-reduced-motion: reduce){.b i{transition:none}}
 
 .chips .chip.ok{background:var(--c1);color:#fff;border-color:transparent}.chips .chip.ko{text-decoration:line-through;opacity:.7}.chips .chip.miss{outline:2px dashed var(--c2);outline-offset:1px}
+.lex{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.arcrow{display:inline-flex;align-items:flex-end;flex-wrap:nowrap;font:var(--it) var(--wd) 26px/1.1 var(--f-display)}
+.arcrow .aw{padding:0 2px}
+.arc{display:inline-flex;flex-direction:column;align-items:center;margin:0 -4px;position:relative;top:-2px}
+.arc b{font:600 13px var(--f-body);line-height:1}
+.arc svg{width:34px;height:17px;display:block}
+.legend3{display:flex;flex-wrap:wrap;gap:6px 18px;font:500 13px var(--f-body);margin:12px 0 6px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
 .chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font:500 14px var(--f-body);cursor:pointer;min-height:40px}
 .chip:hover{border-color:var(--blue)}
@@ -432,7 +439,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · unidad 3 · 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · enlaces 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -1223,6 +1230,58 @@ function rhyHTML(){
    '<div class="rhy" data-unit="1"><div class="row"><button class="play" type="button" data-a="say" data-say="'+esc(p.fr)+'" aria-label="Escuchar: '+esc(p.fr)+'">'+ICON.play+'</button><span class="frx">'+p.fr+'</span></div>'+
    beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div></div>';
 }
+
+/* ---------- Laboratorio de enlaces ---------- */
+var LIB=[
+ {fr:'les amis',w:['les','amis'],l:'z',t:'l',snd:'lé-za-mi',es:'los amigos'},
+ {fr:'vous avez',w:['vous','avez'],l:'z',t:'l',snd:'vu-za-vé',es:'usted tiene'},
+ {fr:'un ami',w:['un','ami'],l:'n',t:'l',snd:'ẽ-na-mi',es:'un amigo'},
+ {fr:'nous allons',w:['nous','allons'],l:'z',t:'l',snd:'nu-za-lõ',es:'vamos'},
+ {fr:'deux heures',w:['deux','heures'],l:'z',t:'l',snd:'dö-zör',es:'dos horas / las dos'},
+ {fr:'neuf heures',w:['neuf','heures'],l:'v',t:'l',snd:'nö-vör',es:'las nueve'},
+ {fr:'six euros',w:['six','euros'],l:'z',t:'l',snd:'si-zö-ro',es:'seis euros'},
+ {fr:'grand ami',w:['grand','ami'],l:'t',t:'l',snd:'grã-ta-mi',es:'gran amigo'},
+ {fr:'il a',w:['il','a'],l:'l',t:'n',snd:'i-la',es:'él tiene'},
+ {fr:'quelle heure',w:['quelle','heure'],l:'l',t:'n',snd:'ke-lör',es:'qué hora'},
+ {fr:'une amie',w:['une','amie'],l:'n',t:'n',snd:'ü-na-mi',es:'una amiga'},
+ {fr:'elle est',w:['elle','est'],l:'l',t:'n',snd:'e-lé',es:'ella está'},
+ {fr:'et ils',w:['et','ils'],l:'✕',t:'s',snd:'é-il',es:'y ellos'},
+ {fr:'les haricots',w:['les','haricots'],l:'✕',t:'s',snd:'lé-a-ri-ko',es:'las judías'}
+];
+var LIBT={l:{n:'Liaison',c:'var(--c1)',d:'La consonante final es muda y se despierta porque la palabra siguiente empieza por vocal.'},n:{n:'Enlace normal',c:'var(--c3)',d:'La consonante final ya sonaba; solo se pega a la vocal de la palabra siguiente.'},s:{n:'Sin enlace',c:'var(--c2)',d:'Aquí no se une: hay una pequeña separación.'}};
+function arcHTML(e,big){
+  var c=LIBT[e.t].c;
+  return '<span class="arcrow'+(big?' big':'')+'">'+e.w.map(function(w,i){
+    return '<span class="aw">'+w+'</span>'+(i<e.w.length-1?'<span class="arc" style="color:'+c+'"><b>'+e.l+'</b><svg viewBox="0 0 44 22" aria-hidden="true"><path d="M3 20 Q22 -4 41 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"'+(e.t==='s'?' stroke-dasharray="1 5"':'')+'/></svg></span>':'');
+  }).join('')+'</span>';
+}
+function exCard(e){
+  return '<div class="lex"><button class="play" type="button" data-a="say" data-say="'+esc(e.fr)+'" aria-label="Escuchar: '+esc(e.fr)+'">'+ICON.play+'</button><div>'+arcHTML(e,true)+'<div class="resp">'+e.snd.toUpperCase().replace(/-/g,' · ')+'</div><div class="sense">'+e.es+' · <span style="color:'+LIBT[e.t].c+';font-weight:600">'+LIBT[e.t].n+'</span></div></div></div>';
+}
+var lq=null;
+function libHTML(){
+  var h='<div class="sec" id="lib"><span class="eyebrow">Laboratorio de enlaces</span><h3 class="h3">Cuando las palabras se pegan</h3>'+
+   '<p class="lead">En francés muchas palabras terminan en una consonante que no suena. Pero si la palabra siguiente empieza por vocal, esa consonante a veces aparece y se une a ella. Por eso «vous avez» no suena «vu a-vé», sino <b>vu-za-vé</b>.</p>'+
+   '<div class="legend3"><span style="color:var(--c1)">● Liaison: la consonante muda aparece</span><span style="color:var(--c3)">● Enlace normal: la consonante ya sonaba</span><span style="color:var(--c2)">● Sin enlace</span></div>';
+  h+='<span class="eyebrow">1 · Liaison: la consonante muda se despierta</span>'+LIB.filter(function(e){return e.t==='l'}).map(exCard).join('')+
+   '<p class="legend"><b>Regla del sonido.</b> La s, la x y la z suenan como <b>z</b>. La d suena como <b>t</b> (grand ami). La f suena como <b>v</b> (neuf heures). La n y la t suenan igual. Las cifras y los determinantes son los casos más frecuentes: les, des, un, mon, vous, nous, ils, deux, trois, six, dix.</p>'+
+   '<span class="eyebrow">2 · Enlace normal: la consonante ya sonaba</span>'+LIB.filter(function(e){return e.t==='n'}).map(exCard).join('')+
+   '<p class="legend">No es una liaison. Es el ritmo del francés: la consonante final salta a la sílaba siguiente y el grupo suena como una sola palabra larga.</p>'+
+   '<span class="eyebrow">3 · Sin enlace</span>'+LIB.filter(function(e){return e.t==='s'}).map(exCard).join('')+
+   '<p class="legend">Nunca se hace liaison después de «et». Tampoco delante de la «h aspirada» (les haricots, les héros): aunque empiece por vocal escrita, se comporta como consonante. Hay más excepciones, pero con estas tres ideas ya entiendes la mayoría de lo que oirás.</p>'+
+   '<p class="legend"><b>Aviso.</b> La voz del navegador es sintética y puede no marcar siempre el enlace como lo hace una persona. Si dudas, fíate de la notación escrita y de lo que oigas a hablantes reales.</p>'+
+   '<span class="eyebrow">Ponte a prueba · ¿qué tipo de enlace oyes?</span><div id="lq">'+lqHTML()+'</div></div>';
+  return h;
+}
+function lqHTML(){
+  if(!lq)return '<p class="lead">Oyes una pareja de palabras y eliges qué ocurre entre ellas. Son ocho preguntas.</p><div class="row2"><button class="btn" type="button" data-a="lqstart">Empezar</button></div>';
+  if(lq.done)return '<div class="endbox"><div class="score">'+lq.score+'<span> / '+lq.q.length+'</span></div><p style="margin-top:8px">'+(lq.score>=7?'Distingues bien los tres casos.':lq.score>=5?'Vas bien. Repite los ejemplos de arriba escuchándolos.':'Todavía cuesta. Escucha los ejemplos de arriba con calma y vuelve a intentarlo.')+'</p><div class="row2"><button class="btn ghost" type="button" data-a="lqstart">Repetir</button></div></div>';
+  var e=lq.q[lq.i];
+  var h='<div class="rcard"><span class="tag">Pregunta '+(lq.i+1)+' de '+lq.q.length+'</span><div class="row2"><button class="play lg" type="button" data-a="say" data-say="'+esc(e.fr)+'" aria-label="Escuchar la pareja de palabras">'+ICON.play+'</button></div><div class="opts">'+
+   ['l','n','s'].map(function(k){var c='opt qopt';if(lq.sel){if(k===e.t)c+=' right';else if(k===lq.sel)c+=' wrong'}return '<button class="'+c+'" type="button" data-a="lqans" data-k="'+k+'"'+(lq.sel?' disabled':'')+'>'+LIBT[k].n+'</button>'}).join('')+'</div>';
+  if(lq.sel)h+=exCard(e)+'<p class="legend">'+LIBT[e.t].d+'</p><div class="row2"><button class="btn" type="button" data-a="lqnext">'+(lq.i>=lq.q.length-1?'Ver resultado':'Siguiente')+'</button></div>';
+  return h+'</div>';
+}
 function rSounds(){
   $('#v-sounds').innerHTML=
    '<span class="eyebrow">Sonidos</span><h2 class="h2">Primero el oído</h2>'+
@@ -1233,7 +1292,7 @@ function rSounds(){
    '<div class="sec"><span class="eyebrow">Los sonidos que cambian todo</span>'+SOUNDS.map(function(s){
      return '<div class="snd"><div><div class="g'+(s.sm?' sm':'')+'">'+s.g+'</div><div class="rs resp">'+s.rs+'</div></div><div><h3>'+s.t+'</h3><p>'+s.tip+'</p><div class="words">'+
        s.words.map(function(w){return '<button type="button" class="word" data-a="say" data-snd="'+s.id+'" data-say="'+esc(w)+'">'+ICON.play+w+'</button>'}).join('')+'</div></div></div>';
-   }).join('')+'</div>';
+   }).join('')+'</div>'+libHTML();
 }
 
 
@@ -1713,6 +1772,9 @@ document.addEventListener('click',function(e){
     touch();rWords();
   }
   else if(a==='wback'){wv.mode='intro';rWords()}
+  else if(a==='lqstart'){var pick=shuffle(LIB.filter(function(e){return e.t==='l'})).slice(0,3).concat(shuffle(LIB.filter(function(e){return e.t==='n'})).slice(0,3),LIB.filter(function(e){return e.t==='s'}));lq={q:shuffle(pick),i:0,score:0,sel:null,done:false};$('#lq').innerHTML=lqHTML();say(lq.q[0].fr)}
+  else if(a==='lqans'){if(lq.sel)return;lq.sel=el.dataset.k;if(lq.sel===lq.q[lq.i].t)lq.score++;$('#lq').innerHTML=lqHTML()}
+  else if(a==='lqnext'){lq.i++;lq.sel=null;if(lq.i>=lq.q.length)lq.done=true;$('#lq').innerHTML=lqHTML();if(!lq.done)say(lq.q[lq.i].fr)}
   else if(a==='rhy'){rhy=el.dataset.id;$('#rhy').innerHTML=rhyHTML()}
   else if(a==='scene'){curScene=el.dataset.id;pl=null;rToday()}
   else if(a==='start'){startScene()}

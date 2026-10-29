@@ -33,6 +33,13 @@ async function run(){
   log(qa('#v-today .story .sl').length===6,'Sesión 1: la historia tiene 6 líneas');
   await click('#v-today [data-a="es"]');
   log(qa('#v-today .story .sense').length===6,'Día 1: se muestra el sentido en español');
+  await click('#v-today [data-a="lstart"]');
+  log(qa('#v-today #listen .chips .chip').length>=5,'Escucha y marca: aparecen palabras para marcar');
+  await click('#v-today #listen [data-a="lpick"]');
+  await click('#v-today [data-a="lcheck"]');
+  log(!!q('#v-today #listen .line')&&qa('#v-today #listen .chip.ok,#v-today #listen .chip.ko,#v-today #listen .chip.miss').length>0,'Escucha y marca: comprueba y muestra la frase');
+  for(var l=0;l<3;l++){await click('#v-today [data-a="lnext"]');if(l<2)await click('#v-today [data-a="lcheck"]')}
+  log(/palabras reconocidas/.test(q('#v-today #listen').textContent),'Escucha y marca: resultado final');
   await click('#v-today [data-a="stepdone"][data-i="0"]');
   log(qa('#v-today .ph').length===5,'Día 1: 5 frases clave');
   await click('#v-today [data-a="stepdone"][data-i="1"]');

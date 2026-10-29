@@ -212,6 +212,7 @@ main{min-width:0;max-width:760px}
 .b.on span{color:var(--blue)}
 @media (prefers-reduced-motion: reduce){.b i{transition:none}}
 
+.chips .chip.ok{background:var(--c1);color:#fff;border-color:transparent}.chips .chip.ko{text-decoration:line-through;opacity:.7}.chips .chip.miss{outline:2px dashed var(--c2);outline-offset:1px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
 .chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px;font:500 14px var(--f-body);cursor:pointer;min-height:40px}
 .chip:hover{border-color:var(--blue)}
@@ -431,7 +432,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · unidad 2 · 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · escucha 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -1052,7 +1053,43 @@ function rSounds(){
 
 
 /* ---------- Hoy ---------- */
-var visT=false,curDay=1,st=0,showEs=false,qz=null;
+var visT=false,curDay=1,st=0,showEs=false,qz=null,ls=null;
+function ltok(t){return t.toLowerCase().replace(/[?!.,:;«»]/g,' ').split(/\s+/).filter(function(x){return x&&/[a-zàâçéèêëîïôûùüÿœ]/.test(x)})}
+function lsStart(){
+  var L=STORY[curDay],idx=shuffle(L.map(function(_,i){return i})).filter(function(i){return ltok(L[i].fr).length>=2}).slice(0,3);
+  ls={day:curDay,idx:idx,r:0,sel:{},checked:false,hits:0,tot:0,bad:0,done:false,bank:[]};
+  lsRound();
+}
+function lsRound(){
+  var L=STORY[ls.day],line=L[ls.idx[ls.r]],cor=[];
+  ltok(line.fr).forEach(function(w){if(cor.indexOf(w)<0)cor.push(w)});
+  cor=cor.slice(0,6);
+  var pool=[];L.forEach(function(l,i){if(i!==ls.idx[ls.r])ltok(l.fr).forEach(function(w){if(cor.indexOf(w)<0&&ltok(line.fr).indexOf(w)<0&&pool.indexOf(w)<0)pool.push(w)})});
+  var dis=shuffle(pool).slice(0,3);
+  ls.cor=cor;ls.bank=shuffle(cor.concat(dis));ls.sel={};ls.checked=false;
+}
+function lsHTML(){
+  var h='<div class="sec" id="listen"><span class="eyebrow">Ejercicio · Escucha y marca</span>';
+  if(!ls||ls.day!==curDay){
+    return h+'<p class="lead">Oyes una frase de la historia sin verla y marcas las palabras que reconoces. Entre ellas hay algunas que no se dicen. Es la mejor forma de comprobar si de verdad has oído lo que antes leíste.</p><div class="row2"><button class="btn ghost" type="button" data-a="lstart">Empezar el ejercicio</button></div></div>';
+  }
+  if(ls.done){
+    return h+'<div class="endbox"><div class="score" style="font-size:36px">'+ls.hits+'<span> / '+ls.tot+'</span></div><p style="margin-top:8px">palabras reconocidas'+(ls.bad?'; '+ls.bad+' marcadas que no se dijeron':'; ninguna de más')+'. '+(ls.hits>=ls.tot*0.8&&!ls.bad?'Tu oído ya sigue bien esta historia.':'Vuelve a escuchar la historia entera y repite el ejercicio mañana.')+'</p><div class="row2"><button class="btn ghost" type="button" data-a="lstart">Repetir con otras frases</button></div></div></div>';
+  }
+  var line=STORY[ls.day][ls.idx[ls.r]];
+  h+='<div class="rcard"><span class="tag">Frase '+(ls.r+1)+' de '+ls.idx.length+'</span><p class="lead" style="margin-top:12px">Pulsa ▶ las veces que quieras y marca las palabras que oyes.</p><div class="row2"><button class="play lg" type="button" data-a="lplay" aria-label="Escuchar la frase">'+ICON.play+'</button></div><div class="chips" role="group" aria-label="Palabras">'+
+   ls.bank.map(function(w){
+     var on=!!ls.sel[w],isC=ls.cor.indexOf(w)>=0,c='chip';
+     if(ls.checked){if(on&&isC)c+=' ok';else if(on)c+=' ko';else if(isC)c+=' miss'}
+     return '<button type="button" class="'+c+'" data-a="lpick" data-w="'+esc(w)+'" aria-pressed="'+on+'"'+(ls.checked?' disabled':'')+'>'+w+'</button>';
+   }).join('')+'</div>';
+  if(!ls.checked){h+='<div class="row2"><button class="btn" type="button" data-a="lcheck">Comprobar</button></div>'}
+  else{
+    h+='<div class="line me" style="margin-top:14px"><div class="who">Se dijo</div><div class="fl"><span>'+line.fr+'</span></div></div><p class="legend">'+line.es+'</p><p class="legend">Verde: acertaste. Tachada: la marcaste y no se dijo. Con borde discontinuo: se dijo y no la marcaste.</p>'+
+     '<div class="row2"><button class="btn" type="button" data-a="lnext">'+(ls.r>=ls.idx.length-1?'Ver resultado':'Siguiente frase')+'</button></div>';
+  }
+  return h+'</div></div>';
+}
 function storyHTML(n){
   return '<div class="story" data-unit="1">'+STORY[n].map(function(l,i){
     return '<div class="sl'+(l.w==='Clara'?' me':'')+'" id="sl'+i+'"><div class="who">'+l.w+'</div><div class="fl"><span>'+l.fr+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(l.fr)+'" aria-label="Escuchar la línea '+(i+1)+'">'+ICON.play+'</button></div>'+(showEs?'<div class="sense">'+l.es+'</div>':'')+'</div>';
@@ -1094,7 +1131,7 @@ function rToday(){
      '<div class="sec"><span class="eyebrow">Paso 1 · Escucha la historia</span><p class="lead">Escucha primero sin mirar el español. Fíjate en quién habla y en qué pasa. Después comprueba el sentido.</p>'+
      '<div class="row2"><button class="btn" type="button" data-a="storyall">Escuchar toda la historia</button><button class="btn ghost" type="button" data-a="es">'+(showEs?'Ocultar el sentido':'Ver el sentido en español')+'</button></div>'+
      storyHTML(curDay)+
-     '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="0">Continuar: frases clave</button></div></div>';
+     '</div>'+lsHTML()+'<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="0">Continuar: frases clave</button></div>';
   }else if(st===1){
     var list=sc?sc.phrases:uPh(d.u).map(function(k){return PH[k]});
     h+='<div class="sec"><span class="eyebrow">Paso 2 · Frases clave</span><p class="lead">'+(sc?'Son las frases de la historia que vas a usar hoy.':'Las frases de toda la unidad, para oírlas otra vez.')+' Pulsa ▶, sigue las notas con la vista y repite en voz alta.</p><div>'+phrasesHTML(list)+'</div>'+
@@ -1450,6 +1487,11 @@ document.addEventListener('click',function(e){
   else if(a==='step'){st=+el.dataset.i;render();if(el.closest('.stp'))window.scrollTo(0,0)}
   else if(a==='stepdone'){var i0=+el.dataset.i;mark(curDay,i0);touch();st=Math.min(i0+1,3);render();window.scrollTo(0,0)}
   else if(a==='es'){showEs=!showEs;rToday()}
+  else if(a==='lstart'){lsStart();rToday();var e1=$('#listen');if(e1)e1.scrollIntoView({block:'start'});say(STORY[ls.day][ls.idx[0]].fr)}
+  else if(a==='lplay'){say(STORY[ls.day][ls.idx[ls.r]].fr)}
+  else if(a==='lpick'){if(!ls.checked){var w=el.dataset.w;if(ls.sel[w])delete ls.sel[w];else ls.sel[w]=1;rToday();var e2=$('#listen');if(e2)e2.scrollIntoView({block:'nearest'})}}
+  else if(a==='lcheck'){ls.checked=true;ls.cor.forEach(function(w){ls.tot++;if(ls.sel[w])ls.hits++});Object.keys(ls.sel).forEach(function(w){if(ls.cor.indexOf(w)<0)ls.bad++});rToday()}
+  else if(a==='lnext'){ls.r++;if(ls.r>=ls.idx.length){ls.done=true;rToday()}else{lsRound();rToday();say(STORY[ls.day][ls.idx[ls.r]].fr)}}
   else if(a==='storyall'){sayAll(curDay)}
   else if(a==='dayrv'){
     var ids=dayPhr(curDay);ids.forEach(function(id){S.unlocked[PH[id].scene]=true});save();

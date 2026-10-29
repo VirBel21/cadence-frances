@@ -69,6 +69,17 @@ async function run(){
   log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6,'Verbos: mapa y matriz con 6 formas');
   await click('#v-verbs [data-a="verb"][data-id="habiter"]');
   log(/j’habite/.test(q('#v-verbs').textContent),'Verbos: habiter usa j’');
+  await click('#v-verbs [data-a="tense"][data-id="pc"]');
+  log(/j’ai habité/.test(q('#v-verbs').textContent)&&/he vivido/.test(q('#v-verbs').textContent),'Mapas: pasado con traducción');
+  await click('#v-verbs [data-a="verb"][data-id="aller"]');
+  log(/suis allé/.test(q('#v-verbs').textContent)&&/he ido/.test(q('#v-verbs').textContent),'Mapas: aller usa être');
+  await click('#v-verbs [data-a="tense"][data-id="fut"]');
+  log(/vais aller/.test(q('#v-verbs').textContent)&&/voy a ir/.test(q('#v-verbs').textContent),'Mapas: futuro cercano');
+  await click('#v-verbs [data-a="verb"][data-id="être"]');
+  await click('#v-verbs [data-a="tense"][data-id="pres"]');
+  log(/soy \/ estoy/.test(q('#v-verbs').textContent),'Mapas: être presente');
+  await click('#v-verbs [data-a="mapmode"][data-id="ask"]');
+  log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6&&/¿Dónde está la estación\?/.test(q('#v-verbs').textContent),'Mapas: para preguntar');
   await click('[data-a="tab"][data-t="method"]');
   log(qa('#v-method .ev li').length===7,'Método: 7 evidencias');
   try{if(backup===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,backup)}catch(e){}

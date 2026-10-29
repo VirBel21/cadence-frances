@@ -349,6 +349,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
 .vmap .fm{font:var(--wd) 22px var(--f-display);fill:var(--ink)}
 .vmap .hubt{font:var(--wd) 24px var(--f-display);fill:var(--on-blue)}
 .vmap .lbl{font:500 11px var(--f-mono);fill:var(--ink2);letter-spacing:.1em}
+.vmap .es{font:400 12px var(--f-body);fill:var(--ink2)}
 .rt{fill:var(--ink)}.en{fill:var(--blue)}.en.mu{opacity:.5}
 .vm{display:grid;gap:0;border-top:1px solid var(--line);margin-top:10px}
 .vm .r{display:grid;grid-template-columns:78px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -415,7 +416,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
       <button role="tab" data-a="tab" data-t="review" type="button">Repaso</button>
       <button role="tab" data-a="tab" data-t="words" type="button">Palabras</button>
       <button role="tab" data-a="tab" data-t="sounds" type="button">Sonidos</button>
-      <button role="tab" data-a="tab" data-t="verbs" type="button">Verbos</button>
+      <button role="tab" data-a="tab" data-t="verbs" type="button">Mapas</button>
       <button role="tab" data-a="tab" data-t="method" type="button">Método</button>
     </nav>
         <p class="note" id="vnote" hidden>Este dispositivo no tiene una voz francesa instalada. Añádela en los ajustes de voz del sistema para oír las frases. Las notas del ritmo funcionan igual.</p>
@@ -430,7 +431,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · palabras 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · mapas 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -1072,7 +1073,7 @@ function rReview(){
 
 
 /* ---------- Palabras ---------- */
-var WORDS=[{"w": "je", "r": 2, "es": "yo", "ex": "Je suis fatiguée."}, {"w": "est", "r": 3, "es": "es, está (verbo être)", "ex": "Il est à la gare."}, {"w": "pas", "r": 4, "es": "no (en negativas)", "ex": "Je ne sais pas."}, {"w": "vous", "r": 8, "es": "usted, ustedes, vosotros", "ex": "Vous allez bien ?"}, {"w": "tu", "r": 9, "es": "tú", "ex": "Tu as faim ?"}, {"w": "un", "r": 10, "es": "un, uno", "ex": "Un café, s’il vous plaît."}, {"w": "à", "r": 12, "es": "a, en", "ex": "Je vais à la gare."}, {"w": "il", "r": 14, "es": "él", "ex": "Il est fatigué."}, {"w": "on", "r": 21, "es": "se; también «nosotros» al hablar", "ex": "On va au café ?"}, {"w": "ça", "r": 22, "es": "eso", "ex": "Ça va bien."}, {"w": "mais", "r": 32, "es": "pero", "ex": "Je suis fatiguée, mais ça va."}, {"w": "nous", "r": 34, "es": "nosotros", "ex": "Nous allons à la gare."}, {"w": "elle", "r": 35, "es": "ella", "ex": "Elle parle français."}, {"w": "bien", "r": 37, "es": "bien", "ex": "Ça va bien, merci."}, {"w": "suis", "r": 41, "es": "soy, estoy (être)", "ex": "Je suis ici."}, {"w": "non", "r": 42, "es": "no", "ex": "Non, merci."}, {"w": "avec", "r": 44, "es": "con", "ex": "Avec plaisir !"}, {"w": "tout", "r": 45, "es": "todo", "ex": "C’est tout droit."}, {"w": "plus", "r": 46, "es": "más", "ex": "Plus lentement, s’il vous plaît."}, {"w": "fait", "r": 51, "es": "hace, hecho (faire)", "ex": "Ça fait six euros."}, {"w": "moi", "r": 52, "es": "yo (tras preposición)", "ex": "Pour moi, un café."}, {"w": "oui", "r": 54, "es": "sí", "ex": "Oui, j’ai faim."}, {"w": "va", "r": 55, "es": "va (aller)", "ex": "Ça va ?"}, {"w": "quoi", "r": 61, "es": "qué (informal)", "ex": "C’est quoi ?"}, {"w": "sais", "r": 64, "es": "sé (savoir)", "ex": "Je ne sais pas."}, {"w": "veux", "r": 66, "es": "quiero (vouloir), más directo que «je voudrais»", "ex": "Je veux un café."}, {"w": "ici", "r": 67, "es": "aquí", "ex": "Je suis ici."}, {"w": "est-ce", "r": 70, "es": "fórmula de pregunta («est-ce que»)", "ex": "Est-ce que vous parlez anglais ?"}, {"w": "pourquoi", "r": 75, "es": "por qué", "ex": "Pourquoi ?"}, {"w": "où", "r": 76, "es": "dónde", "ex": "Où est la gare ?"}, {"w": "là", "r": 77, "es": "allí, ahí", "ex": "Là, à droite."}, {"w": "rien", "r": 78, "es": "nada", "ex": "De rien."}, {"w": "quand", "r": 81, "es": "cuándo", "ex": "C’est quand ?"}, {"w": "peux", "r": 82, "es": "puedo (pouvoir)", "ex": "Je peux payer par carte ?"}, {"w": "avez", "r": 85, "es": "tiene, tienen (avoir), con «vous»", "ex": "Vous avez faim ?"}, {"w": "vais", "r": 86, "es": "voy (aller)", "ex": "Je vais à la gare."}, {"w": "alors", "r": 87, "es": "entonces, pues", "ex": "Alors, allez-y !"}, {"w": "comment", "r": 89, "es": "cómo", "ex": "Comment allez-vous ?"}, {"w": "bon", "r": 93, "es": "bueno", "ex": "Bon, à bientôt !"}, {"w": "merci", "r": 95, "es": "gracias", "ex": "Merci beaucoup."}, {"w": "très", "r": 97, "es": "muy", "ex": "Très bien."}, {"w": "aussi", "r": 100, "es": "también", "ex": "Moi aussi."}, {"w": "êtes", "r": 112, "es": "es, está usted (être)", "ex": "Vous êtes fatiguée ?"}, {"w": "allez", "r": 113, "es": "va usted, vayan (aller)", "ex": "Vous allez où ?"}, {"w": "autre", "r": 115, "es": "otro", "ex": "Un autre café, s’il vous plaît."}, {"w": "temps", "r": 117, "es": "tiempo", "ex": "Je n’ai pas le temps."}, {"w": "besoin", "r": 124, "es": "necesidad («avoir besoin de»)", "ex": "J’ai besoin d’aide."}, {"w": "accord", "r": 126, "es": "acuerdo (se usa en «d’accord»)", "ex": "D’accord !"}, {"w": "dois", "r": 128, "es": "debo (devoir)", "ex": "Je dois partir."}, {"w": "peut-être", "r": 130, "es": "quizá", "ex": "Peut-être."}, {"w": "parler", "r": 143, "es": "hablar", "ex": "Je voudrais parler français."}, {"w": "aime", "r": 155, "es": "me gusta, amo (aimer)", "ex": "J’aime le café."}, {"w": "beaucoup", "r": 170, "es": "mucho", "ex": "Merci beaucoup."}, {"w": "désolé", "r": 184, "es": "lo siento", "ex": "Désolée, je ne comprends pas."}, {"w": "voilà", "r": 186, "es": "aquí tiene, ya está", "ex": "Voilà."}, {"w": "maison", "r": 189, "es": "casa", "ex": "Je suis à la maison."}, {"w": "monsieur", "r": 198, "es": "señor", "ex": "Merci, monsieur."}];
+var WORDS=[{"w": "je", "r": 2, "es": "yo", "ex": "Je suis fatiguée.", "ees": "Estoy cansada."}, {"w": "est", "r": 3, "es": "es, está (verbo être)", "ex": "Il est à la gare.", "ees": "Está en la estación."}, {"w": "pas", "r": 4, "es": "no (en negativas)", "ex": "Je ne sais pas.", "ees": "No lo sé."}, {"w": "vous", "r": 8, "es": "usted, ustedes, vosotros", "ex": "Vous allez bien ?", "ees": "¿Se encuentra bien?"}, {"w": "tu", "r": 9, "es": "tú", "ex": "Tu as faim ?", "ees": "¿Tienes hambre?"}, {"w": "un", "r": 10, "es": "un, uno", "ex": "Un café, s’il vous plaît.", "ees": "Un café, por favor."}, {"w": "à", "r": 12, "es": "a, en", "ex": "Je vais à la gare.", "ees": "Voy a la estación."}, {"w": "il", "r": 14, "es": "él", "ex": "Il est fatigué.", "ees": "Está cansado."}, {"w": "on", "r": 21, "es": "se; también «nosotros» al hablar", "ex": "On va au café ?", "ees": "¿Vamos al café?"}, {"w": "ça", "r": 22, "es": "eso", "ex": "Ça va bien.", "ees": "Va bien."}, {"w": "mais", "r": 32, "es": "pero", "ex": "Je suis fatiguée, mais ça va.", "ees": "Estoy cansada, pero estoy bien."}, {"w": "nous", "r": 34, "es": "nosotros", "ex": "Nous allons à la gare.", "ees": "Vamos a la estación."}, {"w": "elle", "r": 35, "es": "ella", "ex": "Elle parle français.", "ees": "Ella habla francés."}, {"w": "bien", "r": 37, "es": "bien", "ex": "Ça va bien, merci.", "ees": "Bien, gracias."}, {"w": "suis", "r": 41, "es": "soy, estoy (être)", "ex": "Je suis ici.", "ees": "Estoy aquí."}, {"w": "non", "r": 42, "es": "no", "ex": "Non, merci.", "ees": "No, gracias."}, {"w": "avec", "r": 44, "es": "con", "ex": "Avec plaisir !", "ees": "¡Con mucho gusto!"}, {"w": "tout", "r": 45, "es": "todo", "ex": "C’est tout droit.", "ees": "Es todo recto."}, {"w": "plus", "r": 46, "es": "más", "ex": "Plus lentement, s’il vous plaît.", "ees": "Más despacio, por favor."}, {"w": "fait", "r": 51, "es": "hace, hecho (faire)", "ex": "Ça fait six euros.", "ees": "Son seis euros."}, {"w": "moi", "r": 52, "es": "yo (tras preposición)", "ex": "Pour moi, un café.", "ees": "Para mí, un café."}, {"w": "oui", "r": 54, "es": "sí", "ex": "Oui, j’ai faim.", "ees": "Sí, tengo hambre."}, {"w": "va", "r": 55, "es": "va (aller)", "ex": "Ça va ?", "ees": "¿Todo bien?"}, {"w": "quoi", "r": 61, "es": "qué (informal)", "ex": "C’est quoi ?", "ees": "¿Qué es?"}, {"w": "sais", "r": 64, "es": "sé (savoir)", "ex": "Je ne sais pas.", "ees": "No lo sé."}, {"w": "veux", "r": 66, "es": "quiero (vouloir), más directo que «je voudrais»", "ex": "Je veux un café.", "ees": "Quiero un café."}, {"w": "ici", "r": 67, "es": "aquí", "ex": "Je suis ici.", "ees": "Estoy aquí."}, {"w": "est-ce", "r": 70, "es": "fórmula de pregunta («est-ce que»)", "ex": "Est-ce que vous parlez espagnol ?", "ees": "¿Habla usted español?"}, {"w": "pourquoi", "r": 75, "es": "por qué", "ex": "Pourquoi ?", "ees": "¿Por qué?"}, {"w": "où", "r": 76, "es": "dónde", "ex": "Où est la gare ?", "ees": "¿Dónde está la estación?"}, {"w": "là", "r": 77, "es": "allí, ahí", "ex": "Là, à droite.", "ees": "Allí, a la derecha."}, {"w": "rien", "r": 78, "es": "nada", "ex": "De rien.", "ees": "De nada."}, {"w": "quand", "r": 81, "es": "cuándo", "ex": "C’est quand ?", "ees": "¿Cuándo es?"}, {"w": "peux", "r": 82, "es": "puedo (pouvoir)", "ex": "Je peux payer par carte ?", "ees": "¿Puedo pagar con tarjeta?"}, {"w": "avez", "r": 85, "es": "tiene, tienen (avoir), con «vous»", "ex": "Vous avez faim ?", "ees": "¿Tiene hambre?"}, {"w": "vais", "r": 86, "es": "voy (aller)", "ex": "Je vais à la gare.", "ees": "Voy a la estación."}, {"w": "alors", "r": 87, "es": "entonces, pues", "ex": "Alors, allez-y !", "ees": "Entonces, ¡adelante!"}, {"w": "comment", "r": 89, "es": "cómo", "ex": "Comment allez-vous ?", "ees": "¿Cómo está usted?"}, {"w": "bon", "r": 93, "es": "bueno", "ex": "Bon, à bientôt !", "ees": "Bueno, ¡hasta pronto!"}, {"w": "merci", "r": 95, "es": "gracias", "ex": "Merci beaucoup.", "ees": "Muchas gracias."}, {"w": "très", "r": 97, "es": "muy", "ex": "Très bien.", "ees": "Muy bien."}, {"w": "aussi", "r": 100, "es": "también", "ex": "Moi aussi.", "ees": "Yo también."}, {"w": "êtes", "r": 112, "es": "es, está usted (être)", "ex": "Vous êtes fatiguée ?", "ees": "¿Está usted cansada?"}, {"w": "allez", "r": 113, "es": "va usted, vayan (aller)", "ex": "Vous allez où ?", "ees": "¿Adónde va usted?"}, {"w": "autre", "r": 115, "es": "otro", "ex": "Un autre café, s’il vous plaît.", "ees": "Otro café, por favor."}, {"w": "temps", "r": 117, "es": "tiempo", "ex": "Je n’ai pas le temps.", "ees": "No tengo tiempo."}, {"w": "besoin", "r": 124, "es": "necesidad («avoir besoin de»)", "ex": "J’ai besoin d’aide.", "ees": "Necesito ayuda."}, {"w": "accord", "r": 126, "es": "acuerdo (se usa en «d’accord»)", "ex": "D’accord !", "ees": "¡De acuerdo!"}, {"w": "dois", "r": 128, "es": "debo (devoir)", "ex": "Je dois partir.", "ees": "Tengo que irme."}, {"w": "peut-être", "r": 130, "es": "quizá", "ex": "Peut-être.", "ees": "Quizá."}, {"w": "parler", "r": 143, "es": "hablar", "ex": "Je voudrais parler français.", "ees": "Quisiera hablar francés."}, {"w": "aime", "r": 155, "es": "me gusta, amo (aimer)", "ex": "J’aime le café.", "ees": "Me gusta el café."}, {"w": "beaucoup", "r": 170, "es": "mucho", "ex": "Merci beaucoup.", "ees": "Muchas gracias."}, {"w": "désolé", "r": 184, "es": "lo siento", "ex": "Désolée, je ne comprends pas.", "ees": "Lo siento, no entiendo."}, {"w": "voilà", "r": 186, "es": "aquí tiene, ya está", "ex": "Voilà.", "ees": "Aquí tiene."}, {"w": "maison", "r": 189, "es": "casa", "ex": "Je suis à la maison.", "ees": "Estoy en casa."}, {"w": "monsieur", "r": 198, "es": "señor", "ex": "Merci, monsieur.", "ees": "Gracias, señor."}];
 var WLAST={};
 function wId(w){return 'w:'+w.w}
 function blank(ex,w){
@@ -1092,7 +1093,7 @@ function rWords(){
       h+=(b?'<p class="eyebrow" style="margin-top:14px">Completa la frase en voz alta</p><div class="rfr" style="margin-top:6px">'+b+'</div>':'')+
          '<p class="lead">Di la palabra en francés y pulsa «Mostrar».</p><div class="row2"><button class="btn" type="button" data-a="wshow">Mostrar</button></div>';
     }else{
-      h+='<p class="eyebrow" style="margin-top:14px">La palabra</p><div class="rfr" style="margin-top:6px">'+w.w+'</div><div class="fl" style="margin-top:8px"><span>'+w.ex+'</span></div>'+
+      h+='<p class="eyebrow" style="margin-top:14px">La palabra</p><div class="rfr" style="margin-top:6px">'+w.w+'</div><div class="fl" style="margin-top:8px"><span>'+w.ex+'</span></div><div class="sense">'+w.ees+'</div>'+
          '<div class="row2"><button class="btn" type="button" data-a="say" data-say="'+esc(w.ex)+'">▶ Escuchar la frase</button><button class="btn ghost" type="button" data-a="say" data-say="'+esc(w.w)+'">▶ La palabra</button></div>'+
          '<p class="eyebrow" style="margin-top:22px">¿Cómo te ha salido?</p>'+
          '<div class="rate" style="margin-top:8px"><button type="button" data-a="wrate" data-r="0">Otra vez<small>hoy</small></button><button type="button" data-a="wrate" data-r="1">Bien<small>'+lab(wNext(wId(w),1))+'</small></button><button type="button" data-a="wrate" data-r="2">Fácil<small>'+lab(wNext(wId(w),2))+'</small></button></div>';
@@ -1109,47 +1110,104 @@ function rWords(){
       '<div class="row2">'+((d.nw.length+d.old.length)?'<button class="btn" type="button" data-a="wstart">Practicar '+Math.min(10,d.nw.length)+(d.nw.length===1?' palabra nueva':' palabras nuevas')+(d.old.length?' y repasar '+d.old.length:'')+'</button>':'<span class="progl">No hay palabras pendientes hoy.</span>')+'</div>'+
       '<div class="sec"><span class="eyebrow">La lista · por frecuencia</span><div class="wlist">'+WORDS.map(function(w){
         var c=S.wc[wId(w)];
-        return '<div class="wrow" data-unit="1"><span class="rk">n.º '+w.r+'</span><div><div class="ww">'+w.w+'</div><div class="es">'+w.es+'</div><div class="ex"><span>'+w.ex+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(w.ex)+'" aria-label="Escuchar: '+esc(w.ex)+'">'+ICON.play+'</button></div></div><span class="tag'+(c&&c.box>=3?' ok':'')+'">'+(c?(c.box>=3?'Dominada':'En práctica'):'Nueva')+'</span></div>';
+        return '<div class="wrow" data-unit="1"><span class="rk">n.º '+w.r+'</span><div><div class="ww">'+w.w+'</div><div class="es">'+w.es+'</div><div class="ex"><span>'+w.ex+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(w.ex)+'" aria-label="Escuchar: '+esc(w.ex)+'">'+ICON.play+'</button></div><div class="es" style="font-style:italic">'+w.ees+'</div></div><span class="tag'+(c&&c.box>=3?' ok':'')+'">'+(c?(c.box>=3?'Dominada':'En práctica'):'Nueva')+'</span></div>';
       }).join('')+'</div></div>';
   }
   $('#v-words').innerHTML=h;
 }
 
-/* ---------- Verbos ---------- */
+/* ---------- Mapas mentales ---------- */
 var VERBS=[
- {id:'parler',r:'parl',es:'hablar'},
- {id:'chercher',r:'cherch',es:'buscar'},
- {id:'regarder',r:'regard',es:'mirar'},
- {id:'travailler',r:'travaill',es:'trabajar'},
- {id:'habiter',r:'habit',es:'vivir (en un lugar)',el:1}
+ {id:'parler',k:'er',r:'parl',f:['e','es','e','ons','ez','ent'],pp:'parlé',aux:'avoir',es:'hablar',ep:['hablo','hablas','habla','hablamos','habláis','hablan'],epp:'hablado'},
+ {id:'regarder',k:'er',r:'regard',f:['e','es','e','ons','ez','ent'],pp:'regardé',aux:'avoir',es:'mirar',ep:['miro','miras','mira','miramos','miráis','miran'],epp:'mirado'},
+ {id:'chercher',k:'er',r:'cherch',f:['e','es','e','ons','ez','ent'],pp:'cherché',aux:'avoir',es:'buscar',ep:['busco','buscas','busca','buscamos','buscáis','buscan'],epp:'buscado'},
+ {id:'travailler',k:'er',r:'travaill',f:['e','es','e','ons','ez','ent'],pp:'travaillé',aux:'avoir',es:'trabajar',ep:['trabajo','trabajas','trabaja','trabajamos','trabajáis','trabajan'],epp:'trabajado'},
+ {id:'habiter',k:'er',r:'habit',f:['e','es','e','ons','ez','ent'],pp:'habité',aux:'avoir',es:'vivir (en un lugar)',ei:'vivir',ep:['vivo','vives','vive','vivimos','vivís','viven'],epp:'vivido'},
+ {id:'être',k:'irr',f:['suis','es','est','sommes','êtes','sont'],pp:'été',aux:'avoir',es:'ser / estar',ei:'ser / estar',ep:['soy / estoy','eres / estás','es / está','somos / estamos','sois / estáis','son / están'],epp:'sido / estado'},
+ {id:'avoir',k:'irr',f:['ai','as','a','avons','avez','ont'],pp:'eu',aux:'avoir',es:'tener',ep:['tengo','tienes','tiene','tenemos','tenéis','tienen'],epp:'tenido'},
+ {id:'aller',k:'irr',f:['vais','vas','va','allons','allez','vont'],pp:'allé',aux:'être',es:'ir',ep:['voy','vas','va','vamos','vais','van'],epp:'ido'},
+ {id:'faire',k:'irr',f:['fais','fais','fait','faisons','faites','font'],pp:'fait',aux:'avoir',es:'hacer',ep:['hago','haces','hace','hacemos','hacéis','hacen'],epp:'hecho'},
+ {id:'pouvoir',k:'irr',f:['peux','peux','peut','pouvons','pouvez','peuvent'],pp:'pu',aux:'avoir',es:'poder',ep:['puedo','puedes','puede','podemos','podéis','pueden'],epp:'podido'},
+ {id:'vouloir',k:'irr',f:['veux','veux','veut','voulons','voulez','veulent'],pp:'voulu',aux:'avoir',es:'querer',ep:['quiero','quieres','quiere','queremos','queréis','quieren'],epp:'querido'},
+ {id:'savoir',k:'irr',f:['sais','sais','sait','savons','savez','savent'],pp:'su',aux:'avoir',es:'saber',ep:['sé','sabes','sabe','sabemos','sabéis','saben'],epp:'sabido'},
+ {id:'prendre',k:'irr',f:['prends','prends','prend','prenons','prenez','prennent'],pp:'pris',aux:'avoir',es:'tomar, coger',ei:'tomar',ep:['tomo','tomas','toma','tomamos','tomáis','toman'],epp:'tomado'},
+ {id:'venir',k:'irr',f:['viens','viens','vient','venons','venez','viennent'],pp:'venu',aux:'être',es:'venir',ep:['vengo','vienes','viene','venimos','venís','vienen'],epp:'venido'}
 ];
-var VPRON=[['je','e',0],['tu','es',0],['il / elle','e',0],['nous','ons',1],['vous','ez',1],['ils / elles','ent',0]];
-var vb='parler';
-function vForm(v,i){var pr=VPRON[i][0];if(i===0&&v.el)pr='j’';var full=(i===0&&v.el)?'j’':'';return {pr:pr,full:(i===0&&v.el?'j’':pr.split(' / ')[0]+' ')+v.r+VPRON[i][1]}}
-function rVerbs(){
-  var v=VERBS.filter(function(x){return x.id===vb})[0];
-  var pos=[[110,56],[110,200],[110,344],[530,56],[530,200],[530,344]];
-  var svg='<svg viewBox="0 0 640 400" role="img" aria-label="Mapa de conjugación de '+v.id+'. Pulsa cada forma para oírla."><text class="lbl" x="110" y="14" text-anchor="middle">UNA PERSONA</text><text class="lbl" x="530" y="14" text-anchor="middle">VARIAS</text>';
+var ASK=[
+ {w:'où',es:'dónde',ex:'Où est la gare ?',ees:'¿Dónde está la estación?'},
+ {w:'quand',es:'cuándo',ex:'C’est quand ?',ees:'¿Cuándo es?'},
+ {w:'comment',es:'cómo',ex:'Comment allez-vous ?',ees:'¿Cómo está usted?'},
+ {w:'pourquoi',es:'por qué',ex:'Pourquoi ?',ees:'¿Por qué?'},
+ {w:'combien',es:'cuánto',ex:'Ça fait combien ?',ees:'¿Cuánto es?'},
+ {w:'qui',es:'quién',ex:'C’est qui ?',ees:'¿Quién es?'}
+];
+var vb='parler',vt='pres',mm='verbs';
+var TENSES=[['pres','Presente'],['pc','Pasado (passé composé)'],['fut','Futuro cercano']];
+var AUXF={avoir:['ai','as','a','avons','avez','ont'],'être':['suis','es','est','sommes','êtes','sont']};
+var ALLER=['vais','vas','va','allons','allez','vont'];
+function vForm(v,t,i){
+  var P=['je','tu','il / elle','nous','vous','ils / elles'],E=['yo','tú','él / ella','nosotros','vosotros / usted','ellos / ellas'];
+  var a,ca,b='',cb,sp='',es;
+  if(t==='pres'){
+    if(v.k==='er'){a=v.r;ca='rt';b=v.f[i];cb='en'}else{a=v.f[i];ca='rt'}
+    es=v.ep[i];
+  }else if(t==='pc'){
+    var pp=v.pp;
+    if(v.aux==='être'){pp=i<2?pp+'(e)':i===2?pp:i===3?pp+'(e)s':i===4?pp+'(e)(s)':pp+'s'}
+    a=AUXF[v.aux][i];ca='en';b=pp;cb='rt';sp=' ';
+    es=['he','has','ha','hemos','habéis','han'][i]+' '+v.epp;
+  }else{
+    a=ALLER[i];ca='en';b=v.id;cb='rt';sp=' ';
+    es=['voy','vas','va','vamos','vais','van'][i]+' a '+(v.ei||v.es);
+  }
+  var lab=P[i],el=false;
+  if(i===0&&/^[aeiouhâéèêîô]/i.test(a)){lab='j’';el=true}
+  var say=(lab==='il / elle'?'il':lab==='ils / elles'?'ils':lab)+(el?'':' ')+(a+sp+b).replace(/\(e\)/g,'').replace(/\(s\)/g,'');
+  return{lab:lab,a:a,ca:ca,b:b,cb:cb,sp:sp,say:say,es:es,esub:E[i]};
+}
+function mapSVG(nodes,hub,label){
+  var pos=[[105,60],[105,200],[105,340],[535,60],[535,200],[535,340]];
+  var svg='<svg viewBox="0 0 640 400" role="img" aria-label="'+esc(label)+'"><text class="lbl" x="105" y="16" text-anchor="middle">'+nodes.h1+'</text><text class="lbl" x="535" y="16" text-anchor="middle">'+nodes.h2+'</text>';
   pos.forEach(function(q){svg+='<path class="ln" d="M320 200 L'+q[0]+' '+q[1]+'"/>'});
-  svg+='<circle class="hub" cx="320" cy="200" r="58"/><text class="hubt" x="320" y="207" text-anchor="middle">'+v.r+'-er</text>';
-  VPRON.forEach(function(f,i){
-    var q=pos[i],fm=vForm(v,i),mu=!f[2];
-    var txt=(i===0&&v.el?'j’':'');
-    svg+='<g data-a="say" data-say="'+esc(fm.full)+'" tabindex="0" role="button" aria-label="Escuchar '+esc(fm.full)+'"><rect class="nd" x="'+(q[0]-82)+'" y="'+(q[1]-28)+'" width="164" height="56" rx="14"/><text class="pr" x="'+q[0]+'" y="'+(q[1]-9)+'" text-anchor="middle">'+fm.pr.toUpperCase()+'</text><text class="fm" x="'+q[0]+'" y="'+(q[1]+19)+'" text-anchor="middle"><tspan class="rt">'+v.r+'</tspan><tspan class="en'+(mu?' mu':'')+'">'+f[1]+'</tspan></text></g>';
+  svg+='<circle class="hub" cx="320" cy="200" r="62"/><text class="hubt" x="320" y="207" text-anchor="middle" style="font-size:'+(hub.length>9?19:24)+'px">'+hub+'</text>';
+  nodes.items.forEach(function(n,i){
+    var q=pos[i];
+    svg+='<g data-a="say" data-say="'+esc(n.say)+'" tabindex="0" role="button" aria-label="Escuchar '+esc(n.say)+'"><rect class="nd" x="'+(q[0]-98)+'" y="'+(q[1]-36)+'" width="196" height="72" rx="14"/><text class="pr" x="'+q[0]+'" y="'+(q[1]-17)+'" text-anchor="middle">'+n.top+'</text><text class="fm" x="'+q[0]+'" y="'+(q[1]+6)+'" text-anchor="middle" style="font-size:19px">'+n.main+'</text><text class="es" x="'+q[0]+'" y="'+(q[1]+27)+'" text-anchor="middle">'+n.es+'</text></g>';
   });
-  svg+='</svg>';
-  $('#v-verbs').innerHTML=
-   '<span class="eyebrow">Verbos</span><h2 class="h2">Un patrón, muchos verbos</h2>'+
-   '<p class="lead">Casi todos los verbos que terminan en <b>-er</b> se conjugan igual: la parte de delante no cambia y solo cambia la terminación. Aprendes el patrón una vez y lo aplicas a cientos de verbos.</p>'+
-   '<div class="chips" role="group" aria-label="Verbo">'+VERBS.map(function(x){return '<button type="button" class="chip" data-a="verb" data-id="'+x.id+'" aria-pressed="'+(x.id===vb)+'">'+x.id+' · '+x.es+'</button>'}).join('')+'</div>'+
-   '<div class="vmap" data-unit="1">'+svg+'</div>'+
-   '<p class="legend"><b>Cómo leerlo.</b> En negro, la raíz, que no cambia. En color, la terminación. Las terminaciones apagadas (-e, -es, -ent) <b>no se pronuncian</b>.</p>'+
-   '<div class="sec"><span class="eyebrow">La regla del oído</span><p class="lead">Seis formas escritas, pero solo <b>tres sonidos</b>: <i>je</i>, <i>tu</i>, <i>il</i> e <i>ils</i> suenan igual. Solo <i>nous</i> (-ons) y <i>vous</i> (-ez) suenan distinto. Por eso en francés el contexto y el pronombre importan al escuchar.</p>'+
-   '<div class="vm">'+VPRON.map(function(f,i){
-     var fm=vForm(v,i);
-     return '<div class="r"><span class="pr">'+fm.pr+'</span><span class="fo">'+v.r+'<span class="e'+(f[2]?'':' mu')+'">'+f[1]+'</span></span><span class="tag'+(f[2]?' now':'')+'">'+(f[2]?'suena -'+(i===3?'õ':'é'):'igual')+'</span><button class="play sm" type="button" data-a="say" data-say="'+esc(fm.full)+'" aria-label="Escuchar '+esc(fm.full)+'">'+ICON.play+'</button></div>';
-   }).join('')+'</div></div>'+
-   '<p class="legend">Con verbos que empiezan por vocal o h muda, <i>je</i> pasa a <i>j’</i> (j’habite). Próximamente: laboratorio de enlaces (liaisons).</p>';
+  return svg+'</svg>';
+}
+function tsp(c,t){return t?'<tspan class="'+c+'">'+t+'</tspan>':''}
+function rVerbs(){
+  var h='<span class="eyebrow">Mapas</span><h2 class="h2">Mapas mentales</h2>'+
+   '<div class="chips" role="group" aria-label="Mapa"><button type="button" class="chip" data-a="mapmode" data-id="verbs" aria-pressed="'+(mm==='verbs')+'">Verbos</button><button type="button" class="chip" data-a="mapmode" data-id="ask" aria-pressed="'+(mm==='ask')+'">Para preguntar</button></div>';
+  if(mm==='ask'){
+    var items=ASK.map(function(a){return{say:a.ex,top:a.ex.toUpperCase().replace(/ ?\\?$/,'').slice(0,0)+'PREGUNTAR',main:a.w,es:a.es}});
+    h+='<p class="lead">Seis palabras abren casi cualquier pregunta. Pulsa cada una para oír la frase de ejemplo.</p><div class="vmap" data-unit="1">'+
+       mapSVG({h1:'LUGAR Y TIEMPO',h2:'MODO Y MOTIVO',items:[items[0],items[1],items[4],items[2],items[3],items[5]]},'Questions','Mapa de palabras para preguntar')+'</div>'+
+       '<div class="vm">'+ASK.map(function(a){return '<div class="r" style="grid-template-columns:110px 1fr auto"><span class="fo">'+a.w+'</span><span><span class="fl" style="font-size:20px">'+a.ex+'</span><span class="sense" style="display:block">'+a.ees+'</span></span><button class="play sm" type="button" data-a="say" data-say="'+esc(a.ex)+'" aria-label="Escuchar: '+esc(a.ex)+'">'+ICON.play+'</button></div>'}).join('')+'</div>';
+    $('#v-verbs').innerHTML=h;return;
+  }
+  var v=VERBS.filter(function(x){return x.id===vb})[0];
+  var chip=function(x){return '<button type="button" class="chip" data-a="verb" data-id="'+x.id+'" aria-pressed="'+(x.id===vb)+'">'+x.id+' · '+x.es+'</button>'};
+  h+='<p class="lead">Elige un verbo y un tiempo. En el mapa ves las seis formas con su sentido en español; pulsa una para oírla.</p>'+
+   '<span class="eyebrow">Regulares en -er: una sola regla</span><div class="chips">'+VERBS.filter(function(x){return x.k==='er'}).map(chip).join('')+'</div>'+
+   '<span class="eyebrow">Irregulares muy comunes</span><div class="chips">'+VERBS.filter(function(x){return x.k==='irr'}).map(chip).join('')+'</div>'+
+   '<span class="eyebrow">Tiempo</span><div class="chips" role="group" aria-label="Tiempo">'+TENSES.map(function(t){return '<button type="button" class="chip" data-a="tense" data-id="'+t[0]+'" aria-pressed="'+(vt===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>';
+  var forms=[0,1,2,3,4,5].map(function(i){return vForm(v,vt,i)});
+  var items2=forms.map(function(f){return{say:f.say,top:f.lab.toUpperCase(),main:'',es:f.esub+' · '+f.es,f:f}});
+  // nodos con dos colores
+  var svg=mapSVG({h1:'UNA PERSONA',h2:'VARIAS',items:items2.map(function(n){return{say:n.say,top:n.top,main:'@@',es:n.es}})},v.k==='er'&&vt==='pres'?v.r+'-er':v.id,'Mapa de '+v.id);
+  var k=0;svg=svg.replace(/@@/g,function(){var f=forms[k++];return tsp(f.ca,f.a)+(f.sp?' ':'')+tsp(f.cb,f.b)});
+  h+='<div class="vmap" data-unit="1">'+svg+'</div>';
+  var note=vt==='pres'?(v.k==='er'?'<b>Cómo leerlo.</b> En negro, la raíz, que no cambia. En color, la terminación. Las terminaciones -e, -es y -ent <b>no se pronuncian</b>: seis formas escritas, tres sonidos.':'<b>Verbo irregular.</b> Se aprende en bloque. Fíjate en qué formas suenan igual al oírlas.'):
+   vt==='pc'?'<b>Pasado.</b> Se forma con «'+v.aux+'» (en color) + el participio «'+v.pp+'». Equivale a «he '+v.epp+'» y también al pasado simple del español. '+(v.aux==='être'?'Con «être» el participio concuerda con quien habla: '+v.pp+'(e), '+v.pp+'(e)s.':''):
+   '<b>Futuro cercano.</b> «aller» conjugado (en color) + el verbo en infinitivo. Es el futuro que más se usa al hablar: «voy a '+(v.ei||v.es)+'».';
+  h+='<p class="legend">'+note+'</p>'+
+   '<div class="vm">'+forms.map(function(f){
+     return '<div class="r" style="grid-template-columns:78px 1fr auto"><span class="pr">'+f.lab+'</span><span><span class="fo"><span class="'+(f.ca==='en'?'e':'')+'">'+f.a+'</span>'+(f.sp?' ':'')+'<span class="'+(f.cb==='en'?'e':'')+'">'+f.b+'</span></span><span class="sense" style="display:block">'+f.esub+' · '+f.es+'</span></span><button class="play sm" type="button" data-a="say" data-say="'+esc(f.say)+'" aria-label="Escuchar '+esc(f.say)+'">'+ICON.play+'</button></div>';
+   }).join('')+'</div>'+
+   '<p class="legend">Con verbos que empiezan por vocal o h muda, «je» pasa a «j’» (j’habite, j’ai). En español la forma «vosotros» corresponde a «vous» cuando son varias personas; con una sola persona de respeto, «usted».</p>';
+  $('#v-verbs').innerHTML=h;
 }
 
 /* ---------- Método ---------- */
@@ -1220,6 +1278,8 @@ document.addEventListener('click',function(e){
   else if(a==='goal'){S.goals[el.dataset.i]=el.checked?1:0;save()}
   else if(a==='restdone'){S.rest=true;touch();rToday()}
   else if(a==='verb'){vb=el.dataset.id;rVerbs()}
+  else if(a==='tense'){vt=el.dataset.id;rVerbs()}
+  else if(a==='mapmode'){mm=el.dataset.id;rVerbs()}
   else if(a==='wstart'){var dd=wDue();wv.q=dd.old.concat(dd.nw.slice(0,10));wv.total=wv.q.length;wv.done=0;wv.shown=false;wv.mode='card';rWords()}
   else if(a==='wshow'){wv.shown=true;rWords();say(wv.q[0].ex)}
   else if(a==='wrate'){

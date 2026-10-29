@@ -431,7 +431,7 @@ mark{background:var(--rose-soft);color:inherit;padding:0 4px;border-radius:3px}
     <section class="view" id="v-sounds" hidden></section>
     <section class="view" id="v-verbs" hidden></section>
     <section class="view" id="v-method" hidden></section>
-    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · mapas 1</span></p>
+    <p class="foot">Programa de autoestudio. No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · unidad 2 · 1</span></p>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -561,6 +561,127 @@ var SCENES=[
      {fr:'Je vais à la gare.',q:2,reply:'La gare ? C’est tout droit.'},
      {fr:'Je vas gare.',q:1,reply:'Vous {allez à la gare} ? C’est tout droit.'},
      {fr:'Merci beaucoup.',q:0,reply:'De rien ! Mais… {vous allez où} ?'}]}
+  ]},
+
+ {id:'chiffres',u:2,title:'Les chiffres',art:'key',
+  setting:'Llegas al hotel al caer la tarde. En el mostrador, la recepcionista te da la llave y te habla de números: habitación, autobús, taxi.',
+  who:'La réceptionniste',
+  phrases:[
+   {id:'n1',fr:'Ma chambre, c’est le douze ?',syl:[['ma','shãbr'],['se','le','duz']],cue:'Compruebas el número de tu habitación: el doce.'},
+   {id:'n2',fr:'Ça fait treize euros ?',syl:[['sa','fe'],['trez','ö','ro']],cue:'Confirmas un precio: trece euros.'},
+   {id:'n3',fr:'Nous sommes huit.',syl:[['nu','som'],['üit']],cue:'Dices cuántas personas sois: ocho.'},
+   {id:'n4',fr:'C’est le bus numéro neuf ?',syl:[['se','le','büs'],['nü','me','ro'],['nöf']],cue:'Compruebas que el autobús es el nueve.'},
+   {id:'n5',fr:'Vous dites douze ou treize ?',syl:[['vu','dit'],['duz','u'],['trez']],cue:'No has oído bien un número y preguntas cuál de los dos.'}
+  ],
+  turns:[
+   {fr:'Voici votre clé, madame. C’est la chambre douze.',sense:'Te da la llave: habitación doce.',opts:[
+     {fr:'Merci. Ma chambre, c’est le douze ?',q:2,reply:'Oui, madame, le douze, au premier étage.'},
+     {fr:'Douze ?',q:1,reply:'Oui, {la chambre douze}, au premier étage.'},
+     {fr:'Un café, s’il vous plaît.',q:0,reply:'Ici, c’est l’hôtel ! {La chambre douze}, madame.'}]},
+   {fr:'Et pour le petit-déjeuner, vous êtes combien ?',sense:'Te pregunta cuántas personas sois para el desayuno.',opts:[
+     {fr:'Nous sommes huit.',q:2,reply:'Huit personnes. Très bien.'},
+     {fr:'Nous huit.',q:1,reply:'Vous {êtes} huit ? Très bien.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? {Vous êtes combien} ?'}]},
+   {fr:'Le taxi pour la gare, c’est treize euros, madame.',sense:'Te dice que el taxi a la estación cuesta trece euros.',opts:[
+     {fr:'Pardon, vous dites douze ou treize ?',q:2,reply:'Treize, madame. Treize euros.'},
+     {fr:'Comment ?',q:1,reply:'{Treize euros}, madame. Trei-ze.'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ? Euh… {treize euros}, madame.'}]}
+  ]},
+ {id:'heure',u:2,title:'L’heure',art:'sun',
+  setting:'Estás frente al reloj grande de la estación. Un señor con un periódico pasa a tu lado y tú necesitas saber la hora.',
+  who:'Un passant',
+  phrases:[
+   {id:'e1',fr:'Quelle heure est-il ?',syl:[['kel','ör','é','til']],cue:'Preguntas qué hora es.'},
+   {id:'e2',fr:'Il est huit heures.',syl:[['il','é','üi','tör']],cue:'Dices que son las ocho.'},
+   {id:'e3',fr:'À midi et demi.',syl:[['a','mi','di'],['é','de','mi']],cue:'Dices a qué hora: a las doce y media.'},
+   {id:'e4',fr:'À quelle heure ?',syl:[['a','kel','ör']],cue:'Preguntas a qué hora es algo.'},
+   {id:'e5',fr:'À neuf heures et quart.',syl:[['a','nö','vör'],['é','kar']],cue:'Dices a qué hora: a las nueve y cuarto.'}
+  ],
+  turns:[
+   {fr:'Oui, madame ?',sense:'Se vuelve hacia ti: ¿sí?',opts:[
+     {fr:'Excusez-moi, quelle heure est-il ?',q:2,reply:'Il est huit heures.'},
+     {fr:'Heure ?',q:1,reply:'{Quelle heure est-il ?} Il est huit heures.'},
+     {fr:'Je suis fatiguée.',q:0,reply:'Ah… oui. {Il est huit heures}, madame.'}]},
+   {fr:'Il est huit heures, madame.',sense:'Te dice la hora: las ocho.',opts:[
+     {fr:'Merci. Et le train ? À quelle heure ?',q:2,reply:'Le train part à neuf heures et quart.'},
+     {fr:'Train ? Heure ?',q:1,reply:'{Le train, à quelle heure ?} Neuf heures et quart.'},
+     {fr:'Bonsoir.',q:0,reply:'Bonsoir ? C’est le matin ! {Le train}, neuf heures et quart.'}]},
+   {fr:'Et le restaurant de la gare ouvre à midi et demi.',sense:'Te dice que el restaurante de la estación abre a las doce y media.',opts:[
+     {fr:'À midi et demi, d’accord. Merci !',q:2,reply:'Voilà. Bonne journée, madame !'},
+     {fr:'Midi.',q:1,reply:'{Midi et demi}, oui. Bonne journée, madame !'},
+     {fr:'Au revoir.',q:0,reply:'Euh… {midi et demi}, madame !'}]}
+  ]},
+ {id:'billet',u:2,title:'Au guichet',art:'sign',
+  setting:'Taquilla de la estación. Hay una cola corta y el empleado te mira detrás del cristal.',
+  who:'L’employé',
+  phrases:[
+   {id:'b1',fr:'Un billet pour Lyon, s’il vous plaît.',syl:[['ẽ','bi','yé','pur'],['li','õ'],['sil','vu','plé']],cue:'Pides un billete para Lyon.'},
+   {id:'b2',fr:'Un aller simple.',syl:[['ẽ','na','lé'],['sẽ','pl']],cue:'Pides un billete de ida.'},
+   {id:'b3',fr:'Un aller-retour.',syl:[['ẽ','na','lé'],['re','tur']],cue:'Pides un billete de ida y vuelta.'},
+   {id:'b4',fr:'C’est quel quai ?',syl:[['se','kel','ké']],cue:'Preguntas por qué andén sale el tren.'},
+   {id:'b5',fr:'Le train part à quelle heure ?',syl:[['le','trẽ','par'],['a','kel','ör']],cue:'Preguntas a qué hora sale el tren.'}
+  ],
+  turns:[
+   {fr:'Bonjour, madame. Vous désirez ?',sense:'Te saluda y pregunta qué deseas.',opts:[
+     {fr:'Bonjour. Un billet pour Lyon, s’il vous plaît.',q:2,reply:'Un billet pour Lyon. Très bien.'},
+     {fr:'Lyon.',q:1,reply:'{Un billet pour Lyon}, très bien.'},
+     {fr:'Merci beaucoup.',q:0,reply:'Pardon ? {Un billet}, pour où ?'}]},
+   {fr:'Aller simple ou aller-retour ?',sense:'Pregunta si de ida o de ida y vuelta.',opts:[
+     {fr:'Un aller simple, s’il vous plaît.',q:2,reply:'Voilà, un aller simple.'},
+     {fr:'Simple.',q:1,reply:'{Un aller simple}, voilà.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! Mais… {aller simple} ou {aller-retour} ?'}]},
+   {fr:'Voilà, madame. Le train part bientôt.',sense:'Te da el billete: el tren sale pronto.',opts:[
+     {fr:'Merci. C’est quel quai ?',q:2,reply:'Quai douze, madame. Bon voyage !'},
+     {fr:'Quai ?',q:1,reply:'{C’est quel quai ?} Quai douze. Bon voyage !'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? {Le quai} ? C’est le quai douze.'}]}
+  ]},
+ {id:'transport',u:2,title:'Métro et taxi',art:'sign',
+  setting:'Sales del hotel con prisa. Primero preguntas por el metro y, como hay cambio de línea, acabas parando un taxi.',
+  who:'Le chauffeur',
+  phrases:[
+   {id:'t1',fr:'Où est la station de métro ?',syl:[['u','é','la','sta','syõ'],['de','mé','tro']],cue:'Preguntas dónde está la estación de metro.'},
+   {id:'t2',fr:'Je voudrais aller à la gare.',syl:[['zhe','vu','dré'],['a','lé','a','la','gar']],cue:'Dices adónde quieres ir: a la estación.'},
+   {id:'t3',fr:'C’est direct ?',syl:[['se','di','rekt']],cue:'Preguntas si el trayecto es directo.'},
+   {id:'t4',fr:'Combien de temps ?',syl:[['kõ','biẽ'],['de','tã']],cue:'Preguntas cuánto se tarda.'},
+   {id:'t5',fr:'Arrêtez-vous ici, s’il vous plaît.',syl:[['a','ré','té','vu'],['i','si'],['sil','vu','plé']],cue:'Le pides al taxista que pare aquí.'}
+  ],
+  turns:[
+   {fr:'Bonjour, madame. Où allez-vous ?',sense:'Te saluda y pregunta adónde vas.',opts:[
+     {fr:'Bonjour. Je voudrais aller à la gare.',q:2,reply:'À la gare, très bien.'},
+     {fr:'La gare.',q:1,reply:'{À la gare}, très bien.'},
+     {fr:'Merci beaucoup.',q:0,reply:'De rien… mais {où allez-vous} ?'}]},
+   {fr:'Voilà, on y va.',sense:'Arranca: ¡vamos!',opts:[
+     {fr:'Combien de temps, s’il vous plaît ?',q:2,reply:'Vingt minutes, madame.'},
+     {fr:'Temps ?',q:1,reply:'{Combien de temps ?} Vingt minutes.'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? Nous arrivons dans {vingt minutes}.'}]},
+   {fr:'Voilà la gare, madame. Ici ?',sense:'Llegáis a la estación y te pregunta si te deja aquí.',opts:[
+     {fr:'Oui, arrêtez-vous ici, s’il vous plaît.',q:2,reply:'Voilà. Ça fait vingt euros.'},
+     {fr:'Ici.',q:1,reply:'{Arrêtez-vous ici}, oui. Ça fait vingt euros.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ? Nous sommes {à la gare}, madame !'}]}
+  ]},
+ {id:'prix',u:2,title:'Les prix',art:'cup',
+  setting:'Una tienda pequeña junto a la estación. Te gusta un pañuelo de seda y la vendedora te sonríe desde el mostrador.',
+  who:'La vendeuse',
+  phrases:[
+   {id:'p1',fr:'Ça coûte combien ?',syl:[['sa','kut'],['kõ','biẽ']],cue:'Preguntas cuánto cuesta algo.'},
+   {id:'p2',fr:'C’est trop cher.',syl:[['se','tro'],['shér']],cue:'Dices que es demasiado caro.'},
+   {id:'p3',fr:'Vous acceptez la carte ?',syl:[['vu','zak','sep','té'],['la','kart']],cue:'Preguntas si aceptan tarjeta.'},
+   {id:'p4',fr:'Voilà vingt euros.',syl:[['vua','la'],['vẽ','tö','ro']],cue:'Entregas un billete de veinte euros.'},
+   {id:'p5',fr:'Je prends ça.',syl:[['zhe','prã'],['sa']],cue:'Decides comprarlo.'}
+  ],
+  turns:[
+   {fr:'Bonjour ! Vous cherchez quelque chose ?',sense:'Te saluda y pregunta si buscas algo.',opts:[
+     {fr:'Bonjour. Ça coûte combien ?',q:2,reply:'Ce foulard ? Dix-huit euros.'},
+     {fr:'Combien ?',q:1,reply:'{Ça coûte combien ?} Dix-huit euros, le foulard.'},
+     {fr:'Au revoir.',q:0,reply:'Déjà ? Le foulard coûte {dix-huit euros}.'}]},
+   {fr:'C’est de la belle soie. Dix-huit euros.',sense:'Te dice que es seda buena y cuesta dieciocho euros.',opts:[
+     {fr:'Hmm, c’est trop cher.',q:2,reply:'Pour vous, seize euros.'},
+     {fr:'Cher.',q:1,reply:'{C’est trop cher}, oui ? Seize euros, alors.'},
+     {fr:'Bonjour.',q:0,reply:'Bonjour ! Dix-huit euros, madame.'}]},
+   {fr:'Seize euros, ça va ?',sense:'Te ofrece dieciséis euros: ¿te va bien?',opts:[
+     {fr:'D’accord, je prends ça. Voilà vingt euros.',q:2,reply:'Merci. Et voilà quatre euros.'},
+     {fr:'Je prends. Vingt euros.',q:1,reply:'Vous {prenez ça}. Merci. Et voilà quatre euros.'},
+     {fr:'Excusez-moi.',q:0,reply:'Oui ? {Seize euros}, ça va ?'}]}
   ]}
 ];
 
@@ -581,8 +702,17 @@ var DAYS=[
  {n:5,t:'Los verbos de todos los días',sc:'verbes',m:20,goal:'Decir cómo estás, qué tienes, adónde vas y que no lo sabes, con verbos muy comunes: être, avoir, aller, pouvoir y savoir.'},
  {n:6,t:'Una jornada completa',sc:null,m:20,goal:'Unir las situaciones de la unidad en una sola historia.'},
  {n:7,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado: ocho frases que escuchas y reconoces.'},
- {n:8,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
+ {n:8,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'},
+ {n:9,u:2,t:'Los números del 0 al 20',sc:'chiffres',m:20,goal:'Decir y entender números hasta veinte: una habitación, un autobús, un precio, cuántas personas sois.'},
+ {n:10,u:2,t:'La hora',sc:'heure',m:20,goal:'Preguntar qué hora es y decir una hora: en punto, y cuarto, y media.'},
+ {n:11,u:2,t:'Comprar un billete',sc:'billet',m:20,goal:'Pedir un billete de ida o de ida y vuelta y preguntar por el andén y la hora de salida.'},
+ {n:12,u:2,t:'Metro y taxi',sc:'transport',m:20,goal:'Preguntar por el metro, decir adónde vas, cuánto se tarda y pedir que paren.'},
+ {n:13,u:2,t:'Precios y pagar',sc:'prix',m:20,goal:'Preguntar cuánto cuesta, decir que es caro, preguntar por la tarjeta y pagar.'},
+ {n:14,u:2,t:'Una jornada completa',sc:null,m:20,goal:'Unir la hora, el transporte, el billete y el pago en una sola historia.'},
+ {n:15,u:2,t:'Repaso y mini-prueba',kind:'test',m:15,goal:'Comprobar qué has fijado en esta unidad: ocho frases que escuchas y reconoces.'},
+ {n:16,u:2,t:'Descanso y balance',kind:'rest',m:10,goal:'Sin lecciones nuevas. Revisa lo que ya puedes hacer.'}
 ];
+DAYS.forEach(function(d){d.u=d.u||1;d.k=d.n-(d.u-1)*8});
 var STORY={
  1:[{w:'Julien',fr:'Bonjour, madame !',es:'¡Buenos días, señora!'},
     {w:'Clara',fr:'Bonjour ! Ça va ?',es:'¡Buenos días! ¿Qué tal?'},
@@ -625,16 +755,62 @@ var STORY={
     {w:'Clara',fr:'Plus lentement, s’il vous plaît.',es:'Más despacio, por favor.'},
     {w:'Un passant',fr:'Tout droit… puis à gauche. Voilà.',es:'Todo recto… y luego a la izquierda. Ya está.'},
     {w:'Clara',fr:'Bonsoir. J’ai une réservation.',es:'Buenas noches. Tengo una reserva.'},
-    {w:'La réceptionniste',fr:'Bonsoir, madame. Bienvenue !',es:'Buenas noches, señora. ¡Bienvenida!'}]
+    {w:'La réceptionniste',fr:'Bonsoir, madame. Bienvenue !',es:'Buenas noches, señora. ¡Bienvenida!'}],
+ 9:[{w:'La réceptionniste',fr:'Bonsoir, madame. Voici votre clé.',es:'Buenas noches, señora. Aquí tiene su llave.'},
+    {w:'Clara',fr:'Merci. Ma chambre, c’est le douze ?',es:'Gracias. Mi habitación, ¿es la doce?'},
+    {w:'La réceptionniste',fr:'Oui, le douze, au premier étage.',es:'Sí, la doce, en el primer piso.'},
+    {w:'Clara',fr:'Nous sommes huit. Pour la gare, c’est le bus numéro neuf ?',es:'Somos ocho. Para la estación, ¿es el autobús número nueve?'},
+    {w:'La réceptionniste',fr:'Oui, le neuf. Ou le taxi : treize euros.',es:'Sí, el nueve. O el taxi: trece euros.'},
+    {w:'Clara',fr:'Vous dites douze ou treize ?',es:'¿Dice doce o trece?'},
+    {w:'La réceptionniste',fr:'Treize, madame.',es:'Trece, señora.'},
+    {w:'Clara',fr:'Ça fait treize euros ? Très bien, merci.',es:'¿Son trece euros? Muy bien, gracias.'}],
+ 10:[{w:'Clara',fr:'Excusez-moi, quelle heure est-il ?',es:'Perdone, ¿qué hora es?'},
+    {w:'Un passant',fr:'Il est huit heures.',es:'Son las ocho.'},
+    {w:'Clara',fr:'Merci. Et le train pour Lyon ? À quelle heure ?',es:'Gracias. ¿Y el tren a Lyon? ¿A qué hora?'},
+    {w:'Un passant',fr:'À neuf heures et quart.',es:'A las nueve y cuarto.'},
+    {w:'Clara',fr:'Et le restaurant de la gare ?',es:'¿Y el restaurante de la estación?'},
+    {w:'Un passant',fr:'Il ouvre à midi et demi.',es:'Abre a las doce y media.'},
+    {w:'Clara',fr:'À midi et demi, d’accord. Merci !',es:'A las doce y media, de acuerdo. ¡Gracias!'}],
+ 11:[{w:'Clara',fr:'Bonjour. Un billet pour Lyon, s’il vous plaît.',es:'Buenos días. Un billete para Lyon, por favor.'},
+    {w:'L’employé',fr:'Aller simple ou aller-retour ?',es:'¿Ida o ida y vuelta?'},
+    {w:'Clara',fr:'Un aller-retour, s’il vous plaît.',es:'Ida y vuelta, por favor.'},
+    {w:'L’employé',fr:'Voilà. Ça fait dix-huit euros.',es:'Aquí tiene. Son dieciocho euros.'},
+    {w:'Clara',fr:'Le train part à quelle heure ?',es:'¿A qué hora sale el tren?'},
+    {w:'L’employé',fr:'À neuf heures et quart.',es:'A las nueve y cuarto.'},
+    {w:'Clara',fr:'C’est quel quai ?',es:'¿Qué andén es?'},
+    {w:'L’employé',fr:'Quai douze. Bon voyage !',es:'Andén doce. ¡Buen viaje!'}],
+ 12:[{w:'Clara',fr:'Excusez-moi, où est la station de métro ?',es:'Perdone, ¿dónde está la estación de metro?'},
+    {w:'Un passant',fr:'Là, à droite, après la pharmacie.',es:'Allí, a la derecha, después de la farmacia.'},
+    {w:'Clara',fr:'Je voudrais aller à la gare. C’est direct ?',es:'Quisiera ir a la estación. ¿Es directo?'},
+    {w:'Un passant',fr:'Non, il y a un changement. Prenez le taxi.',es:'No, hay un transbordo. Tome un taxi.'},
+    {w:'Clara',fr:'Combien de temps, en taxi ?',es:'¿Cuánto se tarda en taxi?'},
+    {w:'Un passant',fr:'Vingt minutes.',es:'Veinte minutos.'},
+    {w:'Le chauffeur',fr:'Voilà la gare, madame. Ici ?',es:'Ya está la estación, señora. ¿Aquí?'},
+    {w:'Clara',fr:'Oui, arrêtez-vous ici, s’il vous plaît.',es:'Sí, pare aquí, por favor.'}],
+ 13:[{w:'Clara',fr:'Bonjour ! Ça coûte combien ?',es:'¡Buenos días! ¿Cuánto cuesta?'},
+    {w:'La vendeuse',fr:'Ce foulard ? Dix-huit euros.',es:'¿Este pañuelo? Dieciocho euros.'},
+    {w:'Clara',fr:'Hmm, c’est trop cher.',es:'Mmm, es demasiado caro.'},
+    {w:'La vendeuse',fr:'Pour vous, seize euros.',es:'Para usted, dieciséis euros.'},
+    {w:'Clara',fr:'D’accord, je prends ça. Vous acceptez la carte ?',es:'De acuerdo, me lo llevo. ¿Aceptan tarjeta?'},
+    {w:'La vendeuse',fr:'Non, désolée, pas de carte.',es:'No, lo siento, no hay tarjeta.'},
+    {w:'Clara',fr:'Pas de problème. Voilà vingt euros.',es:'Sin problema. Aquí tiene veinte euros.'},
+    {w:'La vendeuse',fr:'Merci ! Et voilà quatre euros.',es:'¡Gracias! Y aquí tiene cuatro euros.'}],
+ 14:[{w:'Clara',fr:'Excusez-moi, quelle heure est-il ?',es:'Perdone, ¿qué hora es?'},
+    {w:'Un passant',fr:'Il est huit heures.',es:'Son las ocho.'},
+    {w:'Clara',fr:'Merci. Je voudrais aller à la gare. C’est direct ?',es:'Gracias. Quisiera ir a la estación. ¿Es directo?'},
+    {w:'Un passant',fr:'Oui, prenez le bus numéro neuf.',es:'Sí, tome el autobús número nueve.'},
+    {w:'Clara',fr:'Un aller-retour pour Lyon, s’il vous plaît.',es:'Un billete de ida y vuelta para Lyon, por favor.'},
+    {w:'L’employé',fr:'Ça fait dix-huit euros.',es:'Son dieciocho euros.'},
+    {w:'Clara',fr:'Voilà vingt euros. Le train part à quelle heure ?',es:'Aquí tiene veinte euros. ¿A qué hora sale el tren?'},
+    {w:'L’employé',fr:'À neuf heures et quart, quai douze.',es:'A las nueve y cuarto, andén doce.'}]
 };
 var PLAN=[
- {w:'U2',t:'Moverse',days:['Los números del 0 al 20','La hora','Comprar un billete','Metro y taxi','Precios y pagar','Una jornada completa','Repaso y mini-prueba','Descanso y balance']},
  {w:'U3',t:'Mesa y mercado',days:['Pedir en un restaurante','Platos y bebidas','El mercado','Cantidades','Decir lo que no comes','Una jornada completa','Repaso y mini-prueba','Descanso y balance']},
  {w:'U4',t:'Primeras conversaciones',days:['Presentarte mejor','Tu trabajo','Tu familia','Tu ciudad','Quedar con alguien','Una jornada completa','Prueba final del nivel','Descanso y balance']}
 ];
 var STAGES=[
- {k:'Principio',t:'Unidad 1 · Sobrevivir',d:'Tus primeras frases en cinco situaciones: saludar, un café, pedir ayuda, un hotel y los verbos de todos los días. Termina con una mini-prueba.',s:'Disponible'},
- {k:'Desarrollo',t:'Unidades 2 y 3 · Moverte y comer',d:'Números, horas, billetes, restaurante y mercado. Cada unidad sigue el mismo ritmo de ocho sesiones.',s:'En preparación'},
+ {k:'Principio',t:'Unidades 1 y 2 · Sobrevivir y moverte',d:'Saludar, un café, pedir ayuda, un hotel y los verbos de todos los días; después números, hora, billetes, metro, taxi y precios. Cada unidad termina con una mini-prueba.',s:'Disponible'},
+ {k:'Desarrollo',t:'Unidad 3 · Mesa y mercado',d:'Restaurante, platos, mercado y cantidades. Sigue el mismo ritmo de ocho sesiones.',s:'En preparación'},
  {k:'Final',t:'Unidad 4 · Conversar',d:'Presentarte, hablar de tu trabajo y mantener una conversación corta. Cierra el nivel A1 con una prueba final.',s:'En preparación'}
 ];
 var RHY=['c1','c2','c3','h5'];
@@ -643,6 +819,12 @@ var WEEKS=[
  {w:'U2',t:'Moverse',d:'Taquilla, taxi y horarios.',o:'Comprar un billete y entender una hora dicha en voz alta.'},
  {w:'U3',t:'Mesa y mercado',d:'Restaurante, mercado y pago.',o:'Pedir una comida completa y preguntar un precio.'},
  {w:'U4',t:'Primeras conversaciones',d:'Presentarte y hablar de tu trabajo.',o:'Mantener tres minutos de conversación con alguien.'}
+];
+var GOALS2=[
+ 'Decir y entender números del 0 al 20 en una habitación, un precio o un autobús.',
+ 'Preguntar qué hora es y decir una hora: en punto, y cuarto, y media.',
+ 'Comprar un billete y preguntar por el andén y la hora de salida.',
+ 'Preguntar cuánto cuesta algo, decir que es caro y pagar.'
 ];
 var GOALS=[
  'Saludar y despedirte según la hora del día.',
@@ -663,7 +845,7 @@ var EVID=[
 /* ---------- Utilidades ---------- */
 function respell(g){return g.map(function(a){return a.map(function(s,i){return i===a.length-1?s.toUpperCase():s}).join('-')}).join(', ')}
 var PH={};
-SCENES.forEach(function(s){s.phrases.forEach(function(p){p.scene=s.id;p.resp=respell(p.syl);PH[p.id]=p;});});
+SCENES.forEach(function(s){s.phrases.forEach(function(p){p.scene=s.id;p.u=s.u||1;p.resp=respell(p.syl);PH[p.id]=p;});});
 function $(s){return document.querySelector(s)}
 function z(n){return String(n).padStart(2,'0')}
 function dstr(d){d=d||new Date();return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
@@ -762,11 +944,16 @@ function beatsHTML(p,lg){
 }
 
 /* ---------- Ayudas de curso ---------- */
+function tKey(u){return u===1?'test1':'test'+u}
+function rKey(u){return u===1?'rest':'rest'+u}
+function gKey(u,i){return u===1?String(i):'u'+u+'-'+i}
+function uPh(u){return Object.keys(PH).filter(function(k){return PH[k].u===u})}
+function uScenes(u){return SCENES.filter(function(x){return (x.u||1)===u})}
 function pd(n){return S.prog[n]||(S.prog[n]={})}
-function dayDone(n){var d=DAYS[n-1];if(d.kind==='test')return S.test1!=null;if(d.kind==='rest')return !!S.rest;var p=S.prog[n]||{};return !!(p[0]&&p[1]&&p[2]&&p[3])}
+function dayDone(n){var d=DAYS[n-1];if(d.kind==='test')return S[tKey(d.u)]!=null;if(d.kind==='rest')return !!S[rKey(d.u)];var p=S.prog[n]||{};return !!(p[0]&&p[1]&&p[2]&&p[3])}
 function curDayNo(){for(var i=1;i<=DAYS.length;i++){if(!dayDone(i))return i}return DAYS.length}
 function sceneById(id){return SCENES.filter(function(s){return s.id===id})[0]}
-function dayPhr(n){var d=DAYS[n-1];return d.sc?sceneById(d.sc).phrases.map(function(p){return p.id}):Object.keys(PH)}
+function dayPhr(n){var d=DAYS[n-1];return d.sc?sceneById(d.sc).phrases.map(function(p){return p.id}):uPh(d.u)}
 function daysDone(){var c=0;for(var i=1;i<=DAYS.length;i++)if(dayDone(i))c++;return c}
 function mark(day,i){var q=pd(day);if(!q[i]){S.mins=(S.mins||0)+[5,4,5,4][i];q[i]=1;save()}}
 var A1_MIN=95*60;
@@ -788,7 +975,7 @@ function rHome(){
    '<h1>Bonjour.</h1>'+
    '<div class="hero-row" data-unit="1"><button class="play lg" type="button" data-a="say" data-say="Bonjour." aria-label="Escuchar: Bonjour">'+ICON.play+'</button>'+beatsHTML(PH.c1,true)+'</div>'+
    '<p class="lead">Un curso de autoestudio para hispanohablantes que parten de cero. Cada sesión dura de 15 a 20 minutos y sigue siempre el mismo orden: escuchar, practicar, usar y repasar.</p>'+
-   '<p class="lead">Está abierta la unidad 1. Las unidades 2, 3 y 4 están planificadas y en preparación.</p>'+
+   '<p class="lead">Están abiertas las unidades 1 y 2. Las unidades 3 y 4 están planificadas y en preparación.</p>'+
    '<div class="hero-actions"><button class="btn" type="button" data-a="day" data-n="'+n+'">'+(started?'Seguir: día '+n:'Empezar el día 1')+'</button><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div>'+
    '<div class="statline"><span>Sesiones <b>'+dn+'/'+DAYS.length+'</b></span><span>Estudio <b>'+Math.round(S.mins||0)+' min</b></span><span>Racha <b>'+streak()+' d</b></span><span>Frases dominadas <b>'+mastered+'/'+total+'</b></span></div></div>'+
    '<div class="sec"><span class="eyebrow">Cómo está organizado el curso</span><div class="path">'+STAGES.map(function(s){
@@ -815,27 +1002,31 @@ function rHome(){
 }
 
 /* ---------- Ruta ---------- */
-function rRoute(){
-  var n=curDayNo(),dn=daysDone(),N=DAYS.length,GAP=96,H=N*GAP+16;
-  var pts=DAYS.map(function(d,i){return[34+34*(1+Math.sin(i*1.3)),44+i*GAP]});
+function trailHTML(u){
+  var list=DAYS.filter(function(d){return d.u===u}),n=curDayNo(),GAP=96,H=list.length*GAP+16;
+  var pts=list.map(function(d,i){return[34+34*(1+Math.sin(i*1.3)),44+i*GAP]});
   var pd2='M '+pts[0][0]+' '+pts[0][1];
   for(var k=1;k<pts.length;k++){var a=pts[k-1],b=pts[k],my=(a[1]+b[1])/2;pd2+=' C '+a[0]+' '+my+', '+b[0]+' '+my+', '+b[0]+' '+b[1]}
-  var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
-   '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión de la unidad 1, pero el orden está pensado: cada una usa lo de la anterior.</p>'+
-   '<div class="sec"><span class="eyebrow">Unidad 1 · Sobrevivir · disponible</span>'+
-   '<p class="progl">'+dn+' de '+N+' sesiones completadas</p>'+
-   '<div class="trail" style="height:'+H+'px"><svg width="150" height="'+H+'" viewBox="0 0 150 '+H+'" aria-hidden="true"><path d="'+pd2+'" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/></svg>'+
-   DAYS.map(function(d,i){
+  return '<div class="trail" style="height:'+H+'px"><svg width="150" height="'+H+'" viewBox="0 0 150 '+H+'" aria-hidden="true"><path d="'+pd2+'" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/></svg>'+
+   list.map(function(d,i){
      var done=dayDone(d.n),cur=d.n===n,cls=done?'done':cur?'cur':'c'+(i%3);
-     var lab='Sesión '+d.n+': '+d.t+(done?', hecha':cur?', toca hoy':'');
-     return '<button type="button" class="trow" data-a="day" data-n="'+d.n+'" aria-label="'+lab+'" style="top:'+(pts[i][1]-36)+'px"><span class="node '+cls+'" style="left:'+(pts[i][0]-(cur?33:27))+'px">'+(done?'✓':d.n)+'</span><span class="tx"><b>'+d.t+'</b><small>'+d.goal+' · '+d.m+' min</small></span>'+(cur?'<span class="tag now">Hoy</span>':'')+'</button>';
-   }).join('')+'</div></div>';
+     var lab='Sesión '+d.k+': '+d.t+(done?', hecha':cur?', toca hoy':'');
+     return '<button type="button" class="trow" data-a="day" data-n="'+d.n+'" aria-label="'+lab+'" style="top:'+(pts[i][1]-36)+'px"><span class="node '+cls+'" style="left:'+(pts[i][0]-(cur?33:27))+'px">'+(done?'✓':d.k)+'</span><span class="tx"><b>'+d.t+'</b><small>'+d.goal+' · '+d.m+' min</small></span>'+(cur?'<span class="tag now">Hoy</span>':'')+'</button>';
+   }).join('')+'</div>';
+}
+function rRoute(){
+  var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
+   '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión disponible, pero el orden está pensado: cada una usa lo de la anterior.</p>';
+  [[1,'Sobrevivir'],[2,'Moverse']].forEach(function(U){
+    var u=U[0],ds=DAYS.filter(function(d){return d.u===u}),c=ds.filter(function(d){return dayDone(d.n)}).length;
+    h+='<div class="sec"><span class="eyebrow">Unidad '+u+' · '+U[1]+' · disponible</span><p class="progl">'+c+' de '+ds.length+' sesiones completadas</p>'+trailHTML(u)+'</div>';
+  });
   PLAN.forEach(function(w){
     h+='<div class="sec"><span class="eyebrow">Unidad '+w.w.slice(1)+' · '+w.t+' · en preparación</span><ul class="days">'+w.days.map(function(t,i){
       return '<li class="plan"><div class="row"><span class="n">'+(i+1)+'</span><span class="tt">'+t+'</span></div></li>';
     }).join('')+'</ul></div>';
   });
-  h+='<p class="legend">Los temas de las unidades 2 a 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
+  h+='<p class="legend">Los temas de las unidades 3 y 4 son un plan provisional. Pueden cambiar al construirlas.</p>';
   $('#v-route').innerHTML=h;
 }
 
@@ -892,9 +1083,9 @@ function rToday(){
   if(d.kind==='rest')return rRest(el,d);
   var sc=d.sc?sceneById(d.sc):null,p=pd(curDay);
   if(sc){curScene=sc.id;if(!S.unlocked[sc.id]){S.unlocked[sc.id]=true;save()}}
-  else if(!sceneById(curScene))curScene='cafe';
+  else if(!sceneById(curScene)||(sceneById(curScene).u||1)!==d.u)curScene=uScenes(d.u)[0].id;
   var names=[['Escucha','5 min'],['Frases','4 min'],['Escena','5 min'],['Dilo tú','4 min']];
-  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+'</p>'+
+  var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+'</p>'+
    '<ol class="stp" aria-label="Pasos del día">'+names.map(function(x,i){
      return '<li><button type="button" data-a="step" data-i="'+i+'" class="'+(p[i]?'ok':'')+'"'+(i===st?' aria-current="step"':'')+'><b>'+(i+1)+' · '+(p[i]?'Hecho':x[1])+'</b><span>'+x[0]+'</span></button></li>';
    }).join('')+'</ol>';
@@ -905,12 +1096,12 @@ function rToday(){
      storyHTML(curDay)+
      '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="0">Continuar: frases clave</button></div></div>';
   }else if(st===1){
-    var list=sc?sc.phrases:Object.keys(PH).map(function(k){return PH[k]});
+    var list=sc?sc.phrases:uPh(d.u).map(function(k){return PH[k]});
     h+='<div class="sec"><span class="eyebrow">Paso 2 · Frases clave</span><p class="lead">'+(sc?'Son las frases de la historia que vas a usar hoy.':'Las frases de toda la unidad, para oírlas otra vez.')+' Pulsa ▶, sigue las notas con la vista y repite en voz alta.</p><div>'+phrasesHTML(list)+'</div>'+
      '<div class="row2"><button class="btn" type="button" data-a="stepdone" data-i="1">Continuar: la escena</button></div></div>';
   }else if(st===2){
     h+='<div class="sec" id="player"><span class="eyebrow">Paso 3 · La escena</span>'+
-     (sc?'':'<div class="chips" role="group" aria-label="Escena">'+SCENES.map(function(s){return '<button type="button" class="chip" data-a="scene" data-id="'+s.id+'" aria-pressed="'+(s.id===curScene)+'">'+s.title+'</button>'}).join('')+'</div>')+
+     (sc?'':'<div class="chips" role="group" aria-label="Escena">'+uScenes(d.u).map(function(s){return '<button type="button" class="chip" data-a="scene" data-id="'+s.id+'" aria-pressed="'+(s.id===curScene)+'">'+s.title+'</button>'}).join('')+'</div>')+
      playerHTML(curS())+'</div>';
   }else{
     var all=dayPhr(curDay);
@@ -923,9 +1114,9 @@ function rToday(){
   el.innerHTML=h;
 }
 function rTest(el,d){
-  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+' Esta prueba mide si reconoces lo que oyes, no si sabes hablar. Para eso están las escenas y las tarjetas.</p>';
+  var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">'+d.goal+' Esta prueba mide si reconoces lo que oyes, no si sabes hablar. Para eso están las escenas y las tarjetas.</p>';
   if(!qz){
-    h+=(S.test1!=null?'<p class="progl">Última puntuación: '+S.test1+' de 8</p>':'')+'<div class="row2"><button class="btn" type="button" data-a="qstart">'+(S.test1!=null?'Repetir la mini-prueba':'Empezar la mini-prueba')+'</button><button class="btn ghost" type="button" data-a="go" data-t="review">Hacer el repaso antes</button></div>';
+    h+=(S[tKey(d.u)]!=null?'<p class="progl">Última puntuación: '+S[tKey(d.u)]+' de 8</p>':'')+'<div class="row2"><button class="btn" type="button" data-a="qstart">'+(S[tKey(d.u)]!=null?'Repetir la mini-prueba':'Empezar la mini-prueba')+'</button><button class="btn ghost" type="button" data-a="go" data-t="review">Hacer el repaso antes</button></div>';
   }else if(!qz.done){
     var q=qz.q[qz.i],p=PH[q.id];
     h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.round(qz.i/qz.q.length*100)+'%"></i></div><div class="rcard"><span class="tag">Pregunta '+(qz.i+1)+' de '+qz.q.length+'</span><p class="lead" style="margin-top:12px">Escucha y elige la situación en la que se dice.</p>'+
@@ -945,13 +1136,13 @@ function rTest(el,d){
   el.innerHTML=h;
 }
 function rRest(el,d){
-  var h='<span class="eyebrow">Unidad 1 · Sesión '+curDay+' de '+DAYS.length+'</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
-   '<ul class="checks">'+GOALS.map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+i+'"'+(S.goals[i]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
-   '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="5">Escuchar la jornada completa</button></div>';
-  if(S.rest){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad 1 completa</div><p style="margin-top:8px">Has recorrido el primer tramo. Las unidades 2, 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.</p></div>';
+  var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
+   '<ul class="checks">'+(d.u===1?GOALS:GOALS2).map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
+   '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="'+(d.u*8-2)+'">Escuchar la jornada completa</button></div>';
+  if(S[rKey(d.u)]){
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+(d.u===1?'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.':'Ya puedes moverte por una ciudad. Las unidades 3 y 4 están en preparación; mientras tanto, mantén el repaso diario para no perder lo aprendido.')+'</p>'+(d.u===1?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="9">Empezar la unidad 2</button></div>':'')+'</div>';
   }else{
-    h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad 1</button></div>';
+    h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad '+d.u+'</button></div>';
   }
   el.innerHTML=h;
 }
@@ -1141,6 +1332,7 @@ var ASK=[
  {w:'combien',es:'cuánto',ex:'Ça fait combien ?',ees:'¿Cuánto es?'},
  {w:'qui',es:'quién',ex:'C’est qui ?',ees:'¿Quién es?'}
 ];
+var NUMF=[['0','zéro','zé-ro'],['1','un','ẽ'],['2','deux','dö'],['3','trois','trua'],['4','quatre','katr'],['5','cinq','sẽk'],['6','six','sis'],['7','sept','set'],['8','huit','üit'],['9','neuf','nöf'],['10','dix','dis'],['11','onze','õz'],['12','douze','duz'],['13','treize','trez'],['14','quatorze','ka-torz'],['15','quinze','kẽz'],['16','seize','sez'],['17','dix-sept','di-set'],['18','dix-huit','di-züit'],['19','dix-neuf','diz-nöf'],['20','vingt','vẽ']];
 var vb='parler',vt='pres',mm='verbs';
 var TENSES=[['pres','Presente'],['pc','Pasado (passé composé)'],['fut','Futuro cercano']];
 var AUXF={avoir:['ai','as','a','avons','avez','ont'],'être':['suis','es','est','sommes','êtes','sont']};
@@ -1179,7 +1371,11 @@ function mapSVG(nodes,hub,label){
 function tsp(c,t){return t?'<tspan class="'+c+'">'+t+'</tspan>':''}
 function rVerbs(){
   var h='<span class="eyebrow">Mapas</span><h2 class="h2">Mapas mentales</h2>'+
-   '<div class="chips" role="group" aria-label="Mapa"><button type="button" class="chip" data-a="mapmode" data-id="verbs" aria-pressed="'+(mm==='verbs')+'">Verbos</button><button type="button" class="chip" data-a="mapmode" data-id="ask" aria-pressed="'+(mm==='ask')+'">Para preguntar</button></div>';
+   '<div class="chips" role="group" aria-label="Mapa"><button type="button" class="chip" data-a="mapmode" data-id="verbs" aria-pressed="'+(mm==='verbs')+'">Verbos</button><button type="button" class="chip" data-a="mapmode" data-id="ask" aria-pressed="'+(mm==='ask')+'">Para preguntar</button><button type="button" class="chip" data-a="mapmode" data-id="num" aria-pressed="'+(mm==='num')+'">Números</button></div>';
+  if(mm==='num'){
+    h+='<p class="lead">Del 0 al 20, con su sonido. Pulsa cada número para oírlo. Los más traicioneros: <b>seize</b> (16) y <b>six</b> (6) suenan parecido; y del 17 al 19 se dice «diez-siete», «diez-ocho», «diez-nueve».</p><div class="vm">'+NUMF.map(function(n){return '<div class="r" style="grid-template-columns:48px 1fr auto"><span class="fo" style="font-size:24px">'+n[0]+'</span><span><span class="fl" style="font-size:20px">'+n[1]+'</span><span class="sense" style="display:block">suena: '+n[2].toUpperCase()+'</span></span><button class="play sm" type="button" data-a="say" data-say="'+n[1]+'" aria-label="Escuchar '+n[1]+'">'+ICON.play+'</button></div>'}).join('')+'</div><p class="legend">Cuando hay una vocal detrás, la consonante final se despierta: «six heures» suena SI-ZÖR, «huit euros» suena ÜI-TÖ-RO.</p>';
+    $('#v-verbs').innerHTML=h;return;
+  }
   if(mm==='ask'){
     var items=ASK.map(function(a){return{say:a.ex,top:a.ex.toUpperCase().replace(/ ?\\?$/,'').slice(0,0)+'PREGUNTAR',main:a.w,es:a.es}});
     h+='<p class="lead">Seis palabras abren casi cualquier pregunta. Pulsa cada una para oír la frase de ejemplo.</p><div class="vmap" data-unit="1">'+
@@ -1261,7 +1457,7 @@ document.addEventListener('click',function(e){
   }
   else if(a==='backday'){tab='today';st=3;render();window.scrollTo(0,0)}
   else if(a==='qstart'){
-    var all=Object.keys(PH),pick=shuffle(all).slice(0,8);
+    var all=uPh(DAYS[curDay-1].u),pick=shuffle(all).slice(0,8);
     qz={q:pick.map(function(id){return{id:id,opts:shuffle([id].concat(shuffle(all.filter(function(x){return x!==id})).slice(0,2)))}}),i:0,score:0,sel:null,done:false,miss:[]};
     rToday();say(PH[qz.q[0].id].fr);
   }
@@ -1272,11 +1468,11 @@ document.addEventListener('click',function(e){
   }
   else if(a==='qnext'){
     qz.i++;qz.sel=null;
-    if(qz.i>=qz.q.length){qz.done=true;S.test1=qz.score;touch();rToday()}
+    if(qz.i>=qz.q.length){qz.done=true;S[tKey(DAYS[curDay-1].u)]=qz.score;touch();rToday()}
     else{rToday();say(PH[qz.q[qz.i].id].fr)}
   }
   else if(a==='goal'){S.goals[el.dataset.i]=el.checked?1:0;save()}
-  else if(a==='restdone'){S.rest=true;touch();rToday()}
+  else if(a==='restdone'){S[rKey(DAYS[curDay-1].u)]=true;touch();rToday()}
   else if(a==='verb'){vb=el.dataset.id;rVerbs()}
   else if(a==='tense'){vt=el.dataset.id;rVerbs()}
   else if(a==='mapmode'){mm=el.dataset.id;rVerbs()}

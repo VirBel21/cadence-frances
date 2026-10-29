@@ -26,8 +26,8 @@ async function run(){
   log(/90 y 100 horas/.test(q('#v-home').textContent),'Empezar: cita la referencia de horas');
   log(qa('#v-home .how li').length===4,'Empezar: el día tiene 4 pasos');
   await click('[data-a="tab"][data-t="route"]');
-  log(qa('#v-route .trow').length===8,'Ruta: 8 sesiones de la unidad 1');
-  log(qa('#v-route li.plan').length===24,'Ruta: 24 sesiones planificadas (unidades 2-4)');
+  log(qa('#v-route .trow').length===16,'Ruta: 16 sesiones (unidades 1 y 2)');
+  log(qa('#v-route li.plan').length===16,'Ruta: 16 sesiones planificadas (unidades 3-4)');
   await click('#v-route [data-a="day"][data-n="1"]');
   log(qa('#v-today .stp button').length===4,'Hoy: 4 pasos');
   log(qa('#v-today .story .sl').length===6,'Sesión 1: la historia tiene 6 líneas');
@@ -55,6 +55,33 @@ async function run(){
   log(/\/ 8/.test(q('#v-today').textContent),'Mini-prueba: muestra resultado sobre 8');
   await click('#v-route [data-a="day"][data-n="8"]');
   log(!!q('#v-today .checks'),'Día 7: lista de balance');
+  await click('#v-route [data-a="day"][data-n="9"]');
+  log(qa('#v-today .story .sl').length===8,'U2 sesión 9: la historia tiene 8 líneas');
+  log(/Unidad 2 · Sesión 1 de 8/.test(q('#v-today').textContent),'U2: encabezado de unidad y sesión');
+  await click('#v-today [data-a="stepdone"][data-i="0"]');
+  log(qa('#v-today .ph').length===5,'U2 sesión 9: 5 frases clave');
+  await click('#v-today [data-a="stepdone"][data-i="1"]');
+  await click('#v-today [data-a="start"]');
+  for(var k2=0;k2<3;k2++){await click('#v-today [data-a="pick"]');await click('#v-today [data-a="next"]')}
+  log(!!q('#v-today .endbox'),'U2 escena: termina con resultado');
+  for(var dd=10;dd<=13;dd++){
+    await click('[data-a="tab"][data-t="route"]');
+    await click('#v-route [data-a="day"][data-n="'+dd+'"]');
+    log(qa('#v-today .story .sl').length>=7&&!!q('#v-today .stp'),'U2 sesión '+dd+': historia y 4 pasos');
+  }
+  await click('[data-a="tab"][data-t="route"]');
+  await click('#v-route [data-a="day"][data-n="14"]');
+  log(qa('#v-today .story .sl').length===8,'U2 jornada: 8 líneas');
+  await click('#v-today [data-a="stepdone"][data-i="0"]');
+  log(qa('#v-today .ph').length===25,'U2 jornada: 25 frases de la unidad');
+  await click('[data-a="tab"][data-t="route"]');
+  await click('#v-route [data-a="day"][data-n="15"]');
+  await click('#v-today [data-a="qstart"]');
+  for(var n3=0;n3<8;n3++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
+  log(/\/ 8/.test(q('#v-today').textContent),'U2 mini-prueba: resultado sobre 8');
+  await click('[data-a="tab"][data-t="route"]');
+  await click('#v-route [data-a="day"][data-n="16"]');
+  log(qa('#v-today .checks li').length===4&&/billete/.test(q('#v-today .checks').textContent),'U2 balance: objetivos de la unidad 2');
   await click('[data-a="tab"][data-t="sounds"]');
   log(qa('#v-sounds .snd').length>=7,'Sonidos: al menos 7 sonidos');
   await click('[data-a="tab"][data-t="review"]');
@@ -80,6 +107,8 @@ async function run(){
   log(/soy \/ estoy/.test(q('#v-verbs').textContent),'Mapas: être presente');
   await click('#v-verbs [data-a="mapmode"][data-id="ask"]');
   log(qa('#v-verbs .vmap g[data-a="say"]').length===6&&qa('#v-verbs .vm .r').length===6&&/¿Dónde está la estación\?/.test(q('#v-verbs').textContent),'Mapas: para preguntar');
+  await click('#v-verbs [data-a="mapmode"][data-id="num"]');
+  log(qa('#v-verbs .vm .r').length===21&&/vingt/.test(q('#v-verbs').textContent),'Mapas: números del 0 al 20');
   await click('[data-a="tab"][data-t="method"]');
   log(qa('#v-method .ev li').length===7,'Método: 7 evidencias');
   try{if(backup===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,backup)}catch(e){}

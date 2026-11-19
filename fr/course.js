@@ -864,7 +864,7 @@ var TENSES=[['pres','Presente'],['pc','Pasado (passé composé)'],['fut','Futuro
 var AUXF={avoir:['ai','as','a','avons','avez','ont'],'être':['suis','es','est','sommes','êtes','sont']};
 var ALLER=['vais','vas','va','allons','allez','vont'];
 var PCATS=['Todo','Transporte','Lugares','Comida','Bebidas','Objetos','Trabajo','Naturaleza'];
-window.COURSE={cfg:{"id": "fr", "lang": "fr", "name": "francés", "stateKey": "cadence.fr.v1", "aiKey": "cadence.fr.ai", "tts": "fr-FR", "sr": "fr-FR", "target": "FRENCH", "chromeLang": null, "voicePrefs": ['Thomas','Amélie','Audrey','Aurélie','Marie','Hortense','Julie','Denise','Google français'], "extraWords": "oui, non, merci, s’il vous plaît, bonjour, au revoir, excusez-moi, pardon, je ne comprends pas", "hello": "Bonjour !", "eyebrow": "Curso de francés · desde cero · nivel A1", "sub": "Curso de francés · Nivel A1"},
+window.COURSE={cfg:{"id": "fr", "lang": "fr", "name": "francés", "stateKey": "cadence.fr.v1", "aiKey": "cadence.fr.ai", "tts": "fr-FR", "sr": "fr-FR", "target": "FRENCH", "chromeLang": null, "voicePrefs": ['Thomas','Amélie','Audrey','Aurélie','Marie','Hortense','Julie','Denise','Google français'], "extraWords": "oui, non, merci, s’il vous plaît, bonjour, au revoir, excusez-moi, pardon, je ne comprends pas", "units": ["Sobrevivir","Moverse","Mesa y mercado","Primeras conversaciones"], "profChips": ["¿Cuándo uso «tu» y cuándo «vous»?","¿Por qué hay «un» y «une»?","¿Qué es una liaison?","¿Cómo se pronuncia la «r» francesa?"], "hello": "Bonjour !", "eyebrow": "Curso de francés · desde cero · nivel A1", "sub": "Curso de francés · Nivel A1"},
 SCENES:SCENES,
 SOUNDS:SOUNDS,
 DAYS:DAYS,

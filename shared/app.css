@@ -495,3 +495,9 @@ body{background-image:radial-gradient(520px 380px at 94% -4%,color-mix(in srgb,v
 .tfres.ok{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--card))}
 .tfres.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
 .tfsol{font-weight:700;font-size:19px}
+
+/* Pregúntale al profe y Mi nivel */
+.pex{margin-top:8px}.pex small{display:block;color:var(--ink2);font-size:14px}
+.nvlist{display:grid;gap:14px;margin-top:12px}
+.nvg{list-style:none;margin:10px 0;padding:0;display:grid;gap:6px}
+.nvg li{color:var(--ink2);font-size:15px}.nvg li.on{color:var(--ink)}.nvg li span{display:inline-block;width:1.2em;color:var(--ok)}

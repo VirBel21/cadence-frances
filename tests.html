@@ -131,7 +131,7 @@ async function run(){
   await click('#v-route [data-a="day"][data-n="32"]');
   log(qa('#v-today .checks li').length===4&&/cita/.test(q('#v-today .checks').textContent),'U4 balance: objetivos de la unidad 4');
   await go('games');
-  log(qa('#v-games .gtile').length===7,'Juegos: 7 juegos');
+  log(qa('#v-games .gtile').length===9,'Juegos: 9 juegos');
   await click('#v-games [data-a="gstart"][data-g="mp"]');
   var tried=0,mpOk=true;
   for(var mr=0;mr<3;mr++){

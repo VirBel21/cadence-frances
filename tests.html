@@ -156,6 +156,13 @@ async function run(){
   log(mpOk&&/parejas/.test(q('#v-games').textContent),'Parejas: se completan las 3 rondas y muestra resultado ('+tried+' fallos provocados)');
   log(/\b(\d+) (error|errores)\b/.test(q('#v-games .endbox').textContent)&&q('#v-games .endbox').textContent.indexOf(tried+' ')>=0,'Parejas: el contador de errores coincide');
   await click('#v-games [data-a="gend"]');
+  /* Repaso espaciado FSRS */
+  var SR_=f.contentWindow.CadenceSRS,T0='2026-11-19';
+  log(Math.abs(SR_.fD0(3)-5.2824)<0.001,'FSRS: dificultad inicial «bien» = 5,28');
+  var c1_=SR_.next(null,1,T0);log(c1_.due==='2026-11-22'&&Math.abs(c1_.s-3.173)<1e-9,'FSRS: tarjeta nueva «bien» vuelve a los 3 días');
+  var c2_=SR_.next(Object.assign({},c1_),1,'2026-11-22');log(c2_.s>8&&c2_.s<14,'FSRS: segundo «bien» al recordar al 90 % alarga la estabilidad a '+c2_.s.toFixed(1)+' días');
+  var c3_=SR_.next(Object.assign({},c1_),0,'2026-11-22');log(c3_.s<c1_.s&&c3_.due==='2026-11-22'&&c3_.d>c1_.d,'FSRS: un olvido reduce la estabilidad, sube la dificultad y repite hoy');
+  var c4_=SR_.next({box:3,due:T0},1,T0);log(c4_.s>7&&!!c4_.due,'FSRS: las tarjetas antiguas por cajas se migran sin perderse');
   /* Taller de frases */
   await click('#v-games [data-a="gstart"][data-g="tf"]');
   var W=f.contentWindow,ALLP=[];W.COURSE.SCENES.forEach(function(s){s.phrases.forEach(function(p){ALLP.push(p)})});

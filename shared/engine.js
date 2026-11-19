@@ -66,10 +66,41 @@ if(!S.start){S.start=dstr();save()}
 function dayNo(){return diffDays(S.start,dstr())+1}
 
 var INT=[0,1,3,7,16,35];
-function lab(b){var n=INT[b];return n===0?'hoy':n===1?'mañana':n+' días'}
+/* Repaso espaciado FSRS-5 con los parámetros por defecto publicados (retención deseada 90 %).
+   No está ajustado a tus datos: es un punto de partida mejor que cajas fijas. */
+var FW=[0.40255,1.18385,3.173,15.69105,7.1949,0.5345,1.4604,0.0046,1.54575,0.1192,1.01925,1.9395,0.11,0.29605,2.2698,0.2315,2.9898,0.51655,0.6621],FF=19/81,FC=-0.5,FRET=0.9;
+function fClamp(d){return Math.min(10,Math.max(1,d))}
+function fD0(g){return fClamp(FW[4]-Math.exp(FW[5]*(g-1))+1)}
+function fR(t,s){return Math.pow(1+FF*t/s,FC)}
+function fIv(s){return Math.max(1,Math.round(s/FF*(Math.pow(FRET,1/FC)-1)))}
+function fBox(n){var b=0;INT.forEach(function(x,i){if(n>=x&&i>0)b=i});return b}
+function daysBetween(a,b){var x=a.split('-').map(Number),y=b.split('-').map(Number);return Math.round((new Date(y[0],y[1]-1,y[2])-new Date(x[0],x[1]-1,x[2]))/864e5)}
+/* r: 0 otra vez, 1 bien, 2 fácil -> grado FSRS 1, 3, 4. Devuelve la tarjeta nueva sin guardarla. */
+function srsNext(c,r,today){
+  var g=r===0?1:r===1?3:4,s,d,t;
+  if(!c){s=FW[g-1];d=fD0(g)}
+  else{
+    s=c.s;d=c.d;
+    if(!s){var iv=Math.max(1,INT[c.box||0]);s=iv;d=5;c.last=addDays(c.due,-iv)}
+    t=Math.max(0,daysBetween(c.last||c.due,today));
+    var R=fR(t,s);
+    d=fClamp(FW[7]*fD0(4)+(1-FW[7])*(d+(-FW[6]*(g-3))*(10-d)/9));
+    if(t<1){var k=Math.exp(FW[17]*(g-3+FW[18]));if(g>=3)k=Math.max(k,1);s=s*k}
+    else if(g===1){s=Math.min(s,FW[11]*Math.pow(d,-FW[12])*(Math.pow(s+1,FW[13])-1)*Math.exp(FW[14]*(1-R)))}
+    else{s=s*(1+Math.exp(FW[8])*(11-d)*Math.pow(s,-FW[9])*(Math.exp(FW[10]*(1-R))-1)*(g===2?FW[15]:1)*(g===4?FW[16]:1))}
+  }
+  s=Math.max(0.01,s);
+  var iv2=r===0?0:fIv(s);
+  return{s:s,d:d,last:today,box:fBox(iv2),due:addDays(today,iv2)};
+}
+function srsDays(store,id,r){var n=srsNext(store[id]?JSON.parse(JSON.stringify(store[id])):null,r,dstr());return daysBetween(dstr(),n.due)}
+function srsRate(store,id,r){store[id]=srsNext(store[id]?JSON.parse(JSON.stringify(store[id])):null,r,dstr());return store[id]}
+window.CadenceSRS={next:srsNext,fD0:fD0,fR:fR,fIv:fIv,W:FW};
+function labN(n){return n===0?'hoy':n===1?'mañana':n+' días'}
+function lab(n){return labN(n)}
 function unlockedPh(){return Object.keys(PH).map(function(k){return PH[k]}).filter(function(p){return S.unlocked[p.scene]})}
 function dueList(){var t=dstr(),nw=[],old=[];unlockedPh().forEach(function(p){var c=S.cards[p.id];if(!c)nw.push(p.id);else if(c.due<=t)old.push(p.id)});return{nw:nw,old:old}}
-function nextBox(id,r){var c=S.cards[id];var b=c?c.box:0;return r===0?0:Math.min(5,b+(r===2?2:1))}
+function nextBox(id,r){return srsDays(S.cards,id,r)}
 
 /* ---------- Audio ---------- */
 var frVoice=null,beatT=[];
@@ -578,7 +609,7 @@ function rReview(){
   Object.keys(S.cards).forEach(function(k){cnt[S.cards[k].box]++});
   var mx=Math.max.apply(null,cnt.concat([1])),names=['hoy','1 d','3 d','7 d','16 d','35 d'];
   h+='<div class="sec"><span class="eyebrow">Tus cajas de memoria</span><div class="boxes">'+cnt.map(function(c,i){return '<div class="'+(c?'':'z')+'"><b>'+c+'</b><i style="height:'+Math.round(c/mx*72)+'px"></i><span>'+names[i]+'</span></div>'}).join('')+'</div>'+
-     '<p class="lead" style="margin-top:14px;font-size:14px">Cada columna es el intervalo hasta que vuelvas a ver esa frase. Todavía sin ver: '+d.nw.length+'.</p></div>';
+     '<p class="lead" style="margin-top:14px;font-size:14px">Cada columna agrupa las frases por el tiempo que falta hasta su próximo repaso, calculado con el algoritmo FSRS: cuanto mejor la recuerdas, más se aleja. Todavía sin ver: '+d.nw.length+'.</p></div>';
   el.innerHTML=h;
 }
 
@@ -591,7 +622,7 @@ function blank(ex,w){
   var re=new RegExp('(^|[^\\p{L}])('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')(?![\\p{L}])','iu');
   return re.test(ex)?ex.replace(re,function(m,a){return a+'<span class="gap">&nbsp;</span>'}):null;
 }
-function wNext(id,r){var c=S.wc[id];var b=c?c.box:0;return r===0?0:Math.min(5,b+(r===2?2:1))}
+function wNext(id,r){return srsDays(S.wc,id,r)}
 var wv={mode:'intro',q:[],total:0,done:0,shown:false};
 function wDue(){var t=dstr(),nw=[],old=[];WORDS.forEach(function(w){var c=S.wc[wId(w)];if(!c)nw.push(w);else if(c.due<=t)old.push(w)});return{nw:nw,old:old}}
 function rWords(){
@@ -1124,7 +1155,7 @@ function tfCheck(){
   if(!it.again){tf.first[it.id]=ok;if(ok)tf.hits++}
   if(!ok){
     if(!it.again){tf.miss.push(it.id);tf.q.push({id:it.id,mode:it.mode==='bld'?'dic':'bld',again:true})}
-    S.cards[it.id]={box:0,due:dstr()};save();
+    srsRate(S.cards,it.id,0);save();
   }
   say(p.fr);
 }
@@ -1236,8 +1267,8 @@ document.addEventListener('click',function(e){
   else if(a==='wstart'){var dd=wDue();wv.q=dd.old.concat(dd.nw.slice(0,10));wv.total=wv.q.length;wv.done=0;wv.shown=false;wv.mode='card';rWords()}
   else if(a==='wshow'){wv.shown=true;rWords();say(wv.q[0].ex)}
   else if(a==='wrate'){
-    var cw=wv.q.shift(),rr=+el.dataset.r,bb=wNext(wId(cw),rr);
-    S.wc[wId(cw)]={box:bb,due:addDays(dstr(),INT[bb])};T().wrev=(T().wrev||0)+1;xp(2);
+    var cw=wv.q.shift(),rr=+el.dataset.r;
+    srsRate(S.wc,wId(cw),rr);T().wrev=(T().wrev||0)+1;xp(2);
     if(rr===0)wv.q.push(cw);else wv.done++;
     wv.shown=false;if(!wv.q.length)wv.mode='done';
     touch();rWords();
@@ -1271,8 +1302,8 @@ document.addEventListener('click',function(e){
   else if(a==='mic'){startMic()}
   else if(a==='show'){rv.shown=true;rv.heard=null;rReview();var p=PH[rv.q[0]];say(p.fr,$('#v-review .beats'))}
   else if(a==='rate'){
-    var id=rv.q.shift(),r=+el.dataset.r,b=nextBox(id,r);
-    S.cards[id]={box:b,due:addDays(dstr(),INT[b])};
+    var id=rv.q.shift(),r=+el.dataset.r;
+    srsRate(S.cards,id,r);
     T().rev++;xp(2);touch();
     if(r===0)rv.q.push(id);else rv.done++;
     rv.shown=false;rv.heard=null;

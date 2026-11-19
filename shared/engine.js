@@ -1332,7 +1332,7 @@ document.addEventListener('click',function(e){
 
 /* ---------- Render ---------- */
 var GROUP={talk:'games',home:'home',route:'home',today:'today',review:'review',words:'review',games:'games',sounds:'sounds',verbs:'sounds',method:'sounds'};
-var SUBS={home:[['home','Resumen'],['route','Ruta completa']],review:[['review','Tarjetas de frases'],['words','Palabras']],sounds:[['sounds','Sonidos y enlaces'],['verbs','Mapas e imágenes'],['method','Método']]};
+var SUBS={home:[['home','Resumen'],['route','Ruta completa']],review:[['review','Tarjetas de frases'],['words','Palabras']],sounds:[['sounds',FEAT.links===false?'Sonidos':'Sonidos y enlaces'],['verbs','Mapas e imágenes'],['method','Método']]};
 function render(){
   var g=GROUP[tab];
   [].forEach.call(document.querySelectorAll('.nav button'),function(b){b.setAttribute('aria-selected',String(b.dataset.t===g))});

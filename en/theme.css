@@ -1,0 +1,41 @@
+/* Tema del curso de inglés: cobalto y marfil con oro viejo (Fraunces + Hanken Grotesk). Sin verdes ni rosas. */
+:root{
+  --paper:#F3EEE2; --card:#FBF8F0; --sunk:#E9E2D1;
+  --ink:#101528; --ink2:#46506E; --line:#DAD2BE;
+  --blue:#1F3FA6; --blue-soft:#DCE3F6; --on-blue:#FFFFFF;
+  --rose:#74540C; --rose-soft:#F3E2B0;
+  --ok:#1F3FA6;
+  --staff:rgba(16,21,40,.26); --staff2:rgba(16,21,40,.52);
+  --honey:#C99A2E; --glow:rgba(201,154,46,.20); --glow2:rgba(31,63,166,.10);
+  --f-display:'Fraunces','Iowan Old Style',Georgia,serif;
+  --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
+  --wd:400; --it:italic; --hs:clamp(72px,16vw,160px); --h2s:clamp(36px,5.6vw,54px);
+  --c1:#1F3FA6; --c2:#B8862A; --c3:#46506E; --c4:#5A6FB8; --green:#1F3FA6; --red:#B5301C;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1222; --card:#171C33; --sunk:#202744;
+    --ink:#F1ECDD; --ink2:#AEB6D0; --line:#2E3556;
+    --blue:#8FA6FF; --blue-soft:#232D5C; --on-blue:#0B1030;
+    --rose:#E5C26A; --rose-soft:#3F3414;
+    --ok:#8FA6FF;
+    --staff:rgba(241,236,221,.26); --staff2:rgba(241,236,221,.52);
+    --honey:#E5C26A; --glow:rgba(229,194,106,.14); --glow2:rgba(143,166,255,.12);
+    --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --red:#F08A7A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1222; --card:#171C33; --sunk:#202744;
+  --ink:#F1ECDD; --ink2:#AEB6D0; --line:#2E3556;
+  --blue:#8FA6FF; --blue-soft:#232D5C; --on-blue:#0B1030;
+  --rose:#E5C26A; --rose-soft:#3F3414;
+  --ok:#8FA6FF;
+  --staff:rgba(241,236,221,.26); --staff2:rgba(241,236,221,.52);
+  --honey:#E5C26A; --glow:rgba(229,194,106,.14); --glow2:rgba(143,166,255,.12);
+  --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --red:#F08A7A;
+  color-scheme:dark;
+}
+/* Fondo marfil limpio: un velo dorado y otro cobalto, muy suaves */
+body[data-look="b"]{background-image:radial-gradient(620px 420px at 96% -6%,color-mix(in srgb,var(--honey) 16%,transparent),transparent 70%),radial-gradient(640px 480px at -4% 106%,color-mix(in srgb,var(--blue) 8%,transparent),transparent 70%)}

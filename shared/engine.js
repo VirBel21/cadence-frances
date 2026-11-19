@@ -1445,7 +1445,7 @@ document.addEventListener('click',function(e){
   }
 });
 
-document.addEventListener('change',function(e){if(e.target&&e.target.id==='gday'){gday=+e.target.value;return}if(e.target&&e.target.id==='voice'){S.voice=e.target.value;save();pickVoice();say('Bonjour.')}});
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='gday'){gday=+e.target.value;return}if(e.target&&e.target.id==='voice'){S.voice=e.target.value;save();pickVoice();say(C.cfg.hello||'Bonjour !')}});
 
 render();
 })();

@@ -6,10 +6,10 @@ def P(i,fr,rs,cue):return {"id":i,"fr":fr,"syl":lower_syl(rs),"rs":rs,"cue":cue}
 def T(fr,sense,opts):return {"fr":fr,"sense":sense,"opts":[{"fr":o[0],"q":o[1],"reply":o[2]} for o in opts]}
 SCENES=[
  {"id":"call","title":"Joining the call","art":"wave","setting":"Son las nueve en punto. Abres tu primera videollamada con un cliente de Estados Unidos y su cara aparece en la pantalla.","who":"Mark","phrases":[
-  P("a1","Hi, Mark. Can you hear me?","jai-MARK, kan-yu-JIIR-mi","Entras a la videollamada, saludas al cliente y compruebas que te oye."),
+  P("a1","Hi, Mark. Can you hear me?","jai-MARK, kən-yu-JIIR-mi","Entras a la videollamada, saludas al cliente y compruebas que te oye."),
   P("a2","Yes, I can hear you.","YES, ai-kən-JIIR-yu","Te preguntan si se oye bien y contestas que sí."),
   P("a3","Sorry, I can't hear you.","SA-ri, ai-KÆNT-JIIR-yu","No oyes nada y lo dices con educación."),
-  P("a4","Can you share your screen?","kan-yu-SHER-yor-SKRIIN","Pides al cliente que comparta su pantalla."),
+  P("a4","Can you share your screen?","kən-yu-SHER-yor-SKRIIN","Pides al cliente que comparta su pantalla."),
   P("a5","One moment, please.","uan-MOU-mənt, PLIIZ","Necesitas unos segundos y pides que esperen.")],
   "turns":[
    T("Hi, Ana! Can you hear me?","Te saluda y comprueba el sonido.",[("Hi, Mark. Yes, I can hear you.",2,"Great. I can hear you too."),("Yes.",1,"Good. {Hi}, Ana!"),("One moment, please.",0,"Oh… {Can you hear me}? Hello?")]),
@@ -29,7 +29,7 @@ SCENES=[
   P("c1","It's A-N-A.","ITS, EI-EN-EI","Te piden deletrear tu nombre y lo haces letra por letra."),
   P("c2","My last name is Ruiz, R-U-I-Z.","mai-LÆST-neim-iz-RU-iz, AR-YU-AI-ZII","Dices tu apellido y lo deletreas."),
   P("c3","My email is ana at company dot com.","mai-II-meil-iz, A-na-æt-KAM-pə-ni-DAT-kam","Dictas tu correo electrónico: ana arroba company punto com."),
-  P("c4","Could you spell that for me?","kud-yu-SPEL-dhæt-fer-MII","No has entendido una palabra y pides que te la deletreen."),
+  P("c4","Could you spell that for me?","kud-yu-SPEL-dhæt-fər-MII","No has entendido una palabra y pides que te la deletreen."),
   P("c5","Yes, that's right.","YES, dhæts-RAIT","Te repiten tu dato y confirmas que es correcto.")],
   "turns":[
    T("What's your name? Can you spell it?","Mark te pide el nombre, deletreado.",[("It's Ana. A-N-A.",2,"Thank you. A-N-A."),("Ana.",1,"{A-N-A}, right? Thank you."),("Monday works for me.",0,"Sorry? {Can you spell your name}?")]),
@@ -39,7 +39,7 @@ SCENES=[
   P("d1","What time is the meeting?","WAT-taim-iz-dhə-MII-ting","Preguntas a qué hora es la reunión."),
   P("d2","The meeting is at three o'clock.","dhə-MII-ting-iz-æt, THRII-ə-KLAK","Dices que la reunión es a las tres en punto."),
   P("d3","Is that your time or my time?","iz-dhæt-yor-TAIM, or-mai-TAIM","Preguntas si la hora es la tuya o la de la otra persona."),
-  P("d4","Monday works for me.","MAN-dei-WERKS-fer-MII","Dices que el lunes te viene bien."),
+  P("d4","Monday works for me.","MAN-dei-WERKS-fər-MII","Dices que el lunes te viene bien."),
   P("d5","See you on Monday at ten.","SII-yu-on-MAN-dei-æt-TEN","Te despides hasta el lunes a las diez.")],
   "turns":[
    T("Can we meet on Monday?","Emily propone el lunes.",[("Yes, Monday works for me.",2,"Great."),("Monday.",1,"{Monday works for you}? Great."),("Nice to meet you.",0,"Sorry? {Monday}, yes or no?")]),

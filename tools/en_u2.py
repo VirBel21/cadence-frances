@@ -46,7 +46,7 @@ U2_SCENES=[
   P("j2","This is not what I ordered.","DHIS-iz-not-UAT-ai-OR-derd","Dices con claridad que ese plato no es el que pediste."),
   P("j3","I think there's a mistake.","ai-THINK, dhers-ə-mi-STEIK","Señalas un error sin acusar a nadie."),
   P("j4","Could you check, please?","kud-yu-CHEK, PLIIZ","Pides que lo comprueben."),
-  P("j5","No problem. Thank you for your help.","nou-PRA-bləm, THÆNK-yu-fer-yor-HELP","Cierras el asunto con calma y agradeces.")],
+  P("j5","No problem. Thank you for your help.","nou-PRA-bləm, THÆNK-yu-fər-yor-HELP","Cierras el asunto con calma y agradeces.")],
   "turns":[
    T("Here you go. The chicken!","Joe te trae un pollo, pero tú pediste una ensalada.",[("Excuse me. I ordered the salad.",2,"Oh, I'm sorry. The salad. One moment."),("Salad.",1,"The salad? {I ordered the salad}. I'm sorry."),("Have a good weekend!",0,"Thanks! But… {the chicken}. Is this okay?")]),
    T("Are you sure? I think it's the chicken.","Joe duda: cree que pediste pollo.",[("I think there's a mistake. Could you check, please?",2,"Of course. Let me check."),("No.",1,"Hmm… {I think there's a mistake}? Let me check."),("It's really cold today.",0,"Cold? Um… {The chicken}, or the salad?")]),

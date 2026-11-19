@@ -33,7 +33,7 @@ U3_SCENES=[
    T("Actually, can you send it on Thursday?","Mark adelanta el plazo al jueves.",[("Sorry, I need one more day.",2,"No problem. Friday is fine."),("No.",1,"Oh. {I need one more day}? Okay, Friday."),("Hi, Mark. Quick question.",0,"Sure… {Thursday}, yes or no?")])]},
  {"id":"helpmsg","u":3,"title":"Asking for help","art":"sign","setting":"Una tarea nueva te supera. Emily, tu responsable, te pregunta cómo va. Es el momento de pedir ayuda sin rodeos.","who":"Emily","phrases":[
   P("n1","Could you help me with this?","kud-yu-HELP-mi-uid-DHIS","Pides ayuda con una tarea."),
-  P("n2","I'm not sure how to do this.","aim-NAT-shur-jau-tə-DU-dhis","Dices que no sabes cómo hacerlo."),
+  P("n2","I'm not sure how to do this.","aim-nat-SHUR, jau-tə-DU-dhis","Dices que no sabes cómo hacerlo."),
   P("n3","Can you send me an example?","kən-yu-SEND-mi-ən-ig-ZÆM-pəl","Pides un ejemplo."),
   P("n4","That's really helpful, thank you.","DHÆTS-RII-li-HELP-fəl, THÆNK-yu","Agradeces la ayuda."),
   P("n5","I'll let you know how it goes.","ail-LET-yu-NOU-jau-it-GOUZ","Prometes avisar de cómo va.")],
@@ -44,12 +44,12 @@ U3_SCENES=[
  {"id":"polite","u":3,"title":"Writing politely","art":"wave","setting":"Sarah te escribe y las cosas se complican: hay un retraso, una petición imposible y un archivo en blanco. Con cortesía todo se arregla.","who":"Sarah","phrases":[
   P("o1","Thank you for your patience.","THÆNK-yu-fər-yor-PEI-shəns","Agradeces que te hayan esperado."),
   P("o2","Sorry for the delay.","SA-ri-fər-dhə-di-LEI","Pides perdón por el retraso."),
-  P("o3","I'm afraid I can't do that.","aim-ə-FREID-ai-KÆNT-du-DHÆT","Rechazas algo con cortesía."),
+  P("o3","Unfortunately, I can't do that.","ən-FOR-chə-nət-li, ai-KÆNT-du-DHÆT","Rechazas algo con cortesía."),
   P("o4","Would you mind sending it again?","uud-yu-MAIND-SEN-ding-it-ə-GEN","Pides con mucha cortesía que lo envíen otra vez."),
   P("o5","I really appreciate it.","ai-RII-li-ə-PRII-shi-eit-it","Agradeces con calidez.")],
   "turns":[
    T("Hi Ana. I'm still waiting for the file.","Sarah sigue esperando un archivo.",[("Sorry for the delay. I'll send it today.",2,"No problem. Thanks."),("Sorry.",1,"It's okay. {Sorry for the delay}, but please send it."),("I really appreciate it.",0,"Hmm… {I'm still waiting}. When can you send it?")]),
-   T("Can you also join a call tonight?","Sarah pide que te unas a una llamada esta noche.",[("I'm afraid I can't do that. Is tomorrow okay?",2,"Of course. Tomorrow is fine."),("No.",1,"Oh. {I'm afraid I can't}. Is tomorrow okay?"),("Thank you for your patience.",0,"Hmm… {tonight}. Can you join or not?")]),
+   T("Can you also join a call tonight?","Sarah pide que te unas a una llamada esta noche.",[("Unfortunately, I can't do that. Is tomorrow okay?",2,"Of course. Tomorrow is fine."),("No.",1,"Oh. {Unfortunately, I can't}. Is tomorrow okay?"),("Thank you for your patience.",0,"Hmm… {tonight}. Can you join or not?")]),
    T("I sent you a file, but it's blank.","Sarah dice que te envió un archivo, pero está en blanco.",[("Would you mind sending it again? Thank you for your patience.",2,"Sure. Sending it again now."),("Again.",1,"Okay. {Would you mind sending it again}? Sure."),("Sorry for the delay.",0,"Hmm… {the file is blank}. Can you send it again?")])]},
 ]
 U3_DAYS=[
@@ -67,7 +67,7 @@ U3_STORY={
  "18":[L("Ana","Hi Sarah, I hope you're well.","Hola, Sarah. Espero que estés bien."),L("Ana","I'm writing about the invoice.","Te escribo por la factura."),L("Ana","Please find the file attached.","Adjunto el archivo."),L("Ana","Let me know if you have any questions.","Avísame si tienes alguna pregunta."),L("Ana","Best regards, Ana","Saludos cordiales, Ana"),L("Sarah","Thanks, Ana. Got it!","Gracias, Ana. ¡Recibido!")],
  "19":[L("Ana","When is the deadline?","¿Cuándo es la fecha límite?"),L("Mark","Wednesday at five.","El miércoles a las cinco."),L("Ana","Is Thursday okay?","¿Te viene bien el jueves?"),L("Mark","Thursday is too late.","El jueves es demasiado tarde."),L("Ana","It'll be ready tomorrow.","Estará listo mañana."),L("Mark","Great, thanks.","Genial, gracias.")],
  "20":[L("Ana","I'm not sure how to do this.","No estoy segura de cómo hacer esto."),L("Emily","No problem. Do you want an example?","Sin problema. ¿Quieres un ejemplo?"),L("Ana","Yes. Can you send me an example?","Sí. ¿Puedes enviarme un ejemplo?"),L("Emily","Sure. Here it is.","Claro. Aquí lo tienes."),L("Ana","That's really helpful, thank you.","Me ayuda mucho, gracias."),L("Ana","I'll let you know how it goes.","Te aviso de cómo va.")],
- "21":[L("Sarah","Hi Ana. I'm still waiting for the file.","Hola, Ana. Sigo esperando el archivo."),L("Ana","Sorry for the delay.","Perdona por el retraso."),L("Sarah","Can you join a call tonight?","¿Puedes unirte a una llamada esta noche?"),L("Ana","I'm afraid I can't do that.","Me temo que no puedo."),L("Sarah","No problem. Tomorrow is fine.","Sin problema. Mañana está bien."),L("Ana","I really appreciate it. Thank you for your patience.","Te lo agradezco mucho. Gracias por tu paciencia.")],
+ "21":[L("Sarah","Hi Ana. I'm still waiting for the file.","Hola, Ana. Sigo esperando el archivo."),L("Ana","Sorry for the delay.","Perdona por el retraso."),L("Sarah","Can you join a call tonight?","¿Puedes unirte a una llamada esta noche?"),L("Ana","Unfortunately, I can't do that.","Me temo que no puedo."),L("Sarah","No problem. Tomorrow is fine.","Sin problema. Mañana está bien."),L("Ana","I really appreciate it. Thank you for your patience.","Te lo agradezco mucho. Gracias por tu paciencia.")],
  "22":[L("Ana","Hi, Mark. Quick question.","Hola, Mark. Una pregunta rápida."),L("Mark","Sure. What is it?","Claro. ¿Cuál es?"),L("Ana","When is the deadline?","¿Cuándo es la fecha límite?"),L("Mark","Friday at five.","El viernes a las cinco."),L("Ana","I'm not sure how to do this. Could you help me with this?","No estoy segura de cómo hacer esto. ¿Podrías ayudarme?"),L("Mark","Of course. I'll send you an example.","Por supuesto. Te envío un ejemplo."),L("Ana","That's really helpful, thank you.","Me ayuda mucho, gracias."),L("Ana","Hi Sarah, I'm writing about the invoice. Please find the file attached.","Hola, Sarah. Te escribo por la factura. Adjunto el archivo."),L("Sarah","Thanks, Ana. I really appreciate it.","Gracias, Ana. Te lo agradezco mucho."),L("Ana","Let me know if you have any questions. Best regards, Ana","Avísame si tienes alguna pregunta. Saludos cordiales, Ana")],
 }
 U3_SOUNDS=[

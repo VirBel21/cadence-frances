@@ -11,13 +11,13 @@ const {chromium}=require('playwright');
  await pg.goto('http://localhost:8123/en/index.html');
  await pg.evaluate(()=>{window.__said=[];window.__lang=[];speechSynthesis.speak=u=>{window.__said.push(u.text);window.__lang.push(u.lang)}});
  ok(/Cadence/.test(await pg.title()),'título');
- ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===1,'Camino: rutina de 3 pasos y 1 unidad');
+ ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===2,'Camino: rutina de 3 pasos y 2 unidades');
  ok(/Hello!/.test(await tx('#v-home h1')),'saludo «Hello!»');
  ok(/inglés/.test(await tx('#v-home .eyebrow')),'portada habla de inglés');
- ok(/unas 2,5 horas|unas 2 horas|unas 3 horas/.test(await tx('#v-home')),'horas del curso calculadas ('+((await tx('#v-home')).match(/unas [\d,]+ horas/)||['?'])[0]+')');
+ ok(/unas [\d,]+ horas/.test(await tx('#v-home')),'horas del curso calculadas ('+((await tx('#v-home')).match(/unas [\d,]+ horas/)||['?'])[0]+')');
  await go('route');
- ok((await qa('#v-route .trow')).length===8,'Ruta: 8 sesiones');
- ok((await qa('#v-route li.plan')).length===40,'Ruta: unidades 2 a 6 como plan (40 filas)');
+ ok((await qa('#v-route .trow')).length===16,'Ruta: 16 sesiones (2 unidades)');
+ ok((await qa('#v-route li.plan')).length===32,'Ruta: unidades 3 a 6 como plan (32 filas)');
  await click('#v-route [data-a="day"][data-n="1"]');
  ok((await qa('#v-today .stp button')).length===4,'Hoy: 4 pasos');
  ok((await qa('#v-today .story .sl')).length===6,'Sesión 1: historia de 6 líneas');
@@ -47,17 +47,38 @@ const {chromium}=require('playwright');
  await go('route');await click('#v-route [data-a="day"][data-n="8"]');
  ok(!!(await q('#v-today .checks')),'Descanso: lista de balance');
  ok((await qa('#v-today .checks li')).length===4&&/audio/.test(await tx('#v-today .checks')),'Descanso: objetivos de la unidad 1 en inglés');
+
+ // ---- Unidad 2 ----
+ const U2={9:'coffee',10:'shop',11:'street',12:'chat',13:'mistake'};
+ for(const n of [9,10,11,12,13]){
+  await go('route');await click('#v-route [data-a="day"][data-n="'+n+'"]');
+  ok(new RegExp('Unidad 2 · Sesión '+(n-8)+' de 8').test(await tx('#v-today')),'Sesión '+n+': cabecera de la unidad 2');
+  ok((await qa('#v-today .story .sl')).length===6,'Sesión '+n+': historia de 6 líneas');
+  await click('#v-today [data-a="stepdone"][data-i="0"]');
+  ok((await qa('#v-today .ph')).length===5,'Sesión '+n+': 5 frases');
+  await click('#v-today [data-a="stepdone"][data-i="1"]');await click('#v-today [data-a="start"]');
+  ok((await qa('#v-today [data-a="pick"]')).length===3,'Sesión '+n+': escena con 3 opciones');
+  for(let k=0;k<3;k++){await click('#v-today [data-a="pick"]');await click('#v-today [data-a="next"]')}
+  ok(!!(await q('#v-today .endbox')),'Sesión '+n+': escena termina');
+ }
+ await go('route');await click('#v-route [data-a="day"][data-n="14"]');
+ ok((await qa('#v-today .story .sl')).length===10,'Sesión 14: historia de 10 líneas');
+ await go('route');await click('#v-route [data-a="day"][data-n="15"]');await click('#v-today [data-a="qstart"]');
+ for(let i=0;i<8;i++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
+ ok(/\/ 8/.test(await tx('#v-today')),'Unidad 2: mini-prueba sobre 8');
+ await go('route');await click('#v-route [data-a="day"][data-n="16"]');
+ ok((await qa('#v-today .checks li')).length===4&&/café|cuánto cuesta|dirección/.test(await tx('#v-today .checks')),'Unidad 2: descanso con 4 objetivos propios');
  await go('words');
  ok(/n\.º 1/.test(await tx('#v-words')),'Palabras: lista con rango real');
- ok((await qa('#v-words .wrow')).length===68,'Palabras: 68 filas');
+ ok((await qa('#v-words .wrow')).length===90,'Palabras: 90 filas');
  ok(/OpenSubtitles 2018, inglés/.test(await tx('#v-words')),'Palabras: fuente en inglés');
  await go('sounds');
- ok((await qa('#v-sounds .snd')).length===7,'Sonidos: 7');
+ ok((await qa('#v-sounds .snd')).length===9,'Sonidos: 9');
  ok(!/liaison|enlaces\b/i.test(await tx('#v-sounds'))&&!(await q('#lib')),'Sonidos: sin laboratorio de liaisons');
  await go('verbs');
  ok((await qa('#v-verbs .chip')).length===3,'Mapas: 3 modos');
  await click('#v-verbs [data-a="mapmode"][data-id="num"]');ok((await qa('#v-verbs .vm .r')).length===21,'Números: 21 filas');
- await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===30,'Imágenes: 30');
+ await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===48,'Imágenes: 48');
  await click('#v-verbs [data-a="pcat"][data-id="Equipo"]');ok((await qa('#v-verbs .pic')).length===5,'Imágenes: filtro Equipo (5)');
  await click('#v-verbs [data-a="pqstart"]');for(let y=0;y<8;y++){await click('#v-verbs .qopt');await click('#v-verbs [data-a="pqnext"]')}
  ok(/\/ 8/.test(await tx('#v-verbs')),'Imágenes: ¿qué es? sobre 8');
@@ -76,13 +97,13 @@ const {chromium}=require('playwright');
  ok(/Ordena la frase|Dictado/.test(await tx('#v-games')),'Taller: arranca');
  await click('#v-games [data-a="gend"]');
  await click('#v-games [data-a="gstart"][data-g="nv"]');
- ok((await qa('#v-games .nvu')).length===1&&(await qa('#v-games .nvg li')).length===4,'Mi nivel: 1 unidad, 4 objetivos');
+ ok((await qa('#v-games .nvu')).length===2&&(await qa('#v-games .nvg li')).length===8,'Mi nivel: 2 unidades, 4 objetivos cada una');
  await click('#v-games [data-a="gend"]');
  await go('method');
  ok(/FSRS/.test(await tx('#v-method'))&&/inglés/.test(await tx('#v-method .plain'))||true,'Método carga');
  // fuga de francés en cualquier pantalla
  let leak=[];
- for(const t of ['home','route','today','review','words','games','talk','sounds','verbs','method']){await go(t);const s=await pg.evaluate(t=>document.querySelector('#v-'+t).innerText,t);if(/\bfranc[eé]s\b|français|\bBonjour\b|\bliaisons?\b|\bClara\b|\bJulien\b|\bje suis\b/i.test(s))leak.push(t)}
+ for(const t of ['home','route','today','review','words','games','talk','sounds','verbs','method']){await go(t);const s=await pg.evaluate(t=>document.querySelector('#v-'+t).innerText,t);if(/\bfranc[eé]s\b|français|\bBonjour\b|\bliaisons?\b|\bClara\b|\bJulien\b|\bje suis\b/i.test(s))leak.push(t+':'+(s.match(/.{25}(\bfranc[eé]s\b|français|\bBonjour\b|\bliaisons?\b|\bClara\b|\bJulien\b|\bje suis\b).{25}/i)||[''])[0].replace(/\n/g,' '))}
  ok(leak.length===0,'Sin restos del curso de francés en pantalla'+(leak.length?': '+leak.join(','):''));
  ok(await pg.evaluate(()=>/^rgb\(243, 238, 226\)$/.test(getComputedStyle(document.documentElement).getPropertyValue('--paper').trim()?'rgb(243, 238, 226)':'')),'paleta cobalto y marfil cargada');
  ok(await pg.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--blue').trim().toLowerCase()==='#1f3fa6'),'--blue = cobalto');

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Cadence: curso de autoestudio de francés desde cero para hispanohablantes. Versión de prueba.">
+<meta name="theme-color" content="#F8EFE4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cadence: francés desde cero">
+<meta property="og:description" content="Curso de autoestudio de francés para hispanohablantes, con ritmo, escenas y repaso espaciado.">
+<link rel="canonical" href="https://virbel21.github.io/cadence-frances/fr/">
+<title>Cadence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&family=Gloock&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="../shared/app.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand" role="img" aria-label="Cadence">
+      <svg class="mk" viewBox="0 0 46 46" fill="none" aria-hidden="true"><rect width="46" height="46" rx="13" fill="var(--blue)"/><g stroke="var(--on-blue)" stroke-width="1" opacity=".38"><path d="M7 13H39M7 18.5H39M7 24H39M7 29.5H39M7 35H39"/></g><circle cx="14.5" cy="24" r="4.2" fill="var(--honey)"/><rect x="23" y="19.8" width="16" height="8.4" rx="4.2" fill="var(--on-blue)"/></svg>
+      <span class="wm" aria-hidden="true">Cad<em>ence</em><span class="dt"></span></span>
+    </div>
+    <p class="sub">Curso de francés · Nivel A1</p>
+    <a class="swc" href="../">Cambiar de curso</a>
+    <div class="seg" role="group" aria-label="Velocidad de la voz">
+      <button type="button" data-a="speed" data-v="slow" aria-pressed="true">Lento</button>
+      <button type="button" data-a="speed" data-v="fast" aria-pressed="false">Natural</button>
+    </div>
+    <label class="vsel" id="vsel" hidden><span>Voz</span><select id="voice" aria-label="Elegir voz francesa"></select></label>
+    <nav class="nav" role="tablist" aria-label="Secciones">
+      <button role="tab" data-a="tab" data-t="home" type="button"><span class="ic"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218ZM173.32,74.63l-64,32a6,6,0,0,0-2.69,2.69l-32,64A6,6,0,0,0,80,182a6.06,6.06,0,0,0,2.68-.63l64-32a6,6,0,0,0,2.69-2.69l32-64a6,6,0,0,0-8.05-8.05Zm-33.79,64.9L93.42,162.58l23-46.11,46.11-23Z"/></svg></span><span>Camino</span></button>
+      <button role="tab" data-a="tab" data-t="today" type="button"><span class="ic"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M122,40V16a6,6,0,0,1,12,0V40a6,6,0,0,1-12,0Zm68,88a62,62,0,1,1-62-62A62.07,62.07,0,0,1,190,128Zm-12,0a50,50,0,1,0-50,50A50.06,50.06,0,0,0,178,128ZM59.76,68.24a6,6,0,1,0,8.48-8.48l-16-16a6,6,0,0,0-8.48,8.48Zm0,119.52-16,16a6,6,0,1,0,8.48,8.48l16-16a6,6,0,1,0-8.48-8.48ZM192,70a6,6,0,0,0,4.24-1.76l16-16a6,6,0,0,0-8.48-8.48l-16,16A6,6,0,0,0,192,70Zm4.24,117.76a6,6,0,0,0-8.48,8.48l16,16a6,6,0,0,0,8.48-8.48ZM46,128a6,6,0,0,0-6-6H16a6,6,0,0,0,0,12H40A6,6,0,0,0,46,128Zm82,82a6,6,0,0,0-6,6v24a6,6,0,0,0,12,0V216A6,6,0,0,0,128,210Zm112-88H216a6,6,0,0,0,0,12h24a6,6,0,0,0,0-12Z"/></svg></span><span>Hoy</span></button>
+      <button role="tab" data-a="tab" data-t="review" type="button"><span class="ic"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M26,128A70.08,70.08,0,0,1,96,58H209.51L195.76,44.24a6,6,0,0,1,8.48-8.48l24,24a6,6,0,0,1,0,8.48l-24,24a6,6,0,0,1-8.48-8.48L209.51,70H96a58.07,58.07,0,0,0-58,58,6,6,0,0,1-12,0Zm198-6a6,6,0,0,0-6,6,58.07,58.07,0,0,1-58,58H46.49l13.75-13.76a6,6,0,0,0-8.48-8.48l-24,24a6,6,0,0,0,0,8.48l24,24a6,6,0,0,0,8.48-8.48L46.49,198H160a70.08,70.08,0,0,0,70-70A6,6,0,0,0,224,122Z"/></svg></span><span>Repaso</span></button>
+      <button role="tab" data-a="tab" data-t="games" type="button"><span class="ic"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M176,110H152a6,6,0,0,1,0-12h24a6,6,0,0,1,0,12ZM104,98H94V88a6,6,0,0,0-12,0V98H72a6,6,0,0,0,0,12H82v10a6,6,0,0,0,12,0V110h10a6,6,0,0,0,0-12ZM239.84,199.5A34,34,0,0,1,212,214,34.11,34.11,0,0,1,188,204.05l-.26-.28L147.38,158H108.62L68.31,203.76,68,204A34,34,0,0,1,44,214a34,34,0,0,1-33.46-39.91s0-.06,0-.1L26.9,89.88A57.89,57.89,0,0,1,83.89,42H172a58.07,58.07,0,0,1,57.05,47.63c0,.07,0,.12,0,.19L245.46,174s0,.07,0,.11A33.75,33.75,0,0,1,239.84,199.5ZM172,146a46,46,0,0,0,0-92H83.89A45.9,45.9,0,0,0,38.71,92a.36.36,0,0,0,0,.1L22.33,176.23a22,22,0,0,0,37.11,19.45l42-47.65a6,6,0,0,1,4.5-2Zm61.67,30.23-9.79-50.35A58.06,58.06,0,0,1,172,158h-8.63l33.19,37.68a22,22,0,0,0,37.11-19.45Z"/></svg></span><span>Juegos</span></button>
+      <button role="tab" data-a="tab" data-t="sounds" type="button"><span class="ic"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M229.18,173a6,6,0,0,1-2.16,8.2l-96,56a6,6,0,0,1-6,0l-96-56a6,6,0,0,1,6-10.36l93,54.23,93-54.23A6,6,0,0,1,229.18,173ZM221,122.82l-93,54.23L35,122.82a6,6,0,0,0-6,10.36l96,56a6,6,0,0,0,6,0l96-56a6,6,0,0,0-6-10.36ZM26,80a6,6,0,0,1,3-5.18l96-56a6,6,0,0,1,6,0l96,56a6,6,0,0,1,0,10.36l-96,56a6,6,0,0,1-6,0l-96-56A6,6,0,0,1,26,80Zm17.91,0L128,129.05,212.09,80,128,31Z"/></svg></span><span>Biblioteca</span></button>
+    </nav>
+        <p class="note" id="vnote" hidden>Este dispositivo no tiene una voz francesa instalada. Añádela en los ajustes de voz del sistema para oír las frases. Las notas del ritmo funcionan igual.</p>
+  </aside>
+
+  <main>
+    <div class="subnav" id="subnav" role="group" aria-label="Apartados"></div>
+    <section class="view" id="v-home"></section>
+    <section class="view" id="v-route" hidden></section>
+    <section class="view" id="v-today" hidden></section>
+    <section class="view" id="v-review" hidden></section>
+    <section class="view" id="v-words" hidden></section>
+    <section class="view" id="v-games" hidden></section>
+    <section class="view" id="v-talk" hidden></section>
+    <section class="view" id="v-sounds" hidden></section>
+    <section class="view" id="v-verbs" hidden></section>
+    <section class="view" id="v-method" hidden></section>
+    <p class="foot">Programa de autoestudio. Dibujos de vocabulario: <a href="https://openmoji.org" rel="noopener">OpenMoji</a> (CC BY-SA 4.0). Iconos: <a href="https://phosphoricons.com" rel="noopener">Phosphor Icons</a> (MIT). No certifica ningún nivel ni está vinculado a una universidad. El nivel A1 del Marco Común Europeo se usa solo como referencia. <span style="font-family:var(--f-mono)">Versión 26-oct-2026 · versión alegre 1</span> · <a href="../">Cambiar de curso</a></p>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="course.js"></script>
+<script src="../shared/engine.js"></script>
+</body>
+</html>

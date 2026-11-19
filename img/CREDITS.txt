@@ -1,3 +1,5 @@
 Ilustraciones: OpenMoji (https://openmoji.org), de HfG Schwäbisch Gmünd.
 Licencia: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
 Los archivos SVG de esta carpeta son copias sin modificar de OpenMoji.
+
+Iconos de interfaz (insertados en index.html): Phosphor Icons, licencia MIT. Ver ICONS-LICENSE.txt.

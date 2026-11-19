@@ -1,7 +1,8 @@
 (function(){
 'use strict';
 var C=window.COURSE;
-var SCENES=C.SCENES,SOUNDS=C.SOUNDS,DAYS=C.DAYS,STORY=C.STORY,PLAN=C.PLAN,STAGES=C.STAGES,RHY=C.RHY,WEEKS=C.WEEKS,GOALS2=C.GOALS2,GOALS3=C.GOALS3,GOALS4=C.GOALS4,GOALS=C.GOALS,EVID=C.EVID,WORDS=C.WORDS,LIB=C.LIB,LIBT=C.LIBT,NUMS=C.NUMS,VERBS=C.VERBS,ASK=C.ASK,NUMF=C.NUMF,PIC=C.PIC,SCENE_IMG=C.SCENE_IMG,TENSES=C.TENSES,AUXF=C.AUXF,ALLER=C.ALLER,PCATS=C.PCATS;
+var CPY=C.copy||{},FEAT=C.cfg.features||{},LN=C.cfg.name;
+var SCENES=C.SCENES,SOUNDS=C.SOUNDS,DAYS=C.DAYS,STORY=C.STORY,PLAN=C.PLAN,STAGES=C.STAGES,RHY=C.RHY,WEEKS=C.WEEKS,GOALS2=C.GOALS2,GOALS3=C.GOALS3,GOALS4=C.GOALS4,GOALS=C.GOALS,EVID=C.EVID||window.CADENCE_EVID,WORDS=C.WORDS,LIB=C.LIB,LIBT=C.LIBT,NUMS=C.NUMS,VERBS=C.VERBS,ASK=C.ASK,NUMF=C.NUMF,PIC=C.PIC,SCENE_IMG=C.SCENE_IMG,TENSES=C.TENSES,AUXF=C.AUXF,ALLER=C.ALLER,PCATS=C.PCATS;
 
 
 /* ---------- Contenido ---------- */
@@ -23,7 +24,7 @@ var SCENES=C.SCENES,SOUNDS=C.SOUNDS,DAYS=C.DAYS,STORY=C.STORY,PLAN=C.PLAN,STAGES
 /* ---------- Utilidades ---------- */
 function respell(g){return g.map(function(a){return a.map(function(s,i){return i===a.length-1?s.toUpperCase():s}).join('-')}).join(', ')}
 var PH={};
-SCENES.forEach(function(s){s.phrases.forEach(function(p){p.scene=s.id;p.u=s.u||1;p.resp=respell(p.syl);PH[p.id]=p;});});
+SCENES.forEach(function(s){s.phrases.forEach(function(p){p.scene=s.id;p.u=s.u||1;p.resp=p.rs||respell(p.syl);PH[p.id]=p;});});
 function $(s){return document.querySelector(s)}
 function z(n){return String(n).padStart(2,'0')}
 function dstr(d){d=d||new Date();return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
@@ -108,12 +109,14 @@ var VPREF=C.cfg.voicePrefs;
 function vrank(v){for(var i=0;i<VPREF.length;i++){if(v.name.indexOf(VPREF[i])===0)return i}return 99}
 function pickVoice(){
   if(!('speechSynthesis' in window))return;
-  var all=speechSynthesis.getVoices();
-  var fr=all.filter(function(v){return v.lang&&/^fr/i.test(v.lang.replace('_','-'))});
-  var vs=fr.filter(function(v){return /^fr-FR$/i.test(v.lang.replace('_','-'))&&!/^Daniel/.test(v.name)});
+  var all=speechSynthesis.getVoices(),L=C.cfg.tts.toLowerCase(),base=L.slice(0,2),exc=C.cfg.voiceExclude?new RegExp(C.cfg.voiceExclude):null;
+  function nl(v){return v.lang.replace('_','-').toLowerCase()}
+  var fr=all.filter(function(v){return v.lang&&nl(v).slice(0,2)===base});
+  var vs=fr.filter(function(v){return nl(v)===L&&!(exc&&exc.test(v.name))});
+  if(!vs.length)vs=fr.filter(function(v){return !(exc&&exc.test(v.name))});
   if(!vs.length)vs=fr;
   vs.sort(function(a,b){
-    var fa=/^fr-FR$/i.test(a.lang.replace('_','-'))?0:1,fb=/^fr-FR$/i.test(b.lang.replace('_','-'))?0:1;
+    var fa=nl(a)===L?0:1,fb=nl(b)===L?0:1;
     return vrank(a)-vrank(b)||fa-fb||(a.name<b.name?-1:1);
   });
   frVoice=vs.filter(function(v){return v.name===S.voice})[0]||vs[0]||null;
@@ -180,16 +183,18 @@ function mark(day,i){var q=pd(day);if(!q[i]){S.mins=(S.mins||0)+[5,4,5,4][i];q[i
 var A1_MIN=95*60;
 
 /* ---------- Empezar ---------- */
+function hoursTxt(){var m=DAYS.reduce(function(a,d){return a+(d.m||0)},0)/60;return m>=3?String(Math.round(m)):String(Math.round(m*2)/2).replace('.',',')}
+var NUM_W=['una','dos','tres','cuatro'];
 function rHome(){
   var n=curDayNo(),dn=daysDone(),dcur=DAYS[n-1],R=routine(),due=dueList();
   var started=dn>0||Object.keys(S.prog).length>0,rdone=(R.sess?1:0)+(R.rev?1:0)+(R.game?1:0);
   var stp=[
-   ['Escucha','5 min','Una mini-historia de unas siete líneas. Primero la oyes en francés, sin mirar el español, y después compruebas qué decía.'],
+   ['Escucha','5 min','Una mini-historia de unas siete líneas. Primero la oyes en '+LN+', sin mirar el español, y después compruebas qué decía.'],
    ['Frases','4 min','Las frases clave del día, una a una, con las notas del ritmo para seguirlas con la vista.'],
    ['Escena','5 min','Un diálogo en el que tú eliges qué decir. La otra persona te responde con la forma natural.'],
    ['Dilo tú','4 min','Tarjetas: ves la situación, dices la frase en voz alta y compruebas. Tu respuesta decide cuándo vuelve a salir.']
   ];
-  var UN=[[1,'Sobrevivir','1F44B','c1'],[2,'Moverse','1F695','c2'],[3,'Mesa y mercado','1F37D','c3'],[4,'Primeras conversaciones','1F91D','c4']];
+  var UN=C.cfg.unitsMeta;
   var steps=[
    [1,'Tu sesión de hoy',(started?'Sesión '+dcur.k+' · ':'')+dcur.t+' · unos '+dcur.m+' min','data-a="day" data-n="'+n+'"',(started?'Seguir':'Empezar'),R.sess,'2600'],
    [2,'Repaso de tarjetas',(due.old.length?due.old.length+' tarjetas te esperan':'Se llena a medida que avanzas en las sesiones'),'data-a="go" data-t="review"','Repasar',R.rev,'1F501'],
@@ -204,7 +209,7 @@ function rHome(){
      return '<li class="rstep r'+x[0]+(x[5]?' done':'')+(i===nextI?' next':'')+'"><span class="rn">'+(x[5]?'✓':x[0])+'</span><div class="rb"><div class="rt">'+x[1]+'</div><div class="rd">'+x[2]+'</div></div><button class="btn'+(i===nextI?'':' ghost')+'" type="button" '+x[3]+'>'+(x[5]?'Otra vez':x[4])+'</button></li>';
    }).join('')+'</ol>'+
    (rdone===3?'<p class="done3">'+gimg('1F389',28)+' ¡Rutina de hoy completa! Mañana te espera la siguiente sesión.</p>':'<p class="progl">Hoy llevas '+rdone+' de 3 pasos.</p>')+'</div>'+
-   '<div class="sec"><span class="eyebrow">Tu camino · cuatro unidades</span><div class="ugrid">'+UN.map(function(u){
+   '<div class="sec"><span class="eyebrow">Tu camino · '+NUM_W[UN.length-1]+(UN.length===1?' unidad':' unidades')+'</span><div class="ugrid">'+UN.map(function(u){
      var ds=DAYS.filter(function(d){return d.u===u[0]}),c=ds.filter(function(d){return dayDone(d.n)}).length,nx=ds.filter(function(d){return !dayDone(d.n)})[0];
      return '<button type="button" class="ucard '+u[3]+(nx&&nx.n===n?' now':'')+'" data-a="day" data-n="'+(nx?nx.n:ds[0].n)+'"><span class="ui">'+gimg(u[2],56)+'</span><span class="ut"><small>Unidad '+u[0]+'</small><b>'+u[1]+'</b></span><span class="ub"><i style="width:'+Math.round(c/ds.length*100)+'%"></i></span><span class="us">'+c+' de '+ds.length+' sesiones</span></button>';
    }).join('')+'</div><div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="route">Ver la ruta completa</button></div></div>'+
@@ -220,7 +225,7 @@ function rHome(){
    '<li><b>Sesión 6.</b> Una jornada completa que une las situaciones.</li>'+
    '<li><b>Sesión 7.</b> Repaso y mini-prueba de reconocimiento.</li>'+
    '<li><b>Sesión 8.</b> Descanso y balance: sin lecciones nuevas, y marcas lo que ya te sientes capaz de hacer.</li></ul></div>'+
-   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia general del Marco Común Europeo, Cambridge English publica entre 90 y 100 horas guiadas para un A1 desde cero. Es una orientación, no una promesa, y no tengo una cifra verificada específica para francés. Las cuatro unidades de Cadence suman unas 10 horas de sesiones guiadas, es decir, una parte pequeña de esa referencia. El resto es práctica: repasos, escuchar francés real y hablar con personas. Con 15–20 minutos al día, ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
+   '<div class="sec"><span class="eyebrow">Cuánto tiempo hace falta</span><p class="lead">Como referencia general del Marco Común Europeo, Cambridge English publica entre 90 y 100 horas guiadas para un A1 desde cero. Es una orientación, no una promesa, y no tengo una cifra verificada específica para '+LN+'. '+(DAYS.some(function(d){return d.u===4})?'Las cuatro unidades':'La unidad disponible')+' de Cadence suma'+(DAYS.some(function(d){return d.u===4})?'n':'')+' unas '+hoursTxt()+' horas de sesiones guiadas, es decir, una parte pequeña de esa referencia. El resto es práctica: repasos, escuchar '+LN+' real y hablar con personas. Con 15–20 minutos al día, ir más rápido depende sobre todo de dedicar más tiempo.</p>'+
    '<div class="bar" style="height:8px" role="img" aria-label="Progreso respecto a la referencia"><i style="width:'+Math.max(1,Math.min(100,Math.round((S.mins||0)/A1_MIN*100)))+'%"></i></div><p class="progl">'+Math.round((S.mins||0)/60*10)/10+' h de unas 95 h de referencia</p></div>'+
    '<div class="sec"><span class="eyebrow">Antes del primer día · 1 minuto</span><ul class="plain">'+
    '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
@@ -243,6 +248,7 @@ UIC.pairs="<svg viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true
 UIC.prof="<svg aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M216,42H40A14,14,0,0,0,26,56V200a14,14,0,0,0,14,14H53.39a6,6,0,0,0,5.42-3.43,50,50,0,0,1,90.38,0,6,6,0,0,0,5.42,3.43H216a14,14,0,0,0,14-14V56A14,14,0,0,0,216,42ZM78,144a26,26,0,1,1,26,26A26,26,0,0,1,78,144Zm140,56a2,2,0,0,1-2,2H158.27a62.34,62.34,0,0,0-31.48-27.61,38,38,0,1,0-45.58,0A62.34,62.34,0,0,0,49.73,202H40a2,2,0,0,1-2-2V56a2,2,0,0,1,2-2H216a2,2,0,0,1,2,2ZM198,80v96a6,6,0,0,1-6,6H176a6,6,0,0,1,0-12h10V86H70V96a6,6,0,0,1-12,0V80a6,6,0,0,1,6-6H192A6,6,0,0,1,198,80Z\"/></svg>";
 UIC.nv="<svg aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M230,208a6,6,0,0,1-6,6H32a6,6,0,0,1-6-6V48a6,6,0,0,1,12,0V161.52l53.76-53.76a6,6,0,0,1,8.48,0L128,135.51,185.52,78H160a6,6,0,0,1,0-12h40a6,6,0,0,1,6,6v40a6,6,0,0,1-12,0V86.48l-61.76,61.76a6,6,0,0,1-8.48,0L96,120.49l-58,58V202H224A6,6,0,0,1,230,208Z\"/></svg>";
 UIC.tf="<svg aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M224,50H32A14,14,0,0,0,18,64V192a14,14,0,0,0,14,14H224a14,14,0,0,0,14-14V64A14,14,0,0,0,224,50Zm2,142a2,2,0,0,1-2,2H32a2,2,0,0,1-2-2V64a2,2,0,0,1,2-2H224a2,2,0,0,1,2,2Zm-20-64a6,6,0,0,1-6,6H56a6,6,0,0,1,0-12H200A6,6,0,0,1,206,128Zm0-32a6,6,0,0,1-6,6H56a6,6,0,0,1,0-12H200A6,6,0,0,1,206,96ZM70,160a6,6,0,0,1-6,6H56a6,6,0,0,1,0-12h8A6,6,0,0,1,70,160Zm96,0a6,6,0,0,1-6,6H96a6,6,0,0,1,0-12h64A6,6,0,0,1,166,160Zm40,0a6,6,0,0,1-6,6h-8a6,6,0,0,1,0-12h8A6,6,0,0,1,206,160Z\"/></svg>";
+if(C.icons)Object.keys(C.icons).forEach(function(k){UIC[k]=C.icons[k]});
 function gimg(c,n){n=n||64;if(UIC[c])return '<span class="ic" style="width:'+n+'px;height:'+n+'px">'+UIC[c]+'</span>';return '<img src="'+IMG+c+'.svg" alt="" width="'+n+'" height="'+n+'">'}
 function gstart(g){
   gm=g;
@@ -270,12 +276,12 @@ function rGames(){
      '<div class="gtile g6"><div class="gi">'+gimg('tf')+'</div><div class="gt"><h3>Taller de frases</h3><p>Ordena frases con un banco de palabras y escribe dictados. Lo que fallas vuelve a tu repaso. Es producir, no solo reconocer.</p><button class="btn" type="button" data-a="gstart" data-g="tf">Jugar</button></div></div>'+
      '<div class="gtile g6"><div class="gi">'+gimg('prof')+'</div><div class="gt"><h3>Pregúntale al profe</h3><p>Escribe tus dudas en español: una regla, un sonido, una diferencia con el castellano. Responde una IA gratuita (la misma clave).</p><button class="btn" type="button" data-a="t_prof">Preguntar</button></div></div>'+
      '<div class="gtile g6"><div class="gi">'+gimg('nv')+'</div><div class="gt"><h3>Mi nivel</h3><p>Tus objetivos por unidad y un test breve de escucha para comprobar lo que de verdad dominas.</p><button class="btn" type="button" data-a="gstart" data-g="nv">Ver mi nivel</button></div></div>'+
-     '<div class="gtile g4"><div class="gi">'+gimg('1F4AC')+'</div><div class="gt"><h3>Habla con un personaje</h3><p>Conversación libre en francés con una IA gratuita: contestas con tus palabras y te corrige sin cortar la charla. Necesita una clave gratuita de Google, una sola vez.</p><button class="btn" type="button" data-a="go" data-t="talk">Hablar</button></div></div>'+
+     '<div class="gtile g4"><div class="gi">'+gimg('1F4AC')+'</div><div class="gt"><h3>Habla con un personaje</h3><p>Conversación libre en '+LN+' con una IA gratuita: contestas con tus palabras y te corrige sin cortar la charla. Necesita una clave gratuita de Google, una sola vez.</p><button class="btn" type="button" data-a="go" data-t="talk">Hablar</button></div></div>'+
      '<div class="gtile g0"><div class="gi">'+gimg('1F3A7')+'</div><div class="gt"><h3>Escucha y marca</h3><p>Oyes una frase sin verla y marcas las palabras que reconoces. Hay intrusas.</p>'+
        '<label class="gsel"><span>Historia</span><select id="gday" aria-label="Elegir la historia">'+sd.map(function(n){return '<option value="'+n+'"'+(n===gday?' selected':'')+'>Sesión '+DAYS[n-1].k+' · '+DAYS[n-1].t+'</option>'}).join('')+'</select></label>'+
        '<button class="btn" type="button" data-a="gstart" data-g="ls">Jugar</button></div></div>'+
      '<div class="gtile g1"><div class="gi">'+gimg('1F9E9')+'</div><div class="gt"><h3>¿Qué es?</h3><p>Ves un dibujo y eliges cómo se dice. Ocho preguntas, 46 palabras en juego.</p><button class="btn" type="button" data-a="gstart" data-g="pq">Jugar</button></div></div>'+
-     '<div class="gtile g2"><div class="gi">'+gimg('1F517')+'</div><div class="gt"><h3>Enlaces</h3><p>Oyes dos palabras y decides si se unen, cómo y por qué. Entrena el oído.</p><button class="btn" type="button" data-a="gstart" data-g="lq">Jugar</button></div></div>'+
+     (FEAT.links!==false?'<div class="gtile g2"><div class="gi">'+gimg('1F517')+'</div><div class="gt"><h3>Enlaces</h3><p>Oyes dos palabras y decides si se unen, cómo y por qué. Entrena el oído.</p><button class="btn" type="button" data-a="gstart" data-g="lq">Jugar</button></div></div>':'')+
      '<div class="gtile g3"><div class="gi">'+gimg('270F')+'</div><div class="gt"><h3>Palabras en frases</h3><p>Completa el hueco de una frase con la palabra que falta. Son las 57 palabras más frecuentes.</p><button class="btn" type="button" data-a="go" data-t="words">Ir a Palabras</button></div></div>'+
      '</div>';
   }
@@ -297,8 +303,8 @@ function trailHTML(u){
 }
 function rRoute(){
   var h='<span class="eyebrow">Ruta</span><h2 class="h2">El curso de un vistazo</h2>'+
-   '<p class="lead">Cuatro unidades de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión disponible, pero el orden está pensado: cada una usa lo de la anterior.</p>';
-  [[1,'Sobrevivir'],[2,'Moverse'],[3,'Mesa y mercado'],[4,'Primeras conversaciones']].forEach(function(U){
+   '<p class="lead">'+NUM_W[C.cfg.unitsMeta.length-1].replace(/^./,function(c){return c.toUpperCase()})+(C.cfg.unitsMeta.length===1?' unidad':' unidades')+' de ocho sesiones, de 15 a 20 minutos cada una. Puedes abrir cualquier sesión disponible, pero el orden está pensado: cada una usa lo de la anterior.</p>';
+  C.cfg.unitsMeta.map(function(m){return[m[0],m[1]]}).forEach(function(U){
     var u=U[0],ds=DAYS.filter(function(d){return d.u===u}),c=ds.filter(function(d){return dayDone(d.n)}).length;
     h+='<div class="sec"><span class="eyebrow">Unidad '+u+' · '+U[1]+' · disponible</span><p class="progl">'+c+' de '+ds.length+' sesiones completadas</p>'+trailHTML(u)+'</div>';
   });
@@ -332,6 +338,7 @@ function exCard(e){
 }
 var lq=null;
 function libHTML(){
+  if(FEAT.links===false)return '';
   var h='<div class="sec" id="lib"><span class="eyebrow">Laboratorio de enlaces</span><h3 class="h3">Cuando las palabras se pegan</h3>'+
    '<p class="lead">En francés muchas palabras terminan en una consonante que no suena. Pero si la palabra siguiente empieza por vocal, esa consonante a veces aparece y se une a ella. Por eso «vous avez» no suena «vu a-vé», sino <b>vu-za-vé</b>.</p>'+
    '<div class="legend3"><span style="color:var(--c1)">● Liaison: la consonante muda aparece</span><span style="color:var(--c3)">● Enlace normal: la consonante ya sonaba</span><span style="color:var(--c2)">● Sin enlace</span></div>';
@@ -360,10 +367,10 @@ function lqHTML(){
 function rSounds(){
   $('#v-sounds').innerHTML=
    '<span class="eyebrow">Sonidos</span><h2 class="h2">Primero el oído</h2>'+
-   '<p class="lead">El francés se escribe de una manera y suena de otra, así que empezamos por los sonidos. Escucha, sigue las notas con la vista y repite en voz alta.</p>'+
-   '<div class="sec"><span class="eyebrow">El ritmo</span><p class="lead">En español acentúas cada palabra. En francés las sílabas tienden a pesar parecido y el acento cae al final del grupo. Aquí cada sílaba es una nota, el acento es la nota larga y la barra cierra el compás.</p>'+
+   '<p class="lead">'+CPY.soundsIntro+'</p>'+
+   '<div class="sec"><span class="eyebrow">El ritmo</span><p class="lead">'+CPY.rhythm+'</p>'+
    '<div id="rhy">'+rhyHTML()+'</div>'+
-   '<p class="legend"><b>Cómo leer la pronunciación.</b> La mayúscula marca la sílaba con el acento. <code>zh</code> suena como la «y» rioplatense de «yo». <code>ü</code> es la u francesa y <code>ö</code> es eu. <code>õ ã ẽ</code> son nasales y la n no suena.</p></div>'+
+   '<p class="legend"><b>Cómo leer la pronunciación.</b> '+CPY.pronKey+'</p></div>'+
    '<div class="sec"><span class="eyebrow">Los sonidos que cambian todo</span>'+SOUNDS.map(function(s){
      return '<div class="snd"><div><div class="g'+(s.sm?' sm':'')+'">'+s.g+'</div><div class="rs resp">'+s.rs+'</div></div><div><h3>'+s.t+'</h3><p>'+s.tip+'</p><div class="words">'+
        s.words.map(function(w){return '<button type="button" class="word" data-a="say" data-snd="'+s.id+'" data-say="'+esc(w)+'">'+ICON.play+w+'</button>'}).join('')+'</div></div></div>';
@@ -497,7 +504,7 @@ function rRest(el,d){
    '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
    '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="'+(d.u*8-2)+'">Escuchar la jornada completa</button></div>';
   if(S[rKey(d.u)]){
-    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+({1:'Has recorrido el primer tramo. Sigue con la unidad 2: moverte.',2:'Ya puedes moverte por una ciudad. Sigue con la unidad 3: mesa y mercado.',3:'Ya puedes pedir una comida y comprar alimentos. Sigue con la unidad 4: primeras conversaciones.',4:'Has recorrido las cuatro unidades del curso. Esto no certifica ningún nivel: para saber dónde estás, habla con personas reales. Mantén el repaso diario para no perder lo aprendido.'})[d.u]+'</p>'+(d.u<4?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
+    h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+CPY.unitEnd[d.u]+'</p>'+(d.u<C.cfg.unitsMeta.length?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
   }else{
     h+='<div class="row2"><button class="btn" type="button" data-a="restdone">Terminar la unidad '+d.u+'</button></div>';
   }
@@ -585,10 +592,10 @@ function rReview(){
        (sh?'':'<div class="art" aria-hidden="true">'+artHTML(sc)+'</div>')+
        '<p class="eyebrow" style="margin-top:16px">La situación</p><div class="cue-big" style="margin-top:4px">'+p.cue+'</div>';
     if(!sh){
-      h+='<p class="lead"><b>Tu turno:</b> ¿qué dirías en francés en esta situación? Piénsalo y dilo en voz alta. Después pulsa «Mostrar la frase» para comprobarlo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar la frase</button>'+micBtn+'</div>';
+      h+='<p class="lead"><b>Tu turno:</b> ¿qué dirías en '+LN+' en esta situación? Piénsalo y dilo en voz alta. Después pulsa «Mostrar la frase» para comprobarlo.</p><div class="row2"><button class="btn" type="button" data-a="show">Mostrar la frase</button>'+micBtn+'</div>';
     }else{
       h+=(isNew&&!rv.heard?'<ol class="plain" style="margin:14px 0"><li><b>1.</b> Pulsa ▶ y escucha la frase.</li><li><b>2.</b> Dila en voz alta, igual que la oyes.</li><li><b>3.</b> Valora cómo te ha salido (abajo).</li></ol>':'')+
-         '<p class="eyebrow" style="margin-top:16px">La frase en francés</p>';
+         '<p class="eyebrow" style="margin-top:16px">La frase en '+LN+'</p>';
       if(rv.heard){var hd=rv.heard,pc=hd.c.hit/hd.c.total;
         h+='<div class="rfr" style="margin-top:6px">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>'+
            '<div class="line me" style="margin:16px 0"><div class="who">Lo que el micrófono ha oído</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coinciden '+hd.c.hit+' de '+hd.c.total+' palabras'+(hd.c.hit<hd.c.total?'; las que faltan están marcadas en amarillo':'')+'. '+(pc>=0.8?'Buen resultado: puedes marcar «Bien».':'Escucha la frase otra vez y vuelve a intentarlo, o marca «Otra vez».')+' El micrófono puede equivocarse: la valoración la decides tú.</div></div>';
@@ -639,7 +646,7 @@ function rWords(){
       '<p class="eyebrow" style="margin-top:16px">Lo que quieres decir</p><div class="cue-big" style="margin-top:4px">'+w.es+'</div>';
     if(!wv.shown){
       h+=(b?'<p class="eyebrow" style="margin-top:14px">Completa la frase en voz alta</p><div class="rfr" style="margin-top:6px">'+b+'</div>':'')+
-         '<p class="lead">Di la palabra en francés y pulsa «Mostrar».</p><div class="row2"><button class="btn" type="button" data-a="wshow">Mostrar</button></div>';
+         '<p class="lead">Di la palabra en '+LN+' y pulsa «Mostrar».</p><div class="row2"><button class="btn" type="button" data-a="wshow">Mostrar</button></div>';
     }else{
       h+='<p class="eyebrow" style="margin-top:14px">La palabra</p><div class="rfr" style="margin-top:6px">'+w.w+'</div><div class="fl" style="margin-top:8px"><span>'+w.ex+'</span></div><div class="sense">'+w.ees+'</div>'+
          '<div class="row2"><button class="btn" type="button" data-a="say" data-say="'+esc(w.ex)+'">▶ Escuchar la frase</button><button class="btn ghost" type="button" data-a="say" data-say="'+esc(w.w)+'">▶ La palabra</button></div>'+
@@ -650,11 +657,7 @@ function rWords(){
   }else if(wv.mode==='done'){
     h+='<div class="endbox"><div class="score">'+wv.total+'<span> palabras</span></div><p style="margin-top:8px">Práctica terminada. Las que dijiste con soltura vuelven más tarde y las demás, antes.</p><div class="row2"><button class="btn ghost" type="button" data-a="wback">Ver la lista</button></div></div>';
   }else{
-    h+='<p class="lead">Una lista real de las palabras que más aparecen en francés hablado, para aprender primero lo que más vas a oír. No es mi intuición: sale de un recuento de 313 millones de palabras de subtítulos de películas y series.</p>'+
-      '<div class="sec"><span class="eyebrow">Qué dicen los datos</span><ul class="plain">'+
-      '<li><b>Las 100 formas más frecuentes</b> suman el 57,7 % de todas las palabras de la lista. Las 200, el 66,2 %. Las 500, el 75,0 %. Las 1000, el 80,8 %.</li>'+
-      '<li><b>Fuente:</b> FrequencyWords (OpenSubtitles 2018, francés, 50 000 formas), licencia CC BY-SA 4.0.</li>'+
-      '<li><b>Límites:</b> son subtítulos, es decir, diálogo de ficción, no conversación real. Cuenta formas escritas, no agrupa conjugaciones (suis, est y êtes son formas de être) e incluye nombres propios y errores. La selección de '+WORDS.length+' palabras, sus sentidos en español y las frases de ejemplo son míos.</li></ul></div>'+
+    h+=CPY.wordsInfo(WORDS.length)+
       '<div class="row2">'+((d.nw.length+d.old.length)?'<button class="btn" type="button" data-a="wstart">Practicar '+Math.min(10,d.nw.length)+(d.nw.length===1?' palabra nueva':' palabras nuevas')+(d.old.length?' y repasar '+d.old.length:'')+'</button>':'<span class="progl">No hay palabras pendientes hoy.</span>')+'</div>'+
       '<div class="sec"><span class="eyebrow">La lista · por frecuencia</span><div class="wlist">'+WORDS.map(function(w){
         var c=S.wc[wId(w)];
@@ -674,7 +677,8 @@ function picSvg(p){return '<img src="'+IMG+p[3]+'.svg" alt="" width="72" height=
 function picCat(c){return 'pc'+(PCATS.indexOf(c)%3)}
 
 function artHTML(sc){var c=SCENE_IMG[sc.id];return c?(UIC[c]?gimg(c,96):'<img src="'+IMG+c+'.svg" alt="" width="120" height="120">'):ICON[sc.art]}
-var vb='parler',vt='pres',mm='verbs';
+var MAPS=C.cfg.maps||[['verbs','Verbos'],['ask','Para preguntar'],['num','Números'],['img','Imágenes']];
+var vb=(VERBS&&VERBS[0]&&VERBS[0].id)||'',vt='pres',mm=MAPS[0][0];
 
 
 
@@ -786,12 +790,12 @@ function mpPick(side,i){
 }
 function rVerbs(){
   var h='<span class="eyebrow">Mapas</span><h2 class="h2">Mapas mentales</h2>'+
-   '<div class="chips" role="group" aria-label="Mapa"><button type="button" class="chip" data-a="mapmode" data-id="verbs" aria-pressed="'+(mm==='verbs')+'">Verbos</button><button type="button" class="chip" data-a="mapmode" data-id="ask" aria-pressed="'+(mm==='ask')+'">Para preguntar</button><button type="button" class="chip" data-a="mapmode" data-id="num" aria-pressed="'+(mm==='num')+'">Números</button><button type="button" class="chip" data-a="mapmode" data-id="img" aria-pressed="'+(mm==='img')+'">Imágenes</button></div>';
+   '<div class="chips" role="group" aria-label="Mapa">'+MAPS.map(function(m){return '<button type="button" class="chip" data-a="mapmode" data-id="'+m[0]+'" aria-pressed="'+(mm===m[0])+'">'+m[1]+'</button>'}).join('')+'</div>';
   if(mm==='img'){
     if(pq){h+=pqHTML()}
     else{
       var list=PIC.filter(function(p){return pc==='Todo'||p[0]===pc});
-      h+='<p class="lead">Mira el dibujo, oye la palabra y repítela. El artículo (le, la, l’) forma parte de la palabra: apréndelo con ella. Pulsa un dibujo para oírlo.</p>'+
+      h+='<p class="lead">Mira el dibujo, oye la palabra y repítela. '+CPY.imgLead+'</p>'+
        '<div class="chips" role="group" aria-label="Categoría">'+PCATS.map(function(c){return '<button type="button" class="chip" data-a="pcat" data-id="'+c+'" aria-pressed="'+(c===pc)+'">'+c+'</button>'}).join('')+'</div>'+
        '<div class="pgrid">'+list.map(function(p){return '<button type="button" class="pic '+picCat(p[0])+'" data-a="say" data-say="'+esc(p[1])+'" aria-label="Escuchar: '+esc(p[1])+'">'+picSvg(p)+'<span class="pw">'+p[1]+'</span><span class="pe">'+p[2]+'</span></button>'}).join('')+'</div>'+
        '<div class="row2"><button class="btn" type="button" data-a="pqstart">Jugar: ¿qué es?</button></div>';
@@ -799,7 +803,7 @@ function rVerbs(){
     $('#v-verbs').innerHTML=h;return;
   }
   if(mm==='num'){
-    h+='<p class="lead">Del 0 al 20, con su sonido. Pulsa cada número para oírlo. Los más traicioneros: <b>seize</b> (16) y <b>six</b> (6) suenan parecido; y del 17 al 19 se dice «diez-siete», «diez-ocho», «diez-nueve».</p><div class="vm">'+NUMF.map(function(n){return '<div class="r" style="grid-template-columns:48px 1fr auto"><span class="fo" style="font-size:24px">'+n[0]+'</span><span><span class="fl" style="font-size:20px">'+n[1]+'</span><span class="sense" style="display:block">suena: '+n[2].toUpperCase()+'</span></span><button class="play sm" type="button" data-a="say" data-say="'+n[1]+'" aria-label="Escuchar '+n[1]+'">'+ICON.play+'</button></div>'}).join('')+'</div><p class="legend">Cuando hay una vocal detrás, la consonante final se despierta: «six heures» suena SI-ZÖR, «huit euros» suena ÜI-TÖ-RO.</p>';
+    h+='<p class="lead">'+CPY.numLead+'</p><div class="vm">'+NUMF.map(function(n){return '<div class="r" style="grid-template-columns:48px 1fr auto"><span class="fo" style="font-size:24px">'+n[0]+'</span><span><span class="fl" style="font-size:20px">'+n[1]+'</span><span class="sense" style="display:block">suena: '+n[2].toUpperCase()+'</span></span><button class="play sm" type="button" data-a="say" data-say="'+n[1]+'" aria-label="Escuchar '+n[1]+'">'+ICON.play+'</button></div>'}).join('')+'</div><p class="legend">'+CPY.numNote+'</p>';
     $('#v-verbs').innerHTML=h;return;
   }
   if(mm==='ask'){
@@ -846,9 +850,9 @@ function rMethod(){
    '<li><b>Busca a una persona con quien practicar.</b> Cadence no escucha ni corrige tu pronunciación. Es una recomendación mía, no un resultado de estudio.</li>'+
    '</ul></div>'+
    '<div class="sec"><span class="eyebrow">Límites de esta versión</span><ul class="plain">'+
-   '<li>Usa una sola voz del dispositivo. Si no hay voz francesa instalada, no se oye nada.</li>'+
+   '<li>Usa una sola voz del dispositivo. Si no hay voz '+(C.cfg.voiceAdj||'del idioma')+' instalada, no se oye nada.</li>'+
    '<li>El micrófono es experimental y solo en Chrome: transcribe lo que dices y lo compara palabra a palabra con la frase. No valora tu pronunciación ni tu acento. El audio se envía a Google para transcribirlo.</li>'+
-   '<li>Solo la unidad 1 está construida. Las unidades 2 a 4 son un plan.</li><li>El vocabulario son las frases de cada situación y los verbos más comunes que elegí yo. No sigue todavía una lista de frecuencia verificada.</li><li>La mini-prueba mide reconocimiento de lo que oyes. No mide si hablas bien.</li><li>La conversación libre usa una IA externa gratuita. Puede equivocarse al corregir o sonar poco natural: contrasta con tu oído y con las frases del curso. Lo que escribes o dices se envía a Google.</li>'+
+   ''+CPY.limits+''+
    '</ul></div>';
 }
 
@@ -1017,7 +1021,7 @@ function tSettingsHTML(){
   var h='<div class="sec tset"><span class="eyebrow">Ajustes de la conversación</span>';
   h+='<p class="note">Motor: <b>Gemini de Google, plan gratuito, con tu clave</b>'+(AC.model?' · modelo <b>'+eh(AC.model)+'</b>':'')+'.</p>';
   if(AC.models&&AC.models.length)h+='<label class="gsel"><span>Modelo (cámbialo si ves un error de límite o de disponibilidad)</span><select id="tmodel">'+AC.models.map(function(m){return '<option value="'+eh(m)+'"'+(m===AC.model?' selected':'')+'>'+eh(m)+'</option>'}).join('')+'</select></label>';
-  h+='<p class="note">'+(LANGCFG.chromeLang?'La IA integrada de Chrome está disponible como alternativa en este curso.':'La IA integrada de Chrome no está disponible para '+LANGCFG.name+': según la documentación de Chrome, hoy solo admite inglés, español y japonés.')+'</p>';
+  h+='<p class="note">'+(LANGCFG.chromeLang?'La IA integrada de Chrome está disponible como alternativa en este curso.':(CPY.chromeNote||'La IA integrada de Chrome no está disponible para '+LANGCFG.name+': según la documentación de Chrome, hoy solo admite inglés, español y japonés.'))+'</p>';
   h+='<div class="row2"><button class="btn ghost sm" type="button" data-a="t_newkey">Cambiar la clave</button><button class="btn ghost sm" type="button" data-a="t_delkey">Borrar la clave de este navegador</button></div></div>';
   return h;
 }
@@ -1044,11 +1048,11 @@ function tLogHTML(){
   var h='';
   tk.items.forEach(function(it,i){
     if(it.role==='ai'){
-      h+='<div class="tb ai"><div class="tbt"><button class="play" type="button" data-a="say" data-say="'+eh(it.fr)+'" aria-label="Escuchar">'+ICON.play+'</button><p lang="fr">'+eh(it.fr)+'</p></div>'+
+      h+='<div class="tb ai"><div class="tbt"><button class="play" type="button" data-a="say" data-say="'+eh(it.fr)+'" aria-label="Escuchar">'+ICON.play+'</button><p lang="'+C.cfg.lang+'">'+eh(it.fr)+'</p></div>'+
         (it.es?'<button class="tlink" type="button" data-a="t_es" data-i="'+i+'">'+(tk.showEs[i]?'Ocultar español':'Ver en español')+'</button>'+(tk.showEs[i]?'<p class="tes">'+eh(it.es)+'</p>':''):'')+'</div>';
     }else{
-      h+='<div class="tb me"><p lang="fr">'+eh(it.text)+'</p>'+
-        (it.recast?'<div class="tre"><button class="play" type="button" data-a="say" data-say="'+eh(it.recast)+'" aria-label="Escuchar la forma correcta">'+ICON.play+'</button><div><b>Se dice así:</b> <span lang="fr">'+eh(it.recast)+'</span>'+(it.why?'<small>'+eh(it.why)+'</small>':'')+'</div></div>':'')+'</div>';
+      h+='<div class="tb me"><p lang="'+C.cfg.lang+'">'+eh(it.text)+'</p>'+
+        (it.recast?'<div class="tre"><button class="play" type="button" data-a="say" data-say="'+eh(it.recast)+'" aria-label="Escuchar la forma correcta">'+ICON.play+'</button><div><b>Se dice así:</b> <span lang="'+C.cfg.lang+'">'+eh(it.recast)+'</span>'+(it.why?'<small>'+eh(it.why)+'</small>':'')+'</div></div>':'')+'</div>';
     }
   });
   if(tk.busy)h+='<div class="tb ai typing" aria-label="Escribiendo">…</div>';
@@ -1073,7 +1077,7 @@ function tChatHTML(){
    (tk.settings?tSettingsHTML():'')+
    '<div class="tbox"><div class="thead"><b>'+eh(tk.scene.title)+'</b><span>Hablas con: '+eh(tk.scene.who)+'</span></div>'+
    '<div id="tlog" class="tlog" aria-live="polite">'+tLogHTML()+'</div><div id="tctl">'+tCtlHTML()+'</div>'+
-   '<form id="tform" class="tform"><input id="tin" type="text" lang="fr" autocomplete="off" autocapitalize="off" placeholder="Escribe o di tu respuesta" aria-label="Tu respuesta"><button type="button" class="play mic" id="tmic" data-a="t_mic" aria-label="Hablar" aria-pressed="false">'+MIC+'</button><button class="btn" type="submit">Enviar</button></form></div>';
+   '<form id="tform" class="tform"><input id="tin" type="text" lang="'+C.cfg.lang+'" autocomplete="off" autocapitalize="off" placeholder="Escribe o di tu respuesta" aria-label="Tu respuesta"><button type="button" class="play mic" id="tmic" data-a="t_mic" aria-label="Hablar" aria-pressed="false">'+MIC+'</button><button class="btn" type="submit">Enviar</button></form></div>';
 }
 function rTalk(){
   var h='<span class="eyebrow">Paso 3 de tu rutina · conversación</span><h2 class="h2">'+(tk.prof?'Pregúntale al profe':'Habla con un personaje')+'</h2><div class="row2"><button class="btn ghost sm" type="button" data-a="go" data-t="games">← Todos los juegos</button></div>';
@@ -1286,9 +1290,9 @@ function nvLabel(sc,tot){var r=sc/tot;return r>=0.83?['Dominas esta unidad','ok'
 function nvHTML(){
   if(!nv){
     var h='<p class="lead">Aquí ves qué eres capaz de hacer en cada unidad. Marcas tus objetivos tú misma en la sesión final de cada unidad, y el test breve de escucha lo contrasta: oyes una frase y eliges qué situación es. No es un examen oficial ni certifica ningún nivel del Marco Común Europeo.</p><div class="nvlist">';
-    [1,2,3,4].forEach(function(u){
+    C.cfg.unitsMeta.map(function(m){return m[0]}).forEach(function(u){
       var gs=nvGoals(u),done=gs.filter(function(_,i){return S.goals[gKey(u,i)]}).length,r=(S.nv||{})[u],n=nvPool(u).length;
-      h+='<div class="rcard nvu"><span class="tag">Unidad '+u+'</span><h3 class="h3">'+eh((C.cfg.units||[])[u-1]||('Unidad '+u))+'</h3><ul class="nvg">'+gs.map(function(g,i){return '<li class="'+(S.goals[gKey(u,i)]?'on':'')+'"><span aria-hidden="true">'+(S.goals[gKey(u,i)]?'✓':'○')+'</span> '+eh(g)+'</li>'}).join('')+'</ul>'+
+      h+='<div class="rcard nvu"><span class="tag">Unidad '+u+'</span><h3 class="h3">'+eh((C.cfg.unitsMeta.filter(function(m){return m[0]===u})[0]||[0,'Unidad '+u])[1])+'</h3><ul class="nvg">'+gs.map(function(g,i){return '<li class="'+(S.goals[gKey(u,i)]?'on':'')+'"><span aria-hidden="true">'+(S.goals[gKey(u,i)]?'✓':'○')+'</span> '+eh(g)+'</li>'}).join('')+'</ul>'+
         '<p class="legend">Objetivos marcados: '+done+' de '+gs.length+(r?' · último test: <b>'+r.score+' de '+r.total+'</b> ('+eh(r.date)+')':'')+'</p>'+
         '<div class="row2"><button class="btn'+(n<4?' ghost':'')+'" type="button" data-a="n_start" data-u="'+u+'">Hacer el test</button></div>'+(n<4?'<p class="legend">Necesitas haber estudiado al menos una situación de esta unidad.</p>':'')+'</div>';
     });

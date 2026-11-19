@@ -17,7 +17,7 @@ const {chromium}=require('playwright');
  ok(/unas 2,5 horas|unas 2 horas|unas 3 horas/.test(await tx('#v-home')),'horas del curso calculadas ('+((await tx('#v-home')).match(/unas [\d,]+ horas/)||['?'])[0]+')');
  await go('route');
  ok((await qa('#v-route .trow')).length===8,'Ruta: 8 sesiones');
- ok((await qa('#v-route li.plan')).length===24,'Ruta: unidades 2 a 4 como plan (24 filas)');
+ ok((await qa('#v-route li.plan')).length===40,'Ruta: unidades 2 a 6 como plan (40 filas)');
  await click('#v-route [data-a="day"][data-n="1"]');
  ok((await qa('#v-today .stp button')).length===4,'Hoy: 4 pasos');
  ok((await qa('#v-today .story .sl')).length===6,'Sesión 1: historia de 6 líneas');

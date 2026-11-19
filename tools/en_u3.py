@@ -1,7 +1,7 @@
-# Unidad 3 del curso de inglés: «Escribir en remoto» (trabajo). Se carga desde build_en_course.py.
+# Unidad 3 del curso de inglés: «Escribir en el trabajo» (trabajo). Se carga desde build_en_course.py.
 # Todo lo redacté yo (Claude); no ha pasado por revisión de un profesor nativo.
 U3_SCENES=[
- {"id":"chatmsg","u":3,"title":"Quick chat messages","art":"wave","setting":"Es tu primera semana trabajando en remoto. Mark te escribe en el chat del equipo y tú contestas con mensajes cortos.","who":"Mark","phrases":[
+ {"id":"chatmsg","u":3,"title":"Quick chat messages","art":"wave","setting":"Es tu primera semana en un trabajo nuevo. Mark te escribe en el chat del equipo y tú contestas con mensajes cortos.","who":"Mark","phrases":[
   P("k1","Hi, Mark. Quick question.","JAI-mark, KUIK-KUES-chən","Abres un mensaje de chat avisando de que tienes una pregunta rápida."),
   P("k2","Are you free for a quick call?","ar-yu-FRII-fər-ə-KUIK-KOL","Preguntas si tiene un momento para una llamada corta."),
   P("k3","Got it, thanks!","GAT-it, THÆNKS","Confirmas en el chat que lo has entendido."),

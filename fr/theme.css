@@ -72,9 +72,9 @@ body[data-look="b"]{
 :root{--c1:#2A7A74;--c2:#B84B2A;--c3:#5B4FA0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c1:#6CC3BB;--c2:#F29A7B;--c3:#A9A0E6}}
 :root[data-theme="dark"]{--c1:#6CC3BB;--c2:#F29A7B;--c3:#A9A0E6}
-:root{--c4:#C8466A;--green:#4E9A57;--red:#C9473D}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c4:#F28CA3;--green:#8CC98F;--red:#F08A80}}
-:root[data-theme="dark"]{--c4:#F28CA3;--green:#8CC98F;--red:#F08A80}
+:root{--c4:#C8466A;--green:#3F7F48;--on-green:#fff;--red:#C9473D}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c4:#F28CA3;--green:#8CC98F;--on-green:#10200F;--red:#F08A80}}
+:root[data-theme="dark"]{--c4:#F28CA3;--green:#8CC98F;--on-green:#10200F;--red:#F08A80}
 
 /* Fondo crema limpio: solo un velo dorado muy suave, sin tonos rosados ni verdosos */
 body[data-look="b"]{background-image:radial-gradient(620px 420px at 96% -6%,color-mix(in srgb,var(--honey) 16%,transparent),transparent 70%),radial-gradient(640px 480px at 100% 106%,color-mix(in srgb,var(--honey) 12%,transparent),transparent 70%)}

@@ -11,7 +11,7 @@
   --f-body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
   --wd:400; --it:italic; --hs:clamp(72px,16vw,160px); --h2s:clamp(36px,5.6vw,54px);
-  --c1:#1F3FA6; --c2:#B8862A; --c3:#46506E; --c4:#5A6FB8; --green:#1F3FA6; --red:#B5301C;
+  --c1:#1F3FA6; --c2:#B8862A; --c3:#46506E; --c4:#5A6FB8; --green:#1F3FA6; --on-green:#fff; --red:#B5301C;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -22,7 +22,7 @@
     --ok:#8FA6FF;
     --staff:rgba(241,236,221,.26); --staff2:rgba(241,236,221,.52);
     --honey:#E5C26A; --glow:rgba(229,194,106,.14); --glow2:rgba(143,166,255,.12);
-    --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --red:#F08A7A;
+    --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --on-green:#0F1A3D; --red:#F08A7A;
     color-scheme:dark;
   }
 }
@@ -34,7 +34,7 @@
   --ok:#8FA6FF;
   --staff:rgba(241,236,221,.26); --staff2:rgba(241,236,221,.52);
   --honey:#E5C26A; --glow:rgba(229,194,106,.14); --glow2:rgba(143,166,255,.12);
-  --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --red:#F08A7A;
+  --c1:#8FA6FF; --c2:#E5C26A; --c3:#AEB6D0; --c4:#B3C0FF; --green:#8FA6FF; --on-green:#0F1A3D; --red:#F08A7A;
   color-scheme:dark;
 }
 /* Fondo marfil limpio: un velo dorado y otro cobalto, muy suaves */

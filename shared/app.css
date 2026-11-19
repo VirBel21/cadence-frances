@@ -126,7 +126,7 @@ main{min-width:0;max-width:760px}
 .b.on span{color:var(--blue)}
 @media (prefers-reduced-motion: reduce){.b i{transition:none}}
 
-.chips .chip.ok{background:var(--c1);color:#fff;border-color:transparent}.chips .chip.ko{text-decoration:line-through;opacity:.7}.chips .chip.miss{outline:2px dashed var(--c2);outline-offset:1px}
+.chips .chip.ok{background:var(--green);color:var(--on-green,#fff);border-color:transparent;font-weight:700}.chips .chip.ko{text-decoration:line-through;background:color-mix(in srgb,var(--red) 16%,var(--card));color:var(--ink);border-color:var(--red)}.chips .chip.miss{outline:2px dashed var(--c2);outline-offset:1px}
 .lex{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
 .arcrow{display:inline-flex;align-items:flex-end;flex-wrap:nowrap;font:var(--it) var(--wd) 26px/1.1 var(--f-display)}
 .arcrow .aw{padding:0 2px}

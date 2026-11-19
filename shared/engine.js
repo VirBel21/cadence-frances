@@ -412,7 +412,7 @@ function lsHTML(day){
    }).join('')+'</div>';
   if(!ls.checked){h+='<div class="row2"><button class="btn" type="button" data-a="lcheck">Comprobar</button></div>'}
   else{
-    h+='<div class="line me" style="margin-top:14px"><div class="who">Se dijo</div><div class="fl"><span>'+line.fr+'</span></div></div><p class="legend">'+line.es+'</p><p class="legend">Verde: acertaste. Tachada: la marcaste y no se dijo. Con borde discontinuo: se dijo y no la marcaste.</p>'+
+    h+='<div class="line me" style="margin-top:14px"><div class="who">Se dijo</div><div class="fl"><span>'+line.fr+'</span></div></div><p class="legend">'+line.es+'</p><p class="legend">'+(CPY.okWord||'Verde')+': acertaste. Tachada: la marcaste y no se dijo. Con borde discontinuo: se dijo y no la marcaste.</p>'+
      '<div class="row2"><button class="btn" type="button" data-a="lnext">'+(ls.r>=ls.idx.length-1?'Ver resultado':'Siguiente frase')+'</button></div>';
   }
   return h+'</div></div>';
@@ -532,7 +532,7 @@ function playerHTML(sc){
   }else{
     var tot=sc.turns.length*2;
     h+='<div class="endbox"><div class="score">'+pl.score+'<span> / '+tot+'</span></div><p style="margin-top:8px">'+
-       (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo marcado en rosa es la forma natural que usó la otra persona. Esas frases salen en las tarjetas.')+
+       (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo resaltado es la forma natural que usó la otra persona. Esas frases salen en las tarjetas.')+
        '</p><div class="row2"><button class="btn" type="button" data-a="step" data-i="3">Seguir: Dilo tú</button><button class="btn ghost" type="button" data-a="start">Jouer de nouveau</button></div></div>';
   }
   return h+'</div><span id="pend"></span>';
@@ -598,7 +598,7 @@ function rReview(){
          '<p class="eyebrow" style="margin-top:16px">La frase en '+LN+'</p>';
       if(rv.heard){var hd=rv.heard,pc=hd.c.hit/hd.c.total;
         h+='<div class="rfr" style="margin-top:6px">'+hd.c.html+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>'+
-           '<div class="line me" style="margin:16px 0"><div class="who">Lo que el micrófono ha oído</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coinciden '+hd.c.hit+' de '+hd.c.total+' palabras'+(hd.c.hit<hd.c.total?'; las que faltan están marcadas en amarillo':'')+'. '+(pc>=0.8?'Buen resultado: puedes marcar «Bien».':'Escucha la frase otra vez y vuelve a intentarlo, o marca «Otra vez».')+' El micrófono puede equivocarse: la valoración la decides tú.</div></div>';
+           '<div class="line me" style="margin:16px 0"><div class="who">Lo que el micrófono ha oído</div><div class="fl"><span>'+hd.t.replace(/</g,'&lt;')+'</span></div><div class="sense">Coinciden '+hd.c.hit+' de '+hd.c.total+' palabras'+(hd.c.hit<hd.c.total?'; las que faltan están resaltadas':'')+'. '+(pc>=0.8?'Buen resultado: puedes marcar «Bien».':'Escucha la frase otra vez y vuelve a intentarlo, o marca «Otra vez».')+' El micrófono puede equivocarse: la valoración la decides tú.</div></div>';
       }else h+='<div class="rfr" style="margin-top:6px">'+p.fr+'</div>'+beatsHTML(p,true)+'<div class="resp">'+p.resp+'</div>';
       h+='<div class="row2"><button class="btn" type="button" data-a="say" data-say="'+esc(p.fr)+'">▶ Escuchar la frase</button>'+micBtn+'</div>'+
          (SR?'<p class="legend">Micrófono experimental (solo Chrome): el audio se envía a Google. Compara palabras, no valora tu acento.</p>':'')+

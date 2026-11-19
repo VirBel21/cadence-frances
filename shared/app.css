@@ -459,7 +459,7 @@ body{background-image:radial-gradient(520px 380px at 94% -4%,color-mix(in srgb,v
 .bdg{border-radius:14px}
 .bdg .ic{color:var(--honey)}
 .rstep.next,.ucard.now{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
-.ucard.c1,.ucard.c2,.ucard.c3,.ucard.c4,.gtile.g0,.gtile.g1,.gtile.g2,.gtile.g3,.gtile.g4{background:var(--card)}
+.ucard.c1,.ucard.c2,.ucard.c3,.ucard.c4,.gtile.g0,.gtile.g1,.gtile.g2,.gtile.g3,.gtile.g4,.gtile.g6{background:var(--card)}
 .rstep .rn,.rstep.r1 .rn,.rstep.r2 .rn,.rstep.r3 .rn{background:transparent;border:1.5px solid var(--ink2);color:var(--ink)}
 .rstep.next .rn{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
 .rstep.done .rn{background:var(--green);border-color:var(--green);color:#fff}
@@ -479,3 +479,19 @@ body{background-image:radial-gradient(520px 380px at 94% -4%,color-mix(in srgb,v
 .mpb.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 14%,var(--card));animation:shk .35s}
 @keyframes shk{20%{transform:translateX(-5px)}60%{transform:translateX(5px)}}
 @media (prefers-reduced-motion:reduce){.mpb.bad{animation:none}}
+
+/* Taller de frases */
+.tfans{display:flex;flex-wrap:wrap;gap:8px;min-height:60px;padding:12px;margin:12px 0;border:1px dashed var(--line);border-radius:12px;background:var(--card);align-items:center}
+.tfph{color:var(--ink2);font-size:15px}
+.tfbank{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.tfw{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 14px;font:600 17px/1.2 var(--f-body);color:var(--ink);cursor:pointer;min-height:44px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.tfw:hover:not(:disabled){border-color:var(--blue)}
+.tfw:focus-visible{outline:3px solid var(--glow);outline-offset:2px}
+.tfw.used{visibility:hidden}
+.tfans .tfw{background:var(--blue-soft);border-color:var(--blue)}
+.tfin{width:100%;margin:14px 0 4px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:500 18px var(--f-body)}
+.tfin:focus-visible{outline:3px solid var(--glow);outline-offset:2px;border-color:var(--blue)}
+.tfres{margin:14px 0 4px;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+.tfres.ok{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--card))}
+.tfres.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
+.tfsol{font-weight:700;font-size:19px}

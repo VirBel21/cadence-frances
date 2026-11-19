@@ -280,9 +280,9 @@ function rGames(){
      '<div class="gtile g0"><div class="gi">'+gimg('1F3A7')+'</div><div class="gt"><h3>Escucha y marca</h3><p>Oyes una frase sin verla y marcas las palabras que reconoces. Hay intrusas.</p>'+
        '<label class="gsel"><span>Historia</span><select id="gday" aria-label="Elegir la historia">'+sd.map(function(n){return '<option value="'+n+'"'+(n===gday?' selected':'')+'>Sesión '+DAYS[n-1].k+' · '+DAYS[n-1].t+'</option>'}).join('')+'</select></label>'+
        '<button class="btn" type="button" data-a="gstart" data-g="ls">Jugar</button></div></div>'+
-     '<div class="gtile g1"><div class="gi">'+gimg('1F9E9')+'</div><div class="gt"><h3>¿Qué es?</h3><p>Ves un dibujo y eliges cómo se dice. Ocho preguntas, 46 palabras en juego.</p><button class="btn" type="button" data-a="gstart" data-g="pq">Jugar</button></div></div>'+
+     '<div class="gtile g1"><div class="gi">'+gimg('1F9E9')+'</div><div class="gt"><h3>¿Qué es?</h3><p>Ves un dibujo y eliges cómo se dice. Ocho preguntas, '+PIC.length+' palabras en juego.</p><button class="btn" type="button" data-a="gstart" data-g="pq">Jugar</button></div></div>'+
      (FEAT.links!==false?'<div class="gtile g2"><div class="gi">'+gimg('1F517')+'</div><div class="gt"><h3>Enlaces</h3><p>Oyes dos palabras y decides si se unen, cómo y por qué. Entrena el oído.</p><button class="btn" type="button" data-a="gstart" data-g="lq">Jugar</button></div></div>':'')+
-     '<div class="gtile g3"><div class="gi">'+gimg('270F')+'</div><div class="gt"><h3>Palabras en frases</h3><p>Completa el hueco de una frase con la palabra que falta. Son las 57 palabras más frecuentes.</p><button class="btn" type="button" data-a="go" data-t="words">Ir a Palabras</button></div></div>'+
+     '<div class="gtile g3"><div class="gi">'+gimg('270F')+'</div><div class="gt"><h3>Palabras en frases</h3><p>Completa el hueco de una frase con la palabra que falta. Son las '+WORDS.length+' palabras más frecuentes.</p><button class="btn" type="button" data-a="go" data-t="words">Ir a Palabras</button></div></div>'+
      '</div>';
   }
   el.innerHTML=h;
@@ -513,7 +513,7 @@ function rRest(el,d){
 function curS(){return sceneById(curScene)}
 function playerHTML(sc){
   if(!pl||pl.scene!==sc.id){
-    return '<h3 class="h3">Tres turnos</h3><p class="lead">Escucha lo que te dicen, elige lo que dirías y mira cómo responde la otra persona. Nadie te corrige: te contestan con la forma natural.</p><div class="row2"><button class="btn" type="button" data-a="start">Jouer la scène</button></div>';
+    return '<h3 class="h3">Tres turnos</h3><p class="lead">Escucha lo que te dicen, elige lo que dirías y mira cómo responde la otra persona. Nadie te corrige: te contestan con la forma natural.</p><div class="row2"><button class="btn" type="button" data-a="start">'+(CPY.playScene||'Jouer la scène')+'</button></div>';
   }
   var h='<div class="dlg">';
   pl.log.forEach(function(e){
@@ -533,7 +533,7 @@ function playerHTML(sc){
     var tot=sc.turns.length*2;
     h+='<div class="endbox"><div class="score">'+pl.score+'<span> / '+tot+'</span></div><p style="margin-top:8px">'+
        (pl.score===tot?'Respondiste de forma natural en todos los turnos.':'Lo resaltado es la forma natural que usó la otra persona. Esas frases salen en las tarjetas.')+
-       '</p><div class="row2"><button class="btn" type="button" data-a="step" data-i="3">Seguir: Dilo tú</button><button class="btn ghost" type="button" data-a="start">Jouer de nouveau</button></div></div>';
+       '</p><div class="row2"><button class="btn" type="button" data-a="step" data-i="3">Seguir: Dilo tú</button><button class="btn ghost" type="button" data-a="start">'+(CPY.playAgain||'Jouer de nouveau')+'</button></div></div>';
   }
   return h+'</div><span id="pend"></span>';
 }

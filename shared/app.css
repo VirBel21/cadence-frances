@@ -467,3 +467,15 @@ body{background-image:radial-gradient(520px 380px at 94% -4%,color-mix(in srgb,v
 .side .nav button .ic{width:26px;height:26px;color:currentColor;opacity:.82}
 .side .nav button[aria-selected="true"] .ic{opacity:1}.swc{display:inline-block;margin:0 0 14px;font:600 13px var(--f-body);color:var(--blue);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:859px){.swc{display:none}}
+
+/* Parejas */
+.mpgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.mpcol{display:flex;flex-direction:column;gap:10px}
+.mpb{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:14px 10px;font:600 17px/1.25 var(--f-body);color:var(--ink);cursor:pointer;min-height:56px;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.06);overflow-wrap:anywhere}
+.mpb:hover:not(:disabled){border-color:var(--blue)}
+.mpb:focus-visible{outline:3px solid var(--glow);outline-offset:2px;border-color:var(--blue)}
+.mpb.sel{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 1px var(--blue)}
+.mpb.ok{border-color:var(--green);background:color-mix(in srgb,var(--green) 14%,var(--card));color:var(--ink2);opacity:.78;cursor:default}
+.mpb.bad{border-color:var(--red);background:color-mix(in srgb,var(--red) 14%,var(--card));animation:shk .35s}
+@keyframes shk{20%{transform:translateX(-5px)}60%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.mpb.bad{animation:none}}

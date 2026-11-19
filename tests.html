@@ -131,7 +131,31 @@ async function run(){
   await click('#v-route [data-a="day"][data-n="32"]');
   log(qa('#v-today .checks li').length===4&&/cita/.test(q('#v-today .checks').textContent),'U4 balance: objetivos de la unidad 4');
   await go('games');
-  log(qa('#v-games .gtile').length===5,'Juegos: 5 juegos');
+  log(qa('#v-games .gtile').length===6,'Juegos: 6 juegos');
+  await click('#v-games [data-a="gstart"][data-g="mp"]');
+  var tried=0,mpOk=true;
+  for(var mr=0;mr<3;mr++){
+    log(qa('#v-games .mpcol:first-child .mpb').length===5&&qa('#v-games .mpcol:last-child .mpb').length===5,'Parejas: ronda '+(mr+1)+' con 5 y 5');
+    for(var mi=0;mi<5;mi++){
+      var done=false,L=qa('#v-games .mpcol:first-child .mpb:not(.ok)')[0];
+      if(!L){mpOk=false;break}
+      var lt=L.textContent;
+      var R=qa('#v-games .mpcol:last-child .mpb:not(.ok)').length;
+      for(var rj=0;rj<R&&!done;rj++){
+        var lcur=[].filter.call(qa('#v-games .mpcol:first-child .mpb'),function(b){return b.textContent===lt})[0];
+        if(!lcur.classList.contains('sel')){lcur.click();await sleep(60)}
+        var rb=qa('#v-games .mpcol:last-child .mpb:not(.ok)')[rj];rb.click();await sleep(60);
+        var again=qa('#v-games .mpcol:first-child .mpb');
+        var cur=[].filter.call(again,function(b){return b.textContent===lt})[0];
+        if(cur&&cur.classList.contains('ok'))done=true;else{tried++;await sleep(700)}
+      }
+      if(!done)mpOk=false;
+    }
+    await click('#v-games [data-a="m_next"]');
+  }
+  log(mpOk&&/parejas/.test(q('#v-games').textContent),'Parejas: se completan las 3 rondas y muestra resultado ('+tried+' fallos provocados)');
+  log(/\b(\d+) (error|errores)\b/.test(q('#v-games .endbox').textContent)&&q('#v-games .endbox').textContent.indexOf(tried+' ')>=0,'Parejas: el contador de errores coincide');
+  await click('#v-games [data-a="gend"]');
   await click('#v-games [data-a="gstart"][data-g="pq"]');
   for(var g1=0;g1<8;g1++){await click('#v-games .qopt');await click('#v-games [data-a="pqnext"]')}
   log(/\/ 8/.test(q('#v-games').textContent),'Juegos: ¿Qué es? termina con resultado');

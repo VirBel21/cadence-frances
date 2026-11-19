@@ -11,13 +11,13 @@ const {chromium}=require('playwright');
  await pg.goto('http://localhost:8123/en/index.html');
  await pg.evaluate(()=>{window.__said=[];window.__lang=[];speechSynthesis.speak=u=>{window.__said.push(u.text);window.__lang.push(u.lang)}});
  ok(/Cadence/.test(await pg.title()),'título');
- ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===2,'Camino: rutina de 3 pasos y 2 unidades');
+ ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===3,'Camino: rutina de 3 pasos y 3 unidades');
  ok(/Hello!/.test(await tx('#v-home h1')),'saludo «Hello!»');
  ok(/inglés/.test(await tx('#v-home .eyebrow')),'portada habla de inglés');
  ok(/unas [\d,]+ horas/.test(await tx('#v-home')),'horas del curso calculadas ('+((await tx('#v-home')).match(/unas [\d,]+ horas/)||['?'])[0]+')');
  await go('route');
- ok((await qa('#v-route .trow')).length===16,'Ruta: 16 sesiones (2 unidades)');
- ok((await qa('#v-route li.plan')).length===32,'Ruta: unidades 3 a 6 como plan (32 filas)');
+ ok((await qa('#v-route .trow')).length===24,'Ruta: 24 sesiones (3 unidades)');
+ ok((await qa('#v-route li.plan')).length===24,'Ruta: unidades 4 a 6 como plan (24 filas)');
  await click('#v-route [data-a="day"][data-n="1"]');
  ok((await qa('#v-today .stp button')).length===4,'Hoy: 4 pasos');
  ok((await qa('#v-today .story .sl')).length===6,'Sesión 1: historia de 6 líneas');
@@ -48,37 +48,38 @@ const {chromium}=require('playwright');
  ok(!!(await q('#v-today .checks')),'Descanso: lista de balance');
  ok((await qa('#v-today .checks li')).length===4&&/audio/.test(await tx('#v-today .checks')),'Descanso: objetivos de la unidad 1 en inglés');
 
- // ---- Unidad 2 ----
- const U2={9:'coffee',10:'shop',11:'street',12:'chat',13:'mistake'};
- for(const n of [9,10,11,12,13]){
-  await go('route');await click('#v-route [data-a="day"][data-n="'+n+'"]');
-  ok(new RegExp('Unidad 2 · Sesión '+(n-8)+' de 8').test(await tx('#v-today')),'Sesión '+n+': cabecera de la unidad 2');
-  ok((await qa('#v-today .story .sl')).length===6,'Sesión '+n+': historia de 6 líneas');
-  await click('#v-today [data-a="stepdone"][data-i="0"]');
-  ok((await qa('#v-today .ph')).length===5,'Sesión '+n+': 5 frases');
-  await click('#v-today [data-a="stepdone"][data-i="1"]');await click('#v-today [data-a="start"]');
-  ok((await qa('#v-today [data-a="pick"]')).length===3,'Sesión '+n+': escena con 3 opciones');
-  for(let k=0;k<3;k++){await click('#v-today [data-a="pick"]');await click('#v-today [data-a="next"]')}
-  ok(!!(await q('#v-today .endbox')),'Sesión '+n+': escena termina');
+ // ---- Unidades 2 y 3 ----
+ for(const [u,first,names] of [[2,9,/café|cuánto cuesta|dirección/],[3,17,/chat|email|plazo/]]){
+  for(const n of [0,1,2,3,4].map(x=>first+x)){
+   await go('route');await click('#v-route [data-a="day"][data-n="'+n+'"]');
+   ok(new RegExp('Unidad '+u+' · Sesión '+(n-first+1)+' de 8').test(await tx('#v-today')),'Sesión '+n+': cabecera de la unidad '+u);
+   ok((await qa('#v-today .story .sl')).length===6,'Sesión '+n+': historia de 6 líneas');
+   await click('#v-today [data-a="stepdone"][data-i="0"]');
+   ok((await qa('#v-today .ph')).length===5,'Sesión '+n+': 5 frases');
+   await click('#v-today [data-a="stepdone"][data-i="1"]');await click('#v-today [data-a="start"]');
+   ok((await qa('#v-today [data-a="pick"]')).length===3,'Sesión '+n+': escena con 3 opciones');
+   for(let k=0;k<3;k++){await click('#v-today [data-a="pick"]');await click('#v-today [data-a="next"]')}
+   ok(!!(await q('#v-today .endbox')),'Sesión '+n+': escena termina');
+  }
+  await go('route');await click('#v-route [data-a="day"][data-n="'+(first+5)+'"]');
+  ok((await qa('#v-today .story .sl')).length===10,'Sesión '+(first+5)+': historia de 10 líneas');
+  await go('route');await click('#v-route [data-a="day"][data-n="'+(first+6)+'"]');await click('#v-today [data-a="qstart"]');
+  for(let i=0;i<8;i++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
+  ok(/\/ 8/.test(await tx('#v-today')),'Unidad '+u+': mini-prueba sobre 8');
+  await go('route');await click('#v-route [data-a="day"][data-n="'+(first+7)+'"]');
+  ok((await qa('#v-today .checks li')).length===4&&names.test(await tx('#v-today .checks')),'Unidad '+u+': descanso con 4 objetivos propios');
  }
- await go('route');await click('#v-route [data-a="day"][data-n="14"]');
- ok((await qa('#v-today .story .sl')).length===10,'Sesión 14: historia de 10 líneas');
- await go('route');await click('#v-route [data-a="day"][data-n="15"]');await click('#v-today [data-a="qstart"]');
- for(let i=0;i<8;i++){await click('#v-today .qopt');await click('#v-today [data-a="qnext"]')}
- ok(/\/ 8/.test(await tx('#v-today')),'Unidad 2: mini-prueba sobre 8');
- await go('route');await click('#v-route [data-a="day"][data-n="16"]');
- ok((await qa('#v-today .checks li')).length===4&&/café|cuánto cuesta|dirección/.test(await tx('#v-today .checks')),'Unidad 2: descanso con 4 objetivos propios');
  await go('words');
  ok(/n\.º 1/.test(await tx('#v-words')),'Palabras: lista con rango real');
- ok((await qa('#v-words .wrow')).length===90,'Palabras: 90 filas');
+ ok((await qa('#v-words .wrow')).length===106,'Palabras: 106 filas');
  ok(/OpenSubtitles 2018, inglés/.test(await tx('#v-words')),'Palabras: fuente en inglés');
  await go('sounds');
- ok((await qa('#v-sounds .snd')).length===9,'Sonidos: 9');
+ ok((await qa('#v-sounds .snd')).length===11,'Sonidos: 11');
  ok(!/liaison|enlaces\b/i.test(await tx('#v-sounds'))&&!(await q('#lib')),'Sonidos: sin laboratorio de liaisons');
  await go('verbs');
  ok((await qa('#v-verbs .chip')).length===3,'Mapas: 3 modos');
  await click('#v-verbs [data-a="mapmode"][data-id="num"]');ok((await qa('#v-verbs .vm .r')).length===21,'Números: 21 filas');
- await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===48,'Imágenes: 48');
+ await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===53,'Imágenes: 53');
  await click('#v-verbs [data-a="pcat"][data-id="Equipo"]');ok((await qa('#v-verbs .pic')).length===5,'Imágenes: filtro Equipo (5)');
  await click('#v-verbs [data-a="pqstart"]');for(let y=0;y<8;y++){await click('#v-verbs .qopt');await click('#v-verbs [data-a="pqnext"]')}
  ok(/\/ 8/.test(await tx('#v-verbs')),'Imágenes: ¿qué es? sobre 8');
@@ -97,7 +98,7 @@ const {chromium}=require('playwright');
  ok(/Ordena la frase|Dictado/.test(await tx('#v-games')),'Taller: arranca');
  await click('#v-games [data-a="gend"]');
  await click('#v-games [data-a="gstart"][data-g="nv"]');
- ok((await qa('#v-games .nvu')).length===2&&(await qa('#v-games .nvg li')).length===8,'Mi nivel: 2 unidades, 4 objetivos cada una');
+ ok((await qa('#v-games .nvu')).length===3&&(await qa('#v-games .nvg li')).length===12,'Mi nivel: 3 unidades, 4 objetivos cada una');
  await click('#v-games [data-a="gend"]');
  await go('method');
  ok(/FSRS/.test(await tx('#v-method'))&&/inglés/.test(await tx('#v-method .plain'))||true,'Método carga');

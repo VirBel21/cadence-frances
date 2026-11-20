@@ -900,14 +900,38 @@ function gPick(ms){
   pool.sort(function(a,b){return ver(b)-ver(a)||(/lite/.test(a)?1:0)-(/lite/.test(b)?1:0)});
   return pool[0]||'';
 }
-function gChat(sys,msgs,schema){
-  var body={systemInstruction:{parts:[{text:sys}]},contents:msgs.map(function(m){return{role:m.role,parts:[{text:m.text}]}}),
-    generationConfig:{temperature:0.7,responseMimeType:'application/json',responseSchema:schema}};
-  return gFetch('models/'+AC.model+':generateContent',{method:'POST',body:JSON.stringify(body)}).then(function(j){
+function gOnce(model,body){
+  return gFetch('models/'+model+':generateContent',{method:'POST',body:JSON.stringify(body)}).then(function(j){
     var c=j.candidates&&j.candidates[0];
     if(!c||!c.content||!c.content.parts){var e=new Error(j.promptFeedback&&j.promptFeedback.blockReason?'Respuesta bloqueada ('+j.promptFeedback.blockReason+')':'Respuesta vacía');e.status=0;throw e}
     return c.content.parts.map(function(p){return p.text||''}).join('');
   });
+}
+/* Si el modelo falla por saturación (5xx), límite (429) o no existe (404): reintenta una vez y prueba otros modelos flash de tu clave. */
+function gOrder(){
+  var ms=(AC.models||[]).filter(function(n){return n!==AC.model});
+  function ver(n){var m=n.match(/gemini-(\d+(?:\.\d+)?)/);return m?parseFloat(m[1]):0}
+  var stable=ms.filter(function(n){return /^gemini-[\d.]+-flash(-lite)?$/.test(n)}).sort(function(a,b){return ver(b)-ver(a)||(/lite/.test(a)?1:0)-(/lite/.test(b)?1:0)});
+  return [AC.model].concat(stable).slice(0,4);
+}
+function gChat(sys,msgs,schema){
+  var body={systemInstruction:{parts:[{text:sys}]},contents:msgs.map(function(m){return{role:m.role,parts:[{text:m.text}]}}),
+    generationConfig:{temperature:0.7,responseMimeType:'application/json',responseSchema:schema}};
+  var order=gOrder(),i=0,retried=false,first=null;
+  function go(){
+    var model=order[i];
+    return gOnce(model,body).catch(function(e){
+      var st=e&&e.status;
+      if(!first)first=e;
+      var again=(st>=500||st===429||st===404);
+      if(!again)throw e;
+      if(st>=500&&!retried){retried=true;return new Promise(function(r){setTimeout(r,1500)}).then(go)}
+      retried=false;i++;
+      if(i>=order.length)throw first;
+      return go();
+    });
+  }
+  return go();
 }
 /* --- proveedor IA integrada de Chrome (NO verificado: pensado para el curso de inglés; desactivado si chromeLang es null) --- */
 function cChat(sys,msgs,schema){
@@ -927,7 +951,7 @@ function tErr(e){
   if(s===401||s===403)return 'La clave no tiene permiso para usar este modelo o servicio desde tu zona. Revisa la clave o el modelo en Ajustes.';
   if(s===404)return 'Ese modelo no está disponible para tu clave. Elige otro en Ajustes.';
   if(s===429)return 'Has llegado al límite gratuito por ahora. Espera un minuto o inténtalo mañana, o elige otro modelo en Ajustes.';
-  if(s>=500)return 'El servicio de Google falla en este momento. Vuelve a probar en unos minutos.';
+  if(s>=500)return 'El servicio de Google falla en este momento'+(m?' («'+m.slice(0,110)+'»)':'')+'. Probé también con otros modelos de tu clave. Vuelve a probar en unos minutos o elige otro modelo en Ajustes.';
   if(e&&e.name==='TypeError')return 'No hay conexión con Google. Revisa tu internet.';
   return m?('No se pudo completar: '+m.slice(0,140)):'No se pudo completar. Vuelve a intentarlo.';
 }

@@ -1,7 +1,7 @@
 // Busca restos de francés en TODA la interfaz del curso de inglés (texto, aria-label, title, alt, placeholder, data-say).
 // Uso: NODE_PATH=$(npm root -g) node tools/audit_en_fr.js   (servidor en :8123)
 const {chromium}=require('playwright');
-const FR=/\b(bonjour|bonsoir|salut|merci|s'il (vous|te) pla[iî]t|je (suis|ne|m'appelle|voudrais|parle)|vous (êtes|avez|parlez)|tu (es|as)|nous (sommes|avons)|enchanté|au revoir|désolé|français|française|oui|des|les|jouer|nouveau|la scène|pour|avec|dans|comment (allez|ça|vous)|très|où est|c'est|ça va|aujourd'hui|demain|le café|la gare|l'eau|un peu|beaucoup|excusez)\b/i;
+const FR=/\b(continuer|terminer|rejouer|suivant|recommencer|valider|bonjour|bonsoir|salut|merci|s'il (vous|te) pla[iî]t|je (suis|ne|m'appelle|voudrais|parle)|vous (êtes|avez|parlez)|tu (es|as)|nous (sommes|avons)|enchanté|au revoir|désolé|français|française|oui|des|les|jouer|nouveau|la scène|pour|avec|dans|comment (allez|ça|vous)|très|où est|c'est|ça va|aujourd'hui|demain|le café|la gare|l'eau|un peu|beaucoup|excusez)\b/i;
 const FRC=/[çœàèùâêîôûëïÿÀÈÙÂÊÎÔÛ]/;
 const FRX=/(?:^|[^A-Za-z])(Bonjour|Merci|Salut|Au revoir|Excusez-moi|S'il vous plaît|Je suis|Enchanté)/;
 (async()=>{const b=await chromium.launch();const pg=await b.newPage({viewport:{width:1100,height:900}});

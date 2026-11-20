@@ -4,6 +4,8 @@ var COPY={
  "okWord": "Azul",
  "playScene": "Play the scene",
  "playAgain": "Play again",
+ "nextWord": "Continue",
+ "finishWord": "Finish",
  "soundsIntro": "El inglés se escribe de una manera y suena de otra, y además cambia el ritmo: unas sílabas se pronuncian con fuerza y otras casi desaparecen. Por eso empezamos por el oído. Escucha, sigue las notas con la vista y repite en voz alta.",
  "rhythm": "En español cada sílaba pesa casi igual. En inglés las palabras importantes llevan la fuerza y las demás se aplastan, así que el ritmo sube y baja. Aquí cada sílaba es una nota, la mayúscula es la fuerte y la barra cierra el compás.",
  "pronKey": "<b>Cómo leer la pronunciación.</b> La mayúscula marca la sílaba fuerte. Se lee como en español, salvo estas marcas: <code>th</code> lengua entre los dientes (think); <code>dh</code> lo mismo, con voz (the); <code>æ</code> a muy abierta, casi e (can't); <code>ə</code> vocal débil y relajada (la a de about); <code>ii</code> i larga (meet); <code>i</code> i corta (it); <code>ou</code>, <code>ei</code>, <code>ai</code> son vocales que se deslizan (go, great, my); <code>er</code> vocal con r inglesa, sin vibrar (work); <code>j</code> aspirada suave (hello); <code>w</code> como la u de «huevo»; <code>v</code> con los dientes sobre el labio.",

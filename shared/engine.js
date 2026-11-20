@@ -528,7 +528,7 @@ function playerHTML(sc){
        '<div class="opts" role="group" aria-label="Lo que dices">'+pl.orders[pl.turn].map(function(i){return '<button class="opt" type="button" data-a="pick" data-i="'+i+'">'+tr.opts[i].fr+'</button>'}).join('')+'</div>';
   }else if(pl.phase==='reply'){
     var last=pl.turn>=sc.turns.length-1;
-    h+='<div class="row2"><button class="btn" type="button" data-a="next">'+(last?'Terminer':'Continuer')+'</button></div>';
+    h+='<div class="row2"><button class="btn" type="button" data-a="next">'+(last?(CPY.finishWord||'Terminer'):(CPY.nextWord||'Continuer'))+'</button></div>';
   }else{
     var tot=sc.turns.length*2;
     h+='<div class="endbox"><div class="score">'+pl.score+'<span> / '+tot+'</span></div><p style="margin-top:8px">'+

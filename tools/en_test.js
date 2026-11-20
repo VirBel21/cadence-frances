@@ -11,13 +11,13 @@ const {chromium}=require('playwright');
  await pg.goto('http://localhost:8123/en/index.html');
  await pg.evaluate(()=>{window.__said=[];window.__lang=[];speechSynthesis.speak=u=>{window.__said.push(u.text);window.__lang.push(u.lang)}});
  ok(/Cadence/.test(await pg.title()),'título');
- ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===3,'Camino: rutina de 3 pasos y 3 unidades');
+ ok((await qa('#v-home .rstep')).length===3&&(await qa('#v-home .ucard')).length===6,'Camino: rutina de 3 pasos y 6 unidades');
  ok(/Hello!/.test(await tx('#v-home h1')),'saludo «Hello!»');
  ok(/inglés/.test(await tx('#v-home .eyebrow')),'portada habla de inglés');
  ok(/unas [\d,]+ horas/.test(await tx('#v-home')),'horas del curso calculadas ('+((await tx('#v-home')).match(/unas [\d,]+ horas/)||['?'])[0]+')');
  await go('route');
- ok((await qa('#v-route .trow')).length===24,'Ruta: 24 sesiones (3 unidades)');
- ok((await qa('#v-route li.plan')).length===24,'Ruta: unidades 4 a 6 como plan (24 filas)');
+ ok((await qa('#v-route .trow')).length===48,'Ruta: 48 sesiones (6 unidades)');
+ ok((await qa('#v-route li.plan')).length===0,'Ruta: sin unidades en plan');
  await click('#v-route [data-a="day"][data-n="1"]');
  ok((await qa('#v-today .stp button')).length===4,'Hoy: 4 pasos');
  ok((await qa('#v-today .story .sl')).length===6,'Sesión 1: historia de 6 líneas');
@@ -49,7 +49,7 @@ const {chromium}=require('playwright');
  ok((await qa('#v-today .checks li')).length===4&&/audio/.test(await tx('#v-today .checks')),'Descanso: objetivos de la unidad 1 en inglés');
 
  // ---- Unidades 2 y 3 ----
- for(const [u,first,names] of [[2,9,/café|cuánto cuesta|dirección/],[3,17,/chat|email|plazo/]]){
+ for(const [u,first,names] of [[2,9,/café|cuánto cuesta|dirección/],[3,17,/chat|email|plazo/],[4,25,/hotel|taxi|alergia/i],[5,33,/feedback|prioritario|retraso/i],[6,41,/entrevista|tarifas|acuerdo/i]]){
   for(const n of [0,1,2,3,4].map(x=>first+x)){
    await go('route');await click('#v-route [data-a="day"][data-n="'+n+'"]');
    ok(new RegExp('Unidad '+u+' · Sesión '+(n-first+1)+' de 8').test(await tx('#v-today')),'Sesión '+n+': cabecera de la unidad '+u);
@@ -71,15 +71,15 @@ const {chromium}=require('playwright');
  }
  await go('words');
  ok(/n\.º 1/.test(await tx('#v-words')),'Palabras: lista con rango real');
- ok((await qa('#v-words .wrow')).length===106,'Palabras: 106 filas');
+ ok((await qa('#v-words .wrow')).length===147,'Palabras: 147 filas');
  ok(/OpenSubtitles 2018, inglés/.test(await tx('#v-words')),'Palabras: fuente en inglés');
  await go('sounds');
- ok((await qa('#v-sounds .snd')).length===11,'Sonidos: 11');
+ ok((await qa('#v-sounds .snd')).length===14,'Sonidos: 14');
  ok(!/liaison|enlaces\b/i.test(await tx('#v-sounds'))&&!(await q('#lib')),'Sonidos: sin laboratorio de liaisons');
  await go('verbs');
  ok((await qa('#v-verbs .chip')).length===3,'Mapas: 3 modos');
  await click('#v-verbs [data-a="mapmode"][data-id="num"]');ok((await qa('#v-verbs .vm .r')).length===21,'Números: 21 filas');
- await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===53,'Imágenes: 53');
+ await click('#v-verbs [data-a="mapmode"][data-id="img"]');ok((await qa('#v-verbs .pic')).length===70,'Imágenes: 70');
  await click('#v-verbs [data-a="pcat"][data-id="Equipo"]');ok((await qa('#v-verbs .pic')).length===5,'Imágenes: filtro Equipo (5)');
  await click('#v-verbs [data-a="pqstart"]');for(let y=0;y<8;y++){await click('#v-verbs .qopt');await click('#v-verbs [data-a="pqnext"]')}
  ok(/\/ 8/.test(await tx('#v-verbs')),'Imágenes: ¿qué es? sobre 8');
@@ -98,7 +98,7 @@ const {chromium}=require('playwright');
  ok(/Ordena la frase|Dictado/.test(await tx('#v-games')),'Taller: arranca');
  await click('#v-games [data-a="gend"]');
  await click('#v-games [data-a="gstart"][data-g="nv"]');
- ok((await qa('#v-games .nvu')).length===3&&(await qa('#v-games .nvg li')).length===12,'Mi nivel: 3 unidades, 4 objetivos cada una');
+ ok((await qa('#v-games .nvu')).length===6&&(await qa('#v-games .nvg li')).length===24,'Mi nivel: 6 unidades, 4 objetivos cada una');
  await click('#v-games [data-a="gend"]');
  await go('method');
  ok(/FSRS/.test(await tx('#v-method'))&&/inglés/.test(await tx('#v-method .plain'))||true,'Método carga');

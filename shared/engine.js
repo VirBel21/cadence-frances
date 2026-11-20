@@ -2,7 +2,7 @@
 'use strict';
 var C=window.COURSE;
 var CPY=C.copy||{},FEAT=C.cfg.features||{},LN=C.cfg.name;
-var SCENES=C.SCENES,SOUNDS=C.SOUNDS,DAYS=C.DAYS,STORY=C.STORY,PLAN=C.PLAN,STAGES=C.STAGES,RHY=C.RHY,WEEKS=C.WEEKS,GOALS2=C.GOALS2,GOALS3=C.GOALS3,GOALS4=C.GOALS4,GOALS=C.GOALS,EVID=C.EVID||window.CADENCE_EVID,WORDS=C.WORDS,LIB=C.LIB,LIBT=C.LIBT,NUMS=C.NUMS,VERBS=C.VERBS,ASK=C.ASK,NUMF=C.NUMF,PIC=C.PIC,SCENE_IMG=C.SCENE_IMG,TENSES=C.TENSES,AUXF=C.AUXF,ALLER=C.ALLER,PCATS=C.PCATS;
+var SCENES=C.SCENES,SOUNDS=C.SOUNDS,DAYS=C.DAYS,STORY=C.STORY,PLAN=C.PLAN,STAGES=C.STAGES,RHY=C.RHY,WEEKS=C.WEEKS,GOALS2=C.GOALS2,GOALS3=C.GOALS3,GOALS4=C.GOALS4,GOALS5=C.GOALS5,GOALS6=C.GOALS6,GOALS=C.GOALS,EVID=C.EVID||window.CADENCE_EVID,WORDS=C.WORDS,LIB=C.LIB,LIBT=C.LIBT,NUMS=C.NUMS,VERBS=C.VERBS,ASK=C.ASK,NUMF=C.NUMF,PIC=C.PIC,SCENE_IMG=C.SCENE_IMG,TENSES=C.TENSES,AUXF=C.AUXF,ALLER=C.ALLER,PCATS=C.PCATS;
 
 
 /* ---------- Contenido ---------- */
@@ -184,7 +184,7 @@ var A1_MIN=95*60;
 
 /* ---------- Empezar ---------- */
 function hoursTxt(){var m=DAYS.reduce(function(a,d){return a+(d.m||0)},0)/60;return m>=3?String(Math.round(m)):String(Math.round(m*2)/2).replace('.',',')}
-var NUM_W=['una','dos','tres','cuatro'];
+var NUM_W=['una','dos','tres','cuatro','cinco','seis'];
 function rHome(){
   var n=curDayNo(),dn=daysDone(),dcur=DAYS[n-1],R=routine(),due=dueList();
   var started=dn>0||Object.keys(S.prog).length>0,rdone=(R.sess?1:0)+(R.rev?1:0)+(R.game?1:0);
@@ -231,7 +231,7 @@ function rHome(){
    '<li><b>Activa el sonido.</b> Usa auriculares o altavoz y pulsa ▶ en la portada. Si no oyes nada, mira el aviso de voz.</li>'+
    '<li><b>Deja la velocidad en Lento</b> al principio. Puedes cambiarla en el menú.</li>'+
    '<li><b>Habla en voz alta.</b> Aunque suene raro. Es la parte que más cuenta.</li></ul></div>'+
-   [GOALS,GOALS2,GOALS3,GOALS4].slice(0,UN.length).map(function(G,i){return (G&&G.length)?'<div class="sec"><span class="eyebrow">Al terminar la unidad '+(i+1)+'</span><ol class="obj">'+G.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>':''}).join('')+
+   [GOALS,GOALS2,GOALS3,GOALS4,GOALS5,GOALS6].slice(0,UN.length).map(function(G,i){return (G&&G.length)?'<div class="sec"><span class="eyebrow">Al terminar la unidad '+(i+1)+'</span><ol class="obj">'+G.map(function(g){return '<li><span>'+g+'</span></li>'}).join('')+'</ol></div>':''}).join('')+
    '<div class="sec"><span class="eyebrow">La meta de cada unidad</span><ul class="weeks">'+WEEKS.map(function(w,i){
      return '<li><span class="w">'+w.w+'</span><div><div class="tt">'+w.t+'</div><div class="out">'+w.d+' <b>Meta:</b> '+w.o+'</div></div>'+'<span class="tag now">Disponible</span>'+'</li>';
    }).join('')+'</ul></div>'.replace(/^/,'')+'</div></details>';
@@ -501,7 +501,7 @@ function rTest(el,d){
 }
 function rRest(el,d){
   var h='<span class="eyebrow">Unidad '+d.u+' · Sesión '+d.k+' de 8</span><h2 class="h2">'+d.t+'</h2><p class="lead">Hoy no hay lecciones nuevas. Marca lo que ya te sientes capaz de decir en voz alta. Es tu propia valoración, no una prueba.</p>'+
-   '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
+   '<ul class="checks">'+({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4,5:GOALS5,6:GOALS6})[d.u].map(function(g,i){return '<li><label><input type="checkbox" data-a="goal" data-i="'+gKey(d.u,i)+'"'+(S.goals[gKey(d.u,i)]?' checked':'')+'><span>'+g+'</span></label></li>'}).join('')+'</ul>'+
    '<div class="row2"><button class="btn ghost" type="button" data-a="go" data-t="review">Repasar tarjetas</button><button class="btn ghost" type="button" data-a="day" data-n="'+(d.u*8-2)+'">Escuchar la jornada completa</button></div>';
   if(S[rKey(d.u)]){
     h+='<div class="endbox"><div class="score" style="font-size:40px">Unidad '+d.u+' completa</div><p style="margin-top:8px">'+CPY.unitEnd[d.u]+'</p>'+(d.u<C.cfg.unitsMeta.length?'<div class="row2"><button class="btn" type="button" data-a="day" data-n="'+(d.u*8+1)+'">Empezar la unidad '+(d.u+1)+'</button></div>':'')+'</div>';
@@ -1275,7 +1275,7 @@ document.addEventListener('click',function(e){
 
 /* ---------- Mi nivel: objetivos de cada unidad + test breve de escucha ---------- */
 var nv=null;
-function nvGoals(u){return({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4})[u]||[]}
+function nvGoals(u){return({1:GOALS,2:GOALS2,3:GOALS3,4:GOALS4,5:GOALS5,6:GOALS6})[u]||[]}
 function nvPool(u){return unlockedPh().filter(function(p){return p.u===u})}
 function nvStart(u){
   var pool=nvPool(u);

@@ -20,7 +20,7 @@ await pg.goto('http://localhost:8123/en/index.html');await pg.waitForTimeout(400
 await pg.evaluate(()=>{speechSynthesis.speak=()=>{}});
 for(const t of ['home','route','today','review','words','games','talk','sounds','verbs','method']){await act('tab',{t});await snap('tab:'+t)}
 // todos los días
-for(let n=1;n<=24;n++){await act('tab',{t:'route'});await click('[data-a="day"][data-n="'+n+'"]');await snap('día '+n);
+for(let n=1;n<=48;n++){await act('tab',{t:'route'});await click('[data-a="day"][data-n="'+n+'"]');await snap('día '+n);
  for(const i of [0,1,2,3]){await click('[data-a="stepdone"][data-i="'+i+'"]');await click('[data-a="step"][data-i="'+i+'"]');await snap('día '+n+' paso '+i)}
  if(await click('[data-a="lstart"]')){await snap('día '+n+' escucha');await click('#listen [data-a="lpick"]');await click('[data-a="lcheck"]');await snap('día '+n+' escucha resultado')}
  if(await click('[data-a="start"]')){for(let k=0;k<3;k++){await click('[data-a="pick"]');await snap('día '+n+' escena turno '+k);await click('[data-a="next"]')}await snap('día '+n+' escena fin')}
